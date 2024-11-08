@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setBackground(savedBackground);
   } else {
       // Si no hay un fondo guardado, usar el primero (background1.png)
-      setBackground('fondos/background1.png'); // Ajusta esta línea si es necesario
+      setBackground('/fondos/background1.png'); // Ajusta esta línea si es necesario
   }
 });
 
@@ -422,7 +422,7 @@ idiomaSelect.addEventListener('change', () => {
 // Almacenar fondo seleccionado
 fondoPredefinidoSelect.addEventListener('change', () => {
   const fondoSeleccionado = fondoPredefinidoSelect.value;
-  document.body.style.backgroundImage = `url("fondos/${fondoSeleccionado}.png")`; 
+  document.body.style.backgroundImage = `url("/fondos/${fondoSeleccionado}.png")`; 
   localStorage.setItem('fondoSeleccionado', fondoSeleccionado);
 });
 
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cargar fondo
   const fondoAlmacenado = localStorage.getItem('fondoSeleccionado');
   if (fondoAlmacenado) {
-    document.body.style.backgroundImage = `url("fondos/${fondoAlmacenado}.png")`;
+    document.body.style.backgroundImage = `url("/fondos/${fondoAlmacenado}.png")`;
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundPosition = "center";
   }
