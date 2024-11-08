@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Browser Main Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap" rel="stylesheet">
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos generales */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: -120px;
+            flex-direction: column;
+        }
+
+        /* Contenedor principal */
+        .container {
+            top: 0;
+            text-align: center;
+            position: relative;
+            width: 75%;
+        }
+
+        /* Imagen del logo */
+        .logo {
+            position: absolute;
+            left: 27%;
+            top: 27%;
+            transform: translateY(-50%);
+            z-index: 2;
+        }
+
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+
+        /* Título principal */
+        .title {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #B486F0;
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1; /* Título con z-index menor que la imagen y el texto "by AgusTheKing" */
+        }
+
+        /* Texto "by AgusTheKing" */
+        .signature {
+            font-size: 2.3rem;
+            color: #ffffff;
+            font-style: italic;
+            position: absolute;
+            top: 25%;
+            right: 25%;
+            transform: translateY(10px);
+            font-family: 'Just Me Again Down Here', sans-serif;
+            z-index: 3;
+        }
+
+
+        /* Botón de descarga */
+        .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #ffffff;
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(90deg, #b486f0, #4da7f3);
+        }
+
+        /* Menú lateral */
+        .sidebar {
+            position: fixed;
+            left: 20px;
+            top: 70%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .sidebar-item {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #ffffff;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .sidebar-item:hover {
+            transform: scale(1.1);
+        }
+
+        .sidebar-item span {
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Iframe centrado y más ancho */
+        .main-box {
+            display: block;
+            width: 100%;
+            height: 118%;
+            border-top-left-radius: 37px; 
+            border-top-right-radius: 37px;
+            overflow: hidden;
+            margin-top: 50px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            color: #ffffff;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin: 0 20px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            border-radius: 5px;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            transform: scale(1.1);
+            border-radius: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navegación fija -->
+    <nav>
+        <div class="nav-button">Home</div>
+        <div class="nav-button">Descargar</div>
+        <div class="nav-button">About Me</div>
+    </nav>
+
+    <!-- Menú lateral pegado a la izquierda -->
+    <div class="sidebar">
+        <div class="sidebar-item">
+            <span>notes</span>
+        </div>
+        <div class="sidebar-item">
+            <span>clock</span>
+        </div>
+        <div class="sidebar-item">
+            <span>settings</span>
+        </div>
+        <div class="sidebar-item">
+            <span>favorites</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="signature">by AgusTheKing</div>
+        
+        <div class="logo">
+            <img src="logo.png" alt="Logo del Navegador">
+        </div>
+
+        <h1 class="title">Custom Browser <br><span class="main_page_txt">Main Page</span></h1>
+        
+        <a href="https://chromewebstore.google.com/category/extensions" class="download-btn">Download free</a>
+
+        <!-- Iframe que carga el archivo externo -->
+        <div class="main-box">
+            <iframe src="extension/newtab.html"></iframe>
+        </div>
+    </div>
+</body>
+</html>
