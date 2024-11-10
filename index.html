@@ -239,7 +239,51 @@
             margin-top: 5px;
         }
 
-        
+        /* Estilos para el popup */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .popup {
+            background: #333;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            position: relative;
+        }
+
+        .close-btn {
+            background: transparent;
+            color: #fff;
+            font-size: 1.5rem;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Estilos para el iframe */
+        .form-iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+        }
+        .contact-btn {
+            right: 20px;
+        }
     </style>
 </head>
 <body>
@@ -248,6 +292,7 @@
        <a href=""> <div class="nav-button">Home</div></a>
        <a href="https://chromewebstore.google.com/category/extensions"> <div class="nav-button">Download</div></a>
        <a href="aboutme.html"> <div class="nav-button">About Me</div></a>
+       <div class="nav-button" class="contact-btn" onclick="togglePopup()">Contact</div>
     </nav>
 
    <!-- Menú lateral con tooltips -->
@@ -292,9 +337,25 @@
             <iframe src="extension/newtab.html"></iframe>
         </div>
     </div>
-
+        <!-- Pop-up de contacto -->
+        <div class="popup-overlay" id="popupOverlay">
+            <div class="popup">
+                <button class="close-btn" onclick="togglePopup()">✖</button>
+                <h2>Contact Me</h2>
+                <!-- Iframe con el formulario de Google -->
+                <iframe 
+                    class="form-iframe" 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSdJFmJPpFwYaQ_9mePpXBx0GFOsWjmTJES_4ArBJpm_tNdAYw/viewform?embedded=true">
+                </iframe>
+            </div>
+        </div>
     <script>
-        
+   // Función para mostrar/ocultar el popup
+        function togglePopup() {
+            const popup = document.getElementById('popupOverlay');
+            popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+        }
+
         // Mostrar y ocultar tooltips
         function showTooltip(id) {
             document.querySelectorAll('.tooltip').forEach(tip => {
