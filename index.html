@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -281,6 +281,83 @@
             height: 450px;
             border: none;
         }
+    @media (max-width: 1280px) {
+        .container {
+            width: 80%;
+        }
+        
+        .logo {
+            position: relative;
+            top: 0;
+            left: 0;
+            margin-bottom: 20px;
+        }
+        
+        .logo img {
+            width: 100px; /* Tamaño reducido en más grandes pantallas */
+        }
+        
+        .signature {
+            font-size: 2.3rem; /* Reducción del tamaño de texto */
+            position: relative;
+            top: 0;
+            right: 0;
+            margin-bottom: 15px;
+            text-align: center;
+            transform: none;
+        }
+    }
+
+        /* Ajustes para pantallas más pequeñas (tablets y móviles) */
+    @media (max-width: 768px) {
+        .container {
+            width: 90%;
+        }
+        
+        .logo {
+            position: relative;
+            top: 0;
+            left: 0;
+            margin-bottom: 20px;
+        }
+        
+        .logo img {
+            width: 80px; /* tamaño reducido en móviles */
+        }
+
+        .signature {
+            font-size: 1.5rem; /* Reducción del tamaño de texto */
+            position: relative;
+            top: 0;
+            right: 0;
+            margin-bottom: 15px;
+            text-align: center;
+            transform: none;
+        }
+
+        .title {
+            font-size: 3rem; /* Reducción del tamaño del título */
+        }
+
+        .download-btn {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .title {
+            font-size: 2rem;
+        }
+
+        .signature {
+            font-size: 1.2rem;
+        }
+        
+        .logo img {
+            width: 60px;
+        }
+    }
     </style>
 </head>
 <body>
