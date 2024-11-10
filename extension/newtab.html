@@ -28,9 +28,11 @@
       </button>
     </form>
   </div>
+
   <div id="notas-destacadas" class="notas-destacadas">
     <!-- Aquí se mostrarán las notas destacadas -->
   </div>
+  
   <div class="app-container">
     <!-- Botones de menú -->
     <div class="botones-inferiores">
@@ -44,13 +46,12 @@
       </div>
 
       <div class="formulario-nota">
-        
         <h3 class="note-details">Detalles de la Nota</h3>
         <input type="text" id="titulo-nota" placeholder="Título de la Nota" title="Title of the note">
         <textarea id="contenido-nota" placeholder="Contenido de la Nota"></textarea>
 
         <!-- Checkbox para destacar nota -->
-         <section class="destacar-notachekbox">
+        <section class="destacar-notachekbox">
           <label class="destacar-notachekbox">
             <input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;
           </label>
@@ -67,12 +68,28 @@
       </div>
     </div>
   </div>
+
   <!-- Contenedor de Favoritos -->
   <div id="favoritos-container" class="favoritos-container">
     <h3 id="titulo-favoritos">Favorites</h3>
-    <div id="favoritos-list" class="favoritos-list"></div>
+    <div id="favoritos-list" class="favoritos-list">
+      <!-- Favoritos fijos añadidos directamente al HTML -->
+      <div class="favoritos-item">
+        <a href="https://www.youtube.com" target="_blank">
+          <img src="https://api.faviconkit.com/www.youtube.com/64" alt="YouTube">
+        </a>
+        <span>YouTube</span>
+      </div>
+      <div class="favoritos-item">
+        <a href="https://github.com/AgustinBeniteez" target="_blank">
+          <img src="https://api.faviconkit.com/github.com/64" alt="GitHub">
+        </a>
+        <span>GitHub</span>
+      </div>
+    </div>
     <button id="agregar-favorito-btn">+</button>
   </div>
+
   <!-- Popup de agregar favorito -->
   <div id="agregar-favorito" class="agregar-favorito oculto">
     <h3 style="font-size: 30px;">Add Favorites</h3>
@@ -83,6 +100,7 @@
       <button type="button" id="cerrar-popup-favorito">Close</button>
     </form>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>

@@ -180,14 +180,34 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function cargarFavoritos() {
-      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+      let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+      // Asegurarse de que YouTube y GitHub estén en el array de favoritos
+      const favoritosPredeterminados = [
+          { nombre: "YouTube", url: "https://www.youtube.com" },
+          { nombre: "GitHub", url: "https://github.com/AgustinBeniteez" }
+      ];
+
+      favoritosPredeterminados.forEach(favorito => {
+          // Solo agregar si no está ya en localStorage
+          if (!favoritos.some(f => f.url === favorito.url)) {
+              favoritos.push(favorito);
+          }
+      });
+
+      // Guardar en el localStorage con los favoritos predeterminados si es necesario
+      localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+      console.log(favoritos); // Depuración: Ver qué favoritos están en el localStorage
+
+      // Mostrar todos los favoritos en el DOM
       favoritos.forEach(favorito => {
           crearElementoFavorito(favorito.nombre, favorito.url);
       });
   }
 
   function agregarFavorito(nombre, url) {
-      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+      let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
       favoritos.push({ nombre, url });
       localStorage.setItem('favoritos', JSON.stringify(favoritos));
       crearElementoFavorito(nombre, url);
@@ -195,9 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function eliminarFavorito(nombre, url) {
       let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-      // Filtrar el favorito que se quiere eliminar
       favoritos = favoritos.filter(favorito => favorito.url !== url);
-      localStorage.setItem('favoritos', JSON.stringify(favoritos)); // Actualizar el localStorage
+      localStorage.setItem('favoritos', JSON.stringify(favoritos));
   }
 
   function crearElementoFavorito(nombre, url) {
@@ -212,21 +231,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const img = document.createElement('img');
       img.src = `https://api.faviconkit.com/${url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')}`; // URL de la API de favicon
       img.onerror = () => { img.src = 'iconnofound.svg'; }; // Imagen por defecto si falla
-      
+
       // Agregar la imagen al enlace
       enlace.appendChild(img);
       item.appendChild(enlace); // Agregar el enlace al contenedor del favorito
 
-      const texto = document.createElement('span'); // Cambiado a <span>
+      const texto = document.createElement('span');
       texto.textContent = nombre;
       item.appendChild(texto);
 
       const eliminarBtn = document.createElement('button');
-      eliminarBtn.classList.add('boton-eliminar'); // Añadir clase al botón
-      eliminarBtn.innerHTML = '&minus;'; // Símbolo de resta
+      eliminarBtn.classList.add('boton-eliminar');
+      eliminarBtn.innerHTML = '&minus;';
       eliminarBtn.addEventListener('click', () => {
           item.remove();
-          eliminarFavorito(nombre, url); // Eliminar del localStorage
+          eliminarFavorito(nombre, url);
       });
       item.appendChild(eliminarBtn);
 
