@@ -9,7 +9,7 @@
   <link rel="icon" href="icons/logoext.webp" type="image/png">
 </head>
 
-<body style="background-image: url(fondos/background3.gif); background-size: cover;">
+<body style="background-image: url(fondos/background3.png); background-size: cover;">
   <div class="header">
     <button id="ajustes-btn" class="ajustes-btn"><i class="fa-duotone fa-solid fa-gear"
         style="--fa-primary-color: #b8c5db; --fa-secondary-color: #1f3d6f;"></i></button>
@@ -82,66 +82,6 @@
       <button type="submit" class="agregar-favorito-btn1">Add</button>
       <button type="button" id="cerrar-popup-favorito">Close</button>
     </form>
-  </div>
-  <!-- Popup de ajustes -->
-  <div class="popup" id="popup">
-    <div class="popup-content">
-      <h2 id="ajustes-titulo">Settings</h2>
-      <button id="cerrar-popup">Close</button>
-      <div class="ajustes-container ajustes-columnas">
-        <div class="columna-izquierda">
-          <label for="idioma">Select Language:</label>
-          <select id="idioma">
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="val">Valencià</option>
-            <option value="fr">Français</option>
-            <option value="ru">Русский</option>
-            <option value="zh">中文</option>
-            <option value="ja">日本語</option>
-            <option value="ko">한국어</option>
-          </select>
-          &nbsp &nbsp
-          <label for="buscador">Select Search Engine:</label>
-          <select id="buscador">
-            <option value="google">Google</option>
-            <option value="bing">Bing</option>
-            <option value="yahoo">Yahoo</option>
-            <option value="brave">Brave Search</option>
-            <option value="duckduckgo">DuckDuckGo</option>
-          </select>
-
-          <div class="fondo-predeterminado">
-            <label>Choose a background:</label>
-            <img src="fondos/background1.png" alt="Background 1" data-image="fondos/background1.png">
-            <img src="fondos/background2.gif" alt="Background 2" data-image="fondos/background2.gif">
-            <img src="fondos/background3.gif" alt="Background 3" data-image="fondos/background3.gif"
-              onerror="this.onerror=null; this.src='fondos/background3.gif';">
-          </div>
-          <label for="fondo-url">Or introduce a background URL (GIF/PNG):</label>
-          <input type="url" id="fondo-url" placeholder="https://example.com/background.png">
-          <button id="guardar-fondo-url">Use Background URL</button>
-          <br>
-          <a href="https://github.com/AgustinBeniteez/themes-nav" target="_blank" class="img-container">
-            <img class="img_fondos" src="/fondos/wallpapergallery.webp" alt="Gallery wallpapers">
-            <a id="descargar-temas-btn" href="https://agustinbeniteez.github.io/themes-nav/themes-nav.html" target="_blank">
-                <span id="wallpaper-gallery-text">Wallpaper Gallery</span><i class="fa-solid fa-images"></i>
-            </a>
-          </a>
-        </div>
-        <br>
-        <div class="columna-derecha">
-          <label for="color-tema">Choose Theme Color:</label>
-          <input class="checkbox-colors" type="color" id="color-tema" name="color-tema" value="#1f3d6f">
-          &nbsp &nbsp
-          <label for="modo-oscuro">Dark Mode:</label>
-          <input class="checkbox-colors" type="checkbox" id="modo-oscuro" name="modo-oscuro">
-          <br>
-          <label for="decoracion-reloj">Enable Clock Decoration:</label>
-          <input class="checkbox-colors" type="checkbox" id="decoracion-reloj" name="decoracion-reloj" checked>
-        </div>
-      </div>
-    </div>
   </div>
   <script src="script.js"></script>
 </body>

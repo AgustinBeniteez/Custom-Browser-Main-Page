@@ -5,7 +5,6 @@ const relojContainer = document.querySelector('.reloj-container h1');
 const searchInput = document.getElementById('search-input');
 const suggestionsContainer = document.getElementById('suggestions');
 const idiomaSelect = document.getElementById('idioma');
-const ajustesBtn = document.getElementById('ajustes-btn');
 const popup = document.getElementById('popup');
 const cerrarPopup = document.getElementById('cerrar-popup');
 const fondoInput = document.getElementById('fondo-url');
