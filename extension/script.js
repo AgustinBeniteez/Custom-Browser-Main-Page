@@ -1,9 +1,29 @@
+let toggle = true;
+setInterval(() => {
+    // Aplicar transiciones directamente en JavaScript
+    document.documentElement.style.transition = "background-color 0.5s ease, color 0.5s ease";
+    document.body.style.transition = "background-image 0.5s ease-in-out";
+
+    if (toggle) {
+        document.documentElement.style.setProperty('--color-modelight', 'var(--color-modedark)');
+        document.documentElement.style.setProperty('--color-modelight1', 'var(--color-modedark1)');
+        document.documentElement.style.setProperty('--color-letrasdark', 'var(--color-letraswhite)');
+        document.body.style.backgroundImage = "url('fondos/background4.png')";
+    } else {
+        document.documentElement.style.setProperty('--color-modelight', '#fefefecb');
+        document.documentElement.style.setProperty('--color-modelight1', '#e2e2e2cc');
+        document.documentElement.style.setProperty('--color-letrasdark', '#161616');
+        document.body.style.backgroundImage = "url('fondos/background3.png')";
+    }
+    
+    toggle = !toggle;
+}, 5000);
+
 // CONSTANTES PARA CUANDO SE CARGA EL TAB NUEVO
 const reloj = document.getElementById('reloj');
 const decoracionRelojCheckbox = document.getElementById('decoracion-reloj');
 const relojContainer = document.querySelector('.reloj-container h1');
 const searchInput = document.getElementById('search-input');
-const suggestionsContainer = document.getElementById('suggestions');
 const idiomaSelect = document.getElementById('idioma');
 const popup = document.getElementById('popup');
 const cerrarPopup = document.getElementById('cerrar-popup');
@@ -11,8 +31,6 @@ const fondoInput = document.getElementById('fondo-url');
 const urlInput = document.getElementById('url-input'); // Input para URL
 const guardarFondoBtn = document.getElementById('guardar-fondo-url');
 const fondoPredeterminadoImages = document.querySelectorAll('.fondo-predeterminado img');
-const buscadorSelect = document.getElementById('buscador');
-const barraBusqueda = document.getElementById('barra-busqueda');
 const tituloFavoritos = document.getElementById('titulo-favoritos');
 const crearNotaBtn = document.getElementById('crear-nota-btn');
 const verNotasBtn = document.getElementById('ver-notas-btn');
@@ -219,10 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
 ajustesBtn.addEventListener('click', () => {
   popup.style.display = 'block'; // Mostrar el popup
 });
-
-// Funcionalidad de búsqueda
-const buscarBtn = document.getElementById('search-button');
-let isSearching = false; // Variable para bloquear las búsquedas múltiples
 
 // Función para buscar utilizando el motor de búsqueda seleccionado
 function buscar(event) {
@@ -496,298 +510,6 @@ window.onload = function() {
   }
 };
 });
-
-// NOTASSS 
-//------------------------------------------------------------------------------
-let notas = [];
-let notaActual = null;
-
-// Cargar notas desde el almacenamiento local
-chrome.storage.local.get('notas', (result) => {
-    notas = result.notas || [];
-    mostrarNotas(); // Mostrar las notas al cargar
-    mostrarDestacadas(); // Mostrar las notas destacadas
-});
-
-// Mostrar el menú lateral cuando se hace clic en "Ver Notas"
-document.getElementById('ver-notas-btn').addEventListener('click', () => {
-    document.getElementById('menu-notas').classList.add('mostrar');
-    mostrarNotas();
-});
-
-// Mostrar el formulario de creación de una nueva nota
-document.getElementById('crear-nota-btn').addEventListener('click', () => {
-    notaActual = null;
-    limpiarFormulario();
-    document.getElementById('menu-notas').classList.add('mostrar');
-    document.getElementById('eliminar-nota-btn').classList.add('oculto'); // Ocultar el botón de eliminar
-});
-
-// Guardar una nota
-document.getElementById('guardar-nota-btn').addEventListener('click', () => {
-  const titulo = document.getElementById('titulo-nota').value;
-  const contenido = document.getElementById('contenido-nota').value;
-  const destacar = document.getElementById('destacar-nota').checked; // Verificar si está destacada
-  const fecha = document.getElementById('fecha-nota').value; // Obtener la fecha
-
-  if (!titulo.trim()) {
-      alert('El título no puede estar vacío.');
-      return;
-  }
-
-  if (notaActual !== null) {
-      // Editar nota existente
-      notas[notaActual].titulo = titulo;
-      notas[notaActual].contenido = contenido;
-      notas[notaActual].destacar = destacar;
-      notas[notaActual].fecha = fecha;
-  } else {
-      // Crear nueva nota
-      notas.push({ titulo, contenido, destacar, fecha });
-  }
-
-  chrome.storage.local.set({ notas }, () => {
-      mostrarNotas();
-      mostrarDestacadas(); 
-      limpiarFormulario();
-      notaActual = null;
-      document.getElementById('eliminar-nota-btn').classList.add('oculto');
-  });
-});
-
-// Mostrar las notas destacadas
-function mostrarDestacadas() {
-  const notasDestacadas = document.getElementById('notas-destacadas');
-  notasDestacadas.innerHTML = ''; // Limpiar la lista de notas destacadas
-  
-  // Filtrar notas destacadas
-  const destacadas = notas.filter(nota => nota.destacar).slice(0, 4); // Máximo 4 destacadas
-  
-  destacadas.forEach((nota, index) => {
-      const notaElem = document.createElement('div');
-      notaElem.classList.add('nota-destacada');
-      
-      // Si la nota tiene una fecha y coincide con la fecha actual, darle borde morado
-      const hoy = new Date().toISOString().split('T')[0]; // Obtener la fecha de hoy
-      if (nota.fecha && nota.fecha === hoy) {
-          notaElem.style.border = '2px solid var(--color-botones)'; // Borde morado
-      }
-      
-      notaElem.innerHTML = `
-          <div><i class="fa-solid fa-thumbtack"></i> &nbsp; <strong>${nota.titulo}</strong></div>
-          ${nota.fecha ? `<div><em>${nota.fecha}</em> &nbsp; <i class="fa-solid fa-calendar-days"></i> </div>` : ''}
-      `;
-      
-      // Añadir evento para editar la nota al hacer clic
-      notaElem.onclick = () => editarNota(notas.indexOf(nota)); // Pasa el índice de la nota
-
-      notasDestacadas.appendChild(notaElem);
-  });
-}
-
-// Mostrar las primeras 3 notas regulares
-function mostrarNotas() {
-  const notasPestanas = document.getElementById('notas-pestanas');
-  notasPestanas.innerHTML = '';
-
-  notas.slice(0, 3).forEach((nota, index) => {
-      const notaElem = document.createElement('div');
-      notaElem.classList.add('nota-pestana');
-      notaElem.innerText = nota.titulo;
-      notaElem.onclick = () => editarNota(index);
-      notasPestanas.appendChild(notaElem);
-  });
-  
-  mostrarDestacadas(); // Llamar a la función de notas destacadas
-}
-
-// Borrar una nota
-function borrarNota(index) {
-  // Comprobar que el índice es válido
-  if (index !== null && index >= 0 && index < notas.length) {
-      // Eliminar la nota del array
-      notas.splice(index, 1);
-      
-      // Actualizar el almacenamiento local
-      chrome.storage.local.set({ notas }, () => {
-          // Mostrar notas actualizadas
-          mostrarNotas();
-          mostrarNotasDestacadas(); // Actualizar notas destacadas también
-          limpiarFormulario(); // Limpiar formulario para crear nueva nota
-          notaActual = null; // Reiniciar la variable de nota actual
-          document.getElementById('eliminar-nota-btn').classList.add('oculto'); // Ocultar botón de eliminar
-      });
-  } else {
-      console.error('Índice de nota no válido:', index);
-  }
-}
-
-// Mostrar todas las notas
-function mostrarNotas() {
-  const listaNotas = document.getElementById('lista-notas');
-  listaNotas.innerHTML = '';
-
-  notas.forEach((nota, index) => {
-      const notaElem = document.createElement('div');
-      notaElem.classList.add('nota-pestana');
-
-      // Título de la nota
-      const titulo = document.createElement('span');
-      titulo.innerText = nota.titulo;
-
-      // Añadir el título al div
-      notaElem.appendChild(titulo);
-
-      // Hacer que el div completo sea editable
-      notaElem.onclick = () => editarNota(index);
-
-      // Botón de borrar
-      const borrarBtn = document.createElement('button');
-      borrarBtn.innerHTML = '<i title="Delete" class="fa-solid fa-trash"></i>';
-      borrarBtn.onclick = (event) => {
-          event.stopPropagation(); // Evitar que el clic en el botón active la edición
-          borrarNota(index);
-      };
-      notaElem.appendChild(borrarBtn);
-
-      listaNotas.appendChild(notaElem);
-  });
-}
-
-// Editar una nota existente
-function editarNota(index) {
-  notaActual = index;
-  const nota = notas[index];
-  document.getElementById('titulo-nota').value = nota.titulo;
-  document.getElementById('contenido-nota').value = nota.contenido;
-  document.getElementById('eliminar-nota-btn').classList.remove('oculto'); // Mostrar el botón de eliminar
-  document.getElementById('menu-notas').classList.add('mostrar'); // Asegurar que el menú esté visible
-}
-
-// Eliminar la nota que está siendo editada
-document.getElementById('eliminar-nota-btn').addEventListener('click', () => {
-    if (notaActual !== null) {
-        borrarNota(notaActual); // Llamar a la función de borrar la nota actual
-    }
-});
-
-// Limpiar el formulario de nota
-function limpiarFormulario() {
-    document.getElementById('titulo-nota').value = '';
-    document.getElementById('contenido-nota').value = '';
-    document.getElementById('eliminar-nota-btn').classList.add('oculto'); // Ocultar el botón de eliminar cuando no se edita
-}
-
-// Cerrar el menú al hacer clic en el botón de cerrar
-document.getElementById('cerrar-menu-btn').addEventListener('click', function() {
-    document.getElementById('menu-notas').classList.remove('mostrar');
-});
-
-// Mostrar el popup de notas cuando se hace clic en "Ver Notas"
-document.getElementById('ver-notas-btn').addEventListener('click', () => {
-  document.getElementById('menu-notas').classList.add('mostrar');
-});
-
-// Mostrar el formulario para crear una nueva nota
-document.getElementById('crear-nota-btn').addEventListener('click', () => {
-  limpiarFormulario();
-  document.getElementById('menu-notas').classList.add('mostrar');
-});
-
-// Cerrar el popup cuando se hace clic en "Cerrar"
-document.getElementById('cerrar-menu-btn').addEventListener('click', () => {
-  document.getElementById('menu-notas').classList.remove('mostrar');
-});
-
-//NOTAS JSON
-function descargarNotasComoJSON() {
-  const blob = new Blob([JSON.stringify(notas, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  chrome.downloads.download({
-      url: url,
-      filename: 'notas.json',
-      saveAs: true
-  });
-}
-
-// Exportar una nota a un archivo .txt
-document.getElementById('exportar-nota-btn').addEventListener('click', () => {
-  if (notaActual !== null) {
-      const nota = notas[notaActual];
-      const contenido = `${nota.contenido}`;
-      const blob = new Blob([contenido], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${nota.titulo}.txt`; // Nombre del archivo
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url); // Limpiar URL
-  } else {
-      alert('No hay ninguna nota seleccionada para exportar.');
-  }
-});
-
-
-//MODO OSCURO O CLARO Y COLORES VARIABLE
-document.addEventListener("DOMContentLoaded", function () {
-  const darkModeCheckbox = document.getElementById("modo-oscuro");
-  const colorInput = document.getElementById("color-tema");
-
-  // Cargar configuraciones guardadas al iniciar
-  const savedDarkMode = localStorage.getItem("modoOscuro") === "true"; // Si no existe, devuelve null
-  const savedColor = localStorage.getItem("colorBotones");
-
-  // Aplicar configuraciones guardadas
-  if (savedDarkMode) {
-    darkModeCheckbox.checked = true;
-    document.documentElement.style.setProperty('--color-modelight', 'var(--color-modedark)');
-    document.documentElement.style.setProperty('--color-modelight1', 'var(--color-modedark1)');
-    document.documentElement.style.setProperty('--color-letrasdark', 'var(--color-letraswhite)');
-  }
-
-  if (savedColor) {
-    document.documentElement.style.setProperty('--color-botones', savedColor);
-    const secondaryColor = lightenColor(savedColor, 40);
-    document.documentElement.style.setProperty('--color-botones-hover', secondaryColor);
-    colorInput.value = savedColor; // Establecer el input al color guardado
-  }
-
-  // Cambiar entre modo claro y oscuro
-  darkModeCheckbox.addEventListener("change", function () {
-    if (this.checked) {
-      document.documentElement.style.setProperty('--color-modelight', 'var(--color-modedark)');
-      document.documentElement.style.setProperty('--color-modelight1', 'var(--color-modedark1)');
-      document.documentElement.style.setProperty('--color-letrasdark', 'var(--color-letraswhite)');
-      localStorage.setItem("modoOscuro", true); // Guardar el estado del modo oscuro
-    } else {
-      document.documentElement.style.setProperty('--color-modelight', '#fefefecb');
-      document.documentElement.style.setProperty('--color-modelight1', '#e2e2e2cc');
-      document.documentElement.style.setProperty('--color-letrasdark', '#161616');
-      localStorage.setItem("modoOscuro", false); // Guardar el estado del modo claro
-    }
-  });
-
-  // Cambiar color de botones basado en la selección del usuario
-  colorInput.addEventListener("input", function () {
-    const selectedColor = this.value;
-    document.documentElement.style.setProperty('--color-botones', selectedColor);
-    const secondaryColor = lightenColor(selectedColor, 40);
-    document.documentElement.style.setProperty('--color-botones-hover', secondaryColor);
-    localStorage.setItem("colorBotones", selectedColor); // Guardar el color de los botones
-  });
-
-  // Función para aclarar el color
-  function lightenColor(color, percent) {
-    const num = parseInt(color.slice(1), 16),
-          amt = Math.round(2.55 * percent),
-          R = (num >> 16) + amt,
-          G = (num >> 8 & 0x00FF) + amt,
-          B = (num & 0x0000FF) + amt;
-    return `#${(0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1)}`;
-  }
-});
 // cambiar ajustes de Decoracion de animacion de RELOJ, si o no
 decoracionRelojCheckbox.addEventListener('change', function() {
   localStorage.setItem('decoracionReloj', this.checked);
@@ -799,3 +521,5 @@ decoracionRelojCheckbox.addEventListener('change', function() {
     relojContainer.style.animation = 'none';
   }
 });
+
+
