@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About me</title>
+    <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+        /* Estilos generales */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: -120px;
+            flex-direction: column;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            padding: 10px 0;
+            z-index: 1000;
+            text-decoration: none;
+        }
+        .nav-button {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #ffffff;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin: 0 20px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            border-radius: 5px;
+        }
+        .nav-button:hover {
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            transform: scale(1.1);
+            border-radius: 30px;
+        }
+        .container {
+            top: 0;
+            text-align: center;
+            position: relative;
+            width: 75%;
+        }
+        .download-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #ffffff;
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .download-btn:hover {
+            background: linear-gradient(90deg, #b486f0, #4da7f3);
+        }
+        .title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 80px;
+        }
+        .title {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #B486F0;
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .signature {
+            font-size: 2.3rem;
+            color: #ffffff;
+            font-style: italic;
+            position: absolute;
+            top: 20%;
+            right: 29%;
+            transform: translateY(10px);
+            font-family: 'Just Me Again Down Here', sans-serif;
+            z-index: 3;
+        }
+        .title {
+            font-size: 6rem;
+            font-weight: bold;
+            color: #B486F0;
+            background: linear-gradient(90deg, #4da7f3, #b486f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Arial', sans-serif;
+        }
+        .subtitle {
+            font-size: 2.2rem;
+            font-family: 'Just Me Again Down Here', cursive;
+            color: #fff;
+            margin: 20px 0;
+        }
+        .project-card {
+            width: 300px;
+            height: 250px;
+            background: linear-gradient(135deg, #1f1f1f, #282828);
+            border-radius: 15px;
+            margin: 10px;
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            color: #fff;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        .project-card-content {
+            padding: 15px;
+        }
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .project-tags {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+        .project-lang {
+            font-size: 0.8rem;
+            color: #bbb;
+        }
+        .projects-section {
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/Custom-Browser-Main-Page/index.html"><div class="nav-button">Home</div></a>
+        <a href="https://chromewebstore.google.com/category/extensions"><div class="nav-button">Download</div></a>
+        <a href="aboutme.html"><div class="nav-button">About Me</div></a>
+    </nav>
+
+    <div class="container">
+        <div class="title-container">
+            <div class="signature">AgusTheKing</div>
+            <h1 class="title">About me</h1>
+        </div>
+        <div class="subtitle">
+            Soy Agustin Benitez / AgusTheKing, estudiante de Grado Superior DAW<br>
+            aprendiendo Python & Java, con conocimientos de HTML & CSS.<br>
+            Soy de España y tengo 18 años.
+        </div>
+        <br>
+        <h2>More Projects</h2>
+        <div class="projects-section">
+            <a href="https://enmamanualidades.github.io/">
+                <div class="project-card">
+                    <img src="https://agustinbeniteez.github.io/aboutmeAgus/projectenma.webp" alt="Project Image">
+                    <div class="project-card-content">
+                        <div class="project-title">Enma Manualidades</div>
+                        <div class="project-tags">Tags: e-commerce website</div>
+                        <div class="project-lang">Lenguajes: HTML, CSS, JS</div>
+                    </div>
+                </div>
+            </a>
+            <a href="https://agustinbeniteez.github.io/">
+                <div class="project-card">
+                    <img src="https://agustinbeniteez.github.io/aboutmeAgus/projectelements.webp" alt="Project Image">
+                    <div class="project-card-content">
+                        <div class="project-title">Elements CSS DAJ</div>
+                        <div class="project-tags">Tags: Developer website</div>
+                        <div class="project-lang">Lenguajes: HTML, CSS, JS, JSON</div>
+                    </div>
+                </div>
+            </a>
+            <a href="https://agustinbeniteez.github.io/Modern-Decor-mods/">
+                <div class="project-card">
+                    <img src="https://camo.githubusercontent.com/afc7270d5b0bcd4b9ad64f32acdfccf444e6c12bd21141b33d17c29688d1659f/68747470733a2f2f6f70656e67726170682e622d63646e2e6e65742f70726f64756374696f6e2f696d616765732f63363639333030322d356135302d343761362d393063352d3535633336656533383737332e706e673f746f6b656e3d6c4256644c4c4a3966776776436b62457a7967666379633177354f4a5f3430597673733062393571666f4d266865696768743d3631312677696474683d3132303026657870697265733d3333323631333231373833" alt="Project Image">
+                    <div class="project-card-content">
+                        <div class="project-title">Modern Decor Mod</div>
+                        <div class="project-tags">Tags: Mod Videogame</div>
+                        <div class="project-lang">Lenguajes: Java, BBModel (3D), JSON</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -37,6 +37,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            text-decoration: none;
         }
 
         /* Estilos generales */
@@ -178,9 +179,11 @@
             display: flex;
             padding: 10px 0;
             z-index: 1000;
+            text-decoration: none;
         }
 
         .nav-button {
+            text-decoration: none;
             padding: 10px 20px;
             color: #ffffff;
             font-size: 1.2rem;
@@ -197,30 +200,80 @@
             border-radius: 30px;
         }
 
+            /* Tooltip */
+            .tooltip {
+            font-size: 20px!important;
+            position: absolute;
+            left: 80px; /* Ajusta según necesites */
+            width: 200px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: none; /* Oculto por defecto */
+            z-index: 10;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            
+        }
+        
+        /* Mostrar tooltip cuando activo */
+        .sidebar-item.active + .tooltip {
+            display: block;
+        }
+
+        /* Animación para entrada del tooltip */
+        .tooltip.fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Contenedor del reloj en tooltip */
+        .tooltip-clock {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        
     </style>
 </head>
 <body>
     <!-- Navegación fija -->
     <nav>
-        <div class="nav-button">Home</div>
-        <div class="nav-button">Descargar</div>
-        <div class="nav-button">About Me</div>
+       <a href=""> <div class="nav-button">Home</div></a>
+       <a href="https://chromewebstore.google.com/category/extensions"> <div class="nav-button">Download</div></a>
+       <a href="aboutme.html"> <div class="nav-button">About Me</div></a>
     </nav>
 
-    <!-- Menú lateral pegado a la izquierda -->
-    <div class="sidebar">
-        <div class="sidebar-item">
-            <span>notes</span>
-        </div>
-        <div class="sidebar-item">
-            <span>clock</span>
-        </div>
-        <div class="sidebar-item">
-            <span>settings</span>
-        </div>
-        <div class="sidebar-item">
-            <span>favorites</span>
-        </div>
+   <!-- Menú lateral con tooltips -->
+   <div class="sidebar">
+    <div class="sidebar-item" onclick="showTooltip('notes-tooltip')">
+        <span>notes</span>
+    </div>
+    <div id="notes-tooltip" class="tooltip">View, create, and manage your notes.</div>
+
+    <div class="sidebar-item" onclick="showTooltip('clock-tooltip')">
+        <span>clock</span>
+    </div>
+    <div id="clock-tooltip" class="tooltip fade-in">
+        View the current time:
+        <div id="tooltip-clock" class="tooltip-clock"></div>
+    </div>
+
+    <div class="sidebar-item" onclick="showTooltip('settings-tooltip')">
+        <span>settings</span>
+    </div>
+    <div id="settings-tooltip" class="tooltip">Adjust your preferences and settings.</div>
+
+    <div class="sidebar-item" onclick="showTooltip('favorites-tooltip')">
+        <span>favorites</span>
+    </div>
+        <div id="favorites-tooltip" class="tooltip">View and manage your favorite links.</div>
     </div>
 
     <div class="container">
@@ -239,5 +292,31 @@
             <iframe src="extension/newtab.html"></iframe>
         </div>
     </div>
+
+    <script>
+        
+        // Mostrar y ocultar tooltips
+        function showTooltip(id) {
+            document.querySelectorAll('.tooltip').forEach(tip => {
+                if (tip.id === id) {
+                    tip.style.display = tip.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    tip.style.display = 'none';
+                }
+            });
+        }
+
+        // Función para actualizar la hora en el tooltip de "clock"
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('tooltip-clock').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        // Actualiza el reloj cada segundo
+        setInterval(updateClock, 1000);
+    </script>
 </body>
 </html>
