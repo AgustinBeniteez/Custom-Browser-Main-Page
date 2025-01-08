@@ -1,0 +1,941 @@
+:root{
+    --color-modedark: #1a1e27d0;
+    --color-modedark1:rgba(25, 27, 32, 0.849);
+    --color-modelight:  #fefefecb;
+    --color-modelight1:  #e2e2e2cc;
+    --color-letraswhite: #ffffff;
+    --color-letrasdark: #161616;
+    --color-botones: #772c64;
+    --color-botones-hover: #b15bb1;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #161616;
+    transition: background-color 0.5s ease-in-out; /* Transición suave para el cambio de fondo */
+    overflow: hidden; /* Oculta la parte de la imagen que sobresale */
+    height: 100vh; /* Asegura que el body cubra toda la altura de la ventana */
+    width: 100vw; /* Asegura que el body cubra toda la anchura de la ventana */
+    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+    background-position: center; /* Centra la imagen de fondo */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    animation: fadeIn 1s ease-in-out; /* Animación de entrada */
+}
+
+/* Animación para entrada suave del contenido */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.header {
+    position: absolute; /* Posicionamiento absoluto */
+    top: 10px; /* Ajusta la posición desde la parte superior */
+    left: 10px; /* Ajusta la posición desde la izquierda */
+    z-index: 10; /* Asegúrate de que el botón esté sobre otros elementos */
+}
+
+.reloj-container {
+    margin-bottom: -60px; /* Espacio entre el reloj y la barra de búsqueda */
+}
+
+h1 {
+    font-size: 160px; /* Tamaño más grande para el reloj */
+    color: white; /* Color del reloj */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para mejor contraste */
+    animation: textGlow 2s ease-in-out infinite alternate; /* Animación de resplandor */
+}
+
+.reloj-sin-animacion h1 {
+    font-size: 160px; /* Tamaño más grande para el reloj */
+    color: white; /* Color del reloj */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para mejor contraste */
+    /* Sin animación */
+}
+
+/* Animación de resplandor del reloj */
+@keyframes textGlow {
+    0% {
+        text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        text-shadow: 2px 2px 20px rgba(255, 255, 255, 1);
+    }
+}
+
+/* Estilos para la barra de búsqueda */
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    position: relative; /* Para el posicionamiento de las sugerencias */
+}
+
+.search-form input {
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark) !important;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #dcdcdc; /* Color del borde */
+    border-radius: 24px; /* Bordes redondeados */
+    width: 300px; /* Ancho fijo */
+    transition: border 0.3s;
+}
+
+.search-form input:focus {
+    border: 1.5px solid var(--color-botones);
+    outline: none;
+    animation: inputFocus 0.3s ease-in-out forwards;
+}
+
+/* Animación suave cuando el input gana foco */
+@keyframes inputFocus {
+    from {
+        box-shadow: none;
+    }
+    to {
+        box-shadow: 0px 0px 8px var(--color-botones);
+    }
+}
+
+
+/* Estilo inicial del botón */
+.search-form button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 24px;
+    background-color: var(--color-botones); /* Color del botón */
+    color: white; /* Color del texto */
+    cursor: pointer;
+    margin-left: 10px; /* Espacio entre el input y el botón */
+    transition: background-color 0.4s ease, box-shadow 0.4s ease; /* Transición suave para el color de fondo y el borde */
+}
+
+/* Estilo del botón al hacer hover (animación de borde y cambio de color) */
+.search-form button:hover {
+    background-color: var(--color-botones-hover); /* Cambio de color del botón */
+    box-shadow: inset 0 0 0 2px var(--color-botones); /* Borde animado al hacer hover */
+    
+}
+
+/* Estilos para el popup */
+.popup {
+    width: 800px;
+    height: 90%;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 10px;
+    top: 1%;
+    overflow: auto;
+    background-color: var(--color-modelight);
+    scrollbar-width: none;
+    border-radius: 8px;
+    animation: slideIn 1s ease-in-out;
+    color: var(--color-letrasdark);
+}
+.popup.show {
+    left: 10px; /* Mover a la posición visible */
+    transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Transiciones para suavizar la animación */
+}
+
+/* Animación para ocultar el popup */
+.popup.hide {
+    left: -320px; /* Mover fuera de la vista hacia la izquierda */
+    animation: slideIn 1s ease-in-out; /* Animación para que la lista de favoritos entre desde la derecha */
+}
+
+.popup-content {
+    background-color: var(--color-modelight1);
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #888;
+    height: 95%;
+    border-radius: 8px;
+}
+
+#cerrar-popup {
+    position: absolute; /* Posiciona el botón en relación a .popup-content */
+    top: 10px; /* Ajusta la posición desde la parte superior */
+    right: 10px; /* Ajusta la posición desde la derecha */
+    background-color: #ff4d4d; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 5px 10px; /* Relleno */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    border-radius: 5px; /* Bordes redondeados */
+    
+}
+
+#cerrar-popup:hover {
+    background-color: #ff1a1a; /* Color al pasar el ratón */
+}
+
+/* Estilos para la sección de ajustes */
+.ajustes-container {
+    height: 86%;
+    display: flex;
+    flex-direction: column; /* Alinear opciones verticalmente */
+    align-items: flex-start; /* Alinear a la izquierda */
+    margin-top: 20px; /* Espacio superior */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    background-color: var(--color-modelight); /* Color de fondo ligero */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+}
+
+.ajustes-container label {
+    margin-bottom: 10px; /* Mayor espacio entre la etiqueta y el elemento */
+    font-weight: bold; /* Negrita para las etiquetas */
+}
+
+.ajustes-container select, .ajustes-container button {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 24%;
+    background: var(--color-modelight);
+    color: var(--color-letrasdark);
+}
+
+.ajustes-container button {
+    background-color: var(--color-botones);
+    color: white;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-top: 5px;
+}
+
+.ajustes-container button:hover {
+    background-color: var(--color-botones-hover); /* Color del botón al pasar */
+    border: 1px solid var(--color-botones-hover);
+}
+
+/* Estilos para las opciones de fondo predeterminadas */
+.fondo-predeterminado {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+    flex-wrap: nowrap;
+    align-content: space-between;
+    justify-content: flex-start;
+}
+
+.fondo-predeterminado img {
+    width: 200px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.fondo-predeterminado img:hover {
+    opacity: 0.8; /* Efecto de opacidad al pasar */
+}
+
+/* Estilos para la miniatura de la imagen cargada */
+.miniatura {
+    margin-top: 15px; /* Espacio superior */
+    width: 100%; /* Ancho completo */
+    height: auto; /* Ajuste automático de altura */
+    border-radius: 8px; /* Bordes redondeados */
+    display: none; /* Oculto por defecto */
+}
+
+.ajustes-btn{
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 26px;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 10%;
+    height: 10%;
+    
+}
+
+#buscador{
+    width: 37%;
+}
+
+#fondo-url{
+    width: 37%;
+    padding: 10px;
+    border-radius: 30px;
+    border: solid 2px #ccc;
+    color: #888;
+    background-color: var(--color-modelight) !important;
+}
+  
+/* Otros estilos y animaciones */
+.favoritos-container {
+    position: fixed;
+    height: 90%;
+    width: 133px;
+    right: 20px;
+    top: 50px;
+    background: var(--color-modelight);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: var(--color-letrasdark); 
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    animation: slideIn 1s ease-in-out; /* Animación para que la lista de favoritos entre desde la derecha */
+}
+
+@keyframes slideIn {
+    from {
+        right: -150px;
+        opacity: 0;
+    }
+    to {
+        right: 20px;
+        opacity: 1;
+    }
+}
+
+.favoritos-list {
+    max-height: 300px; /* Altura máxima */
+}
+
+/* Estilos para el scroll vertical */
+.favoritos-container::-webkit-scrollbar {
+    width: 8px; /* Ancho del scrollbar */
+}
+
+.favoritos-container::-webkit-scrollbar-thumb {
+    background: var(--color-botones); /* Color del scrollbar */
+    border-radius: 10px; /* Bordes redondeados del scrollbar */
+}
+
+.favoritos-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-modelight1); /* Color del scrollbar al pasar el mouse */
+}
+
+.favoritos-item {
+    display: flex;
+    flex-direction: column; /* Coloca el ícono encima del texto */
+    align-items: center; /* Centra el contenido */
+    margin: 5px 0;
+    background: var(--color-modelight); /* Fondo más claro para los favoritos */
+    border-radius: 8px;
+    padding: 5px;
+    position: relative; /* Para posicionar el botón de eliminar */
+}
+
+
+.favoritos-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+  
+
+
+.favoritos-item span {
+    white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+    overflow: hidden; /* Ocultar el texto que desborda */
+    text-overflow: ellipsis; /* Añadir puntos suspensivos al final */
+    max-width: 150px; /* Ajusta este valor según el tamaño deseado */
+}
+
+  
+  .boton-eliminar {
+    font-weight: bold;
+    position: absolute; /* Posiciona el botón de eliminar */
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    border: none;
+    font-size: 16px; /* Tamaño del ícono del botón */
+    color: red; /* Color del botón de eliminar */
+    cursor: pointer;
+    transition: transform 0.3s ease; 
+  }
+  .boton-eliminar:hover {
+    transform: scale(1.2); /* Hace que el logo crezca un 20% */
+}
+
+  #agregar-favorito-btn {
+    display: block;
+    margin: 10px 0;
+    background: transparent;
+    border: none;
+    font-size: 24px; /* Tamaño del ícono de agregar */
+    color: var(--color-letrasdark); /* Color del botón de agregar */
+    cursor: pointer;
+    position: absolute; /* Posiciona el botón de agregar */
+    top: 5px;
+    right: 5px;
+    
+  }
+  
+  #agregar-favorito {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-modelight);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    transition: transform 0.4s ease-in-out; /* Transición suave */
+    color: var(--color-letrasdark);
+  }
+  
+    #agregar-favorito.show {
+    transform: translate(-50%, -50%) scale(1); /* Aparece con la escala normal */
+    }
+
+    /* Ocultar con animación */
+    #agregar-favorito.hide {
+        transform: translate(-50%, -50%) scale(0); /* Desaparece con la escala reducida */
+    }
+
+  #agregar-favorito h2 {
+    margin: 0 0 10px;
+    font-weight: bold;
+  }
+
+  .oculto {
+    display: none;
+  }
+
+#nombre-favorito{
+    background-color: var(--color-modelight1);
+    border-radius: 10px;
+    height: 24px;
+    color: #888;
+}
+#url-favorito {
+    background-color: var(--color-modelight);
+    border-radius: 10px;
+    height: 24px;
+    color: #888;
+}
+  
+#cerrar-popup-favorito {
+    background-color: rgba(85, 27, 59, 0.815);
+    border-radius: 10px;
+    height: 24px;
+    color: #f0f0f0;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+#cerrar-popup-favorito:hover {
+    background-color: rgba(83, 40, 64, 0.815);
+}
+  
+.agregar-favorito-btn1 {
+    background-color: rgb(36, 165, 105);
+    border-radius: 10px;
+    height: 24px;
+    color: #f0f0f0;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.agregar-favorito-btn1:hover {
+    background-color: rgb(47, 117, 84);
+}
+  .img-container {
+    position: relative; /* Asegúrate de que esto esté aquí */
+    display: inline-block; /* O usa block si necesitas que ocupe todo el ancho */
+  }
+  
+  #descargar-temas-btn {
+    position: relative;
+    top: -100px;
+    left: 240px;
+    transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
+    z-index: 1; /* Asegúrate de que el botón esté encima de la imagen */
+    background-color:var(--color-botones); /* Fondo blanco semitransparente */
+    padding: 20px 40px; /* Espaciado alrededor del texto */
+    border-radius: 40px; /* Bordes redondeados */
+    text-align: center; /* Centrar el texto */
+    text-decoration: none; /* Quitar el subrayado del enlace */
+    font-size: 20px; /* Tamaño del texto */
+    color: var(--color-letraswhite); /* Color del texto */
+  }
+  #descargar-temas-btn:hover {
+    background-color: var(--color-botones-hover);
+    border: solid 2px var(--color-botones);
+  }
+
+  .img_fondos {
+    display: block; /* Asegúrate de que la imagen no tenga espacio debajo */
+    width: 100%; /* Ajusta el tamaño según tus necesidades */
+    height: auto; /* Mantiene la proporción de la imagen */
+  }
+  
+#ajustes-titulo{
+    font-size: 25px;
+    margin-left: 30%;
+}
+
+
+/* Bloc de notas */
+.app-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    background-color: var(--color-modelight);
+    background-size: cover;
+}
+
+/* Botones en la esquina inferior izquierda */
+.botones-inferiores {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+
+
+/* Menú lateral que contiene las notas y el formulario de edición */
+.menu-lateral {
+    display: flex;
+    color: var(--color-letrasdark); 
+    background-color: var(--color-modelight); /* Fondo más opaco para el menú */
+    border-radius: 15px;
+    padding: 20px;
+    width: 600px;
+    height: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed; /* Cambiado a fixed para que no mueva otros elementos */
+    top: 50%; /* Centrado verticalmente */
+    left: 50%; /* Centrado horizontalmente */
+    transform: translate(-50%, -50%); /* Ajuste para centrar */
+    z-index: 10; /* Asegúrate de que el menú esté por encima */
+    display: none; /* Oculto por defecto */
+}
+
+/* Para mostrar el menú al hacer clic en un botón */
+.menu-lateral.mostrar {
+    display: flex; /* Cambia a flex para mostrarlo */
+}
+
+/* El resto de los estilos aquí (como en el ejemplo anterior) */
+
+
+.lista-notas {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    overflow-y: auto; /* Habilita el scroll vertical */
+}
+/* Estilos para la barra de desplazamiento en WebKit */
+.scrollable-notes::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+.scrollable-notes::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del "pulgar" */
+    border-radius: 10px; /* Bordes redondeados */
+}
+#crear-nota-btn {
+    position: sticky; /* Fija el botón en la parte inferior de la lista */
+    bottom: 0; /* Ajusta al fondo del contenedor */
+    left: 0; /* Ajusta al lado izquierdo */
+    background-color: var(--color-botones); /* Cambia a tu color preferido */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    z-index: 1; /* Asegúrate de que esté encima */
+    width: 92%;
+}
+
+#crear-nota-btn:hover{
+background-color: #888;
+}
+
+
+/* Estilo para cada nota en la lista */
+.nota-pestana {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: var(--color-modelight); /* Color de fondo claro para destacar */
+    border-radius: 15px;
+    font-weight: bold; /* Negrita para destacar */
+    cursor: pointer;
+    border: solid 1px #ccc;
+    transition: background-color 0.3s; /* Transición suave al pasar el ratón */
+    overflow: hidden;
+}
+
+.nota-pestana span {
+    width: 80%;
+    overflow: hidden;
+}
+
+.nota-pestana:hover {
+    background-color: #5c5c5c; /* Color de fondo al pasar el ratón */
+}
+
+.formulario-nota {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: var(--color-letrasdark);
+}
+
+#contenido-nota{
+    resize:none;
+    margin-top: 10px;
+    padding: 10px;
+    width: 95%;
+    height: 50%;
+    border-radius: 15px;
+    border: solid 1px #ccc;
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark) !important;
+}
+
+#contenido-nota::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+#contenido-nota::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del "pulgar" */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.destacar-notachekbox {
+    margin: 10px 0;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+/* Estilo del checkbox */
+.destacar-notachekbox input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-color: var(--color-letrasdark);
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+/* Efecto al pasar el mouse */
+.destacar-notachekbox input[type="checkbox"]:hover {
+    border-color: var(--color-botones-hover); /* Cambiar a morado al pasar el mouse */
+
+}
+
+/* Efecto al seleccionar */
+.destacar-notachekbox input[type="checkbox"]:checked {
+    background-color: var(--color-botones); /* Color de fondo al seleccionar */
+    border-color: var(--color-botones-hover); /* Color del borde al seleccionar */
+}
+
+/* Efecto de verificación */
+.destacar-notachekbox input[type="checkbox"]:checked::after {
+    content: '✓'; /* Símbolo de verificación */
+    color: white; /* Color del símbolo */
+    position: absolute;
+    left: 2px; /* Ajustar la posición */
+    top: 0; /* Ajustar la posición */
+    font-size: 18px; /* Tamaño del símbolo */
+}
+
+#menu-notas button {
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark);
+    border: 1px solid #ccc;
+    border-radius: 17px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+#eliminar-nota-btn, #cerrar-menu-btn{
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark);
+    border: 1px solid #ccc;
+    border-radius: 17px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+    width: 98.5%;
+}
+
+#eliminar-nota-btn:hover, #cerrar-menu-btn:hover {
+    background-color: var(--color-botones-hover);
+    border: 1px solid #ccc;
+
+}
+
+#guardar-nota-btn{
+    background-color: #1e8361 !important;
+    margin-right: 10px !important;
+}
+#guardar-nota-btn:hover{
+    background-color: #3c9174 !important;
+    border: 1px solid #ccc !important;
+}
+.oculto {
+    display: none;
+}
+
+.mostrar {
+    display: flex !important; /* Mostrar el menú */
+}
+
+.lista-notas {
+    flex-basis: 30%;
+    margin-right: 20px;
+    overflow-y: auto;
+    
+}
+/* Estilos para la barra de desplazamiento en WebKit */
+.lista-notas::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+.lista-notas::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del "pulgar" */
+    border-radius: 10px; /* Bordes redondeados */
+}
+.formulario-nota {
+    flex-basis: 70%;
+}
+
+.cerrar-btn {
+    background-color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.eliminar-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.eliminar-btn.oculto {
+    display: none;
+}
+
+.nota-pestana {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px 30px 20px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.nota-pestana::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+.nota-pestana::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del "pulgar" */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.nota-pestana button {
+    background-color: #ff4d4d !important;
+    color: white!important;
+    border: none!important;
+    padding: 5px!important;
+    cursor: pointer!important;
+    width: 50px;
+}
+
+
+.notas-destacadas {
+    padding: 10px;
+    bottom: 4%;
+    position: fixed;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    flex-direction: row;
+    
+}
+.notas-destacadas strong {
+    font-size: 17px;
+}
+
+.nota-destacada {
+    padding: 10px;
+    margin-bottom: 10px;
+    color: var(--color-letrasdark);
+    background-color: var(--color-modelight);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-basis: 20%;
+    margin-right: 10px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nota-destacada strong {
+    width: 100%;
+    height: auto; /* Cambia de 50% a auto */
+    overflow: hidden;
+    display: -webkit-box; /* Para crear un contenedor flexible */
+    -webkit-box-orient: vertical; /* Orientar el contenido en vertical */
+    text-overflow: ellipsis; /* Agregar puntos suspensivos si el texto se corta */
+}
+
+
+#ver-notas-btn {
+    border-radius: 30px;
+    color: var(--color-letraswhite);
+    background-color:var(--color-botones);
+    padding: 10px 20px;
+    border: 1px solid var(--color-botones);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+#ver-notas-btn:hover {
+    border-radius: 30px;
+    background-color: var(--color-botones-hover);
+    padding: 10px 20px;
+    box-shadow: inset 0 0 0 2px var(--color-botones); /* Borde animado al hacer hover */
+}
+
+#menu-notas{
+    width: 60%;
+    height: 66%;
+}
+
+#titulo-nota{
+    height: 30px;
+    width: 96.5%;
+    border-radius: 15px;
+    border: solid 1px #ccc;
+    padding: 5px;
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark) !important;
+}
+
+#fecha-nota{
+    height: 30px;
+    width: 96.5%;
+    border-radius: 15px;
+    border: solid 1px #ccc;
+    padding: 5px;
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark);
+}
+
+#eliminar-nota-btn{
+    width: 160px;
+    margin-right: -50%;
+    background-color: rgb(158, 29, 29)!important;
+    color: white!important;
+    border: none!important;
+}
+#eliminar-nota-btn:hover{
+    background-color: rgb(131, 41, 41)!important;
+    color: white!important;
+    border: 1px solid  rgb(196, 75, 75)!important;
+}
+
+
+.columna-derecha {
+    width: 90%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: flex-end;
+    align-items: baseline;
+    justify-content: flex-start;
+}
+.columna-derecha label {
+    margin-left: 5%;
+}
+.columna-derecha input {
+    margin-left: 1%;
+    background-color: #373b3b !important;
+    border-radius: 6px;
+}
+.checkbox-colors {
+    background-color: #882c65 !important;
+    border-radius: 6px;
+}
+
+#exportar-nota-btn {
+    width: 160px;
+    background-color: #1e8361 !important;
+    margin-right: 10px;
+}
+
+#exportar-nota-btn:hover {
+    background-color: #3f9478 !important;
+}
+
+
+/* Estilo para el contenedor de las notas que permite el desplazamiento */
+.scrollable-notes {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    overflow-y: auto; /* Permitir desplazamiento vertical */
+    height: 500px;
+}
+
+/* Botón "Crear Nota" fijo al final de la lista */
+.fixed-button {
+    position: sticky; /* Cambiar a sticky para que se quede fijo en la parte inferior */
+    bottom: 0; /* Alineación al fondo del contenedor */
+    background-color: var(--color-botones); /* Color de fondo para el botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    cursor: pointer; /* Cambiar cursor al pasar */
+    z-index: 5; /* Asegurarse de que esté por encima de otras cosas */
+}
+
+/* Estilo adicional para el botón al pasar el ratón */
+.fixed-button:hover {
+    background-color: var(--color-botones-hover); /* Cambiar color al pasar el ratón */
+}

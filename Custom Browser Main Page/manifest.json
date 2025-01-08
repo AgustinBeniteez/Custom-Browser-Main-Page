@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Custom Browser Main Page",
+  "description": "Custom Browser Main Page you can add image for you wallpaper by AgusTheKing",
+  "version": "1.0",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "action": {
+    "default_icon": "/icons/logo.png"
+  }
+}
+

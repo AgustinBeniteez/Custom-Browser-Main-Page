@@ -1,0 +1,274 @@
+// OPTIMIZACIÓN Y REORGANIZACIÓN DE script.js
+
+// Variables globales
+const elementos = {
+  reloj: document.getElementById('reloj'),
+  decoracionRelojCheckbox: document.getElementById('decoracion-reloj'),
+  relojContainer: document.querySelector('.reloj-container h1'),
+  searchInput: document.getElementById('search-input'),
+  suggestionsContainer: document.getElementById('suggestions'),
+  idiomaSelect: document.getElementById('idioma'),
+  ajustesBtn: document.getElementById('ajustes-btn'),
+  popup: document.getElementById('popup'),
+  cerrarPopup: document.getElementById('cerrar-popup'),
+  fondoInput: document.getElementById('fondo-url'),
+  guardarFondoBtn: document.getElementById('guardar-fondo-url'),
+  favoritosContainer: document.getElementById('favoritos-list'),
+  agregarFavoritoBtn: document.getElementById('agregar-favorito-btn'),
+  cerrarPopupFavorito: document.getElementById('cerrar-popup-favorito'),
+  favoritoForm: document.getElementById('favorito-form'),
+  tituloFavoritos: document.getElementById('titulo-favoritos'),
+  crearNotaBtn: document.getElementById('crear-nota-btn'),
+  verNotasBtn: document.getElementById('ver-notas-btn'),
+  guardarNotaBtn: document.getElementById('guardar-nota-btn'),
+  eliminarNotaBtn: document.getElementById('eliminar-nota-btn'),
+  cerrarMenuBtn: document.getElementById('cerrar-menu-btn'),
+  tituloNota: document.getElementById('titulo-nota'),
+  contenidoNota: document.getElementById('contenido-nota'),
+  destacarNotaCheckbox: document.getElementById('destacar-nota'),
+  notasDestacadas: document.getElementById('notas-destacadas'),
+  notasPestanas: document.getElementById('lista-notas'),
+  buscadorSelect: document.getElementById('buscador'),
+  modoOscuroCheckbox: document.getElementById('modo-oscuro'),
+  colorTemaInput: document.getElementById('color-tema')
+};
+
+// FUNCIONES DE UTILIDAD
+const guardarEnLocalStorage = (clave, valor) => localStorage.setItem(clave, JSON.stringify(valor));
+const obtenerDeLocalStorage = (clave) => JSON.parse(localStorage.getItem(clave)) || [];
+
+// FUNCIONES PRINCIPALES
+function actualizarReloj() {
+  const ahora = new Date();
+  elementos.reloj.textContent = ahora.toTimeString().slice(0, 5);
+}
+
+function configurarFondoGuardado() {
+  const fondoAlmacenado = localStorage.getItem('fondo-url');
+  if (fondoAlmacenado) {
+    document.body.style.backgroundImage = `url(${fondoAlmacenado})`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+  }
+}
+
+function cargarTraducciones() {
+  fetch('lang.json')
+    .then((response) => response.json())
+    .then((data) => {
+      const idioma = localStorage.getItem('idioma') || 'en';
+      actualizarIdioma(idioma, data);
+      elementos.idiomaSelect.value = idioma;
+    })
+    .catch((error) => console.error('Error al cargar las traducciones:', error));
+}
+
+function actualizarIdioma(idioma, traducciones) {
+  document.title = traducciones[idioma]?.titulo || 'New Tab';
+  elementos.searchInput.placeholder = traducciones[idioma]?.placeholderGoogle || 'Search...';
+  elementos.tituloFavoritos.textContent = traducciones[idioma]?.favoritos || 'Favorites';
+}
+
+function configurarDecoracionReloj() {
+  const decoracionActiva = localStorage.getItem('decoracionReloj') !== 'false';
+  elementos.decoracionRelojCheckbox.checked = decoracionActiva;
+  actualizarDecoracionReloj(decoracionActiva);
+}
+
+function actualizarDecoracionReloj(activada) {
+  if (activada) {
+    elementos.relojContainer.style.animation = 'textGlow 2s ease-in-out infinite alternate';
+  } else {
+    elementos.relojContainer.style.animation = 'none';
+  }
+}
+
+function agregarEventoGuardarFondo() {
+  elementos.guardarFondoBtn.addEventListener('click', () => {
+    const url = elementos.fondoInput.value;
+    if (url) {
+      document.body.style.backgroundImage = `url(${url})`;
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundPosition = 'center';
+      guardarEnLocalStorage('fondo-url', url);
+    }
+  });
+}
+
+function configurarFavoritos() {
+  function mostrarFavoritos() {
+    const favoritos = obtenerDeLocalStorage('favoritos');
+    elementos.favoritosContainer.innerHTML = '';
+    favoritos.forEach(({ nombre, url }) => {
+      const item = document.createElement('div');
+      item.classList.add('favorito-item');
+
+      const enlace = document.createElement('a');
+      enlace.href = url;
+      enlace.target = '_blank';
+      enlace.textContent = nombre;
+
+      item.appendChild(enlace);
+      elementos.favoritosContainer.appendChild(item);
+    });
+  }
+
+  elementos.favoritoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre-favorito').value;
+    const url = document.getElementById('url-favorito').value;
+    if (nombre && url) {
+      const favoritos = obtenerDeLocalStorage('favoritos');
+      favoritos.push({ nombre, url });
+      guardarEnLocalStorage('favoritos', favoritos);
+      mostrarFavoritos();
+      elementos.favoritoForm.reset();
+      document.getElementById('agregar-favorito').classList.add('oculto');
+    }
+  });
+
+  mostrarFavoritos();
+}
+
+function configurarBuscador() {
+  elementos.searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const valor = elementos.searchInput.value.trim();
+      if (!valor) return;
+
+      const buscador = localStorage.getItem('buscadorSeleccionado') || 'google';
+      let url;
+
+      switch (buscador) {
+        case 'bing':
+          url = `https://www.bing.com/search?q=${encodeURIComponent(valor)}`;
+          break;
+        case 'yahoo':
+          url = `https://search.yahoo.com/search?p=${encodeURIComponent(valor)}`;
+          break;
+        case 'brave':
+          url = `https://search.brave.com/search?q=${encodeURIComponent(valor)}`;
+          break;
+        case 'duckduckgo':
+          url = `https://duckduckgo.com/?q=${encodeURIComponent(valor)}`;
+          break;
+        case 'google':
+        default:
+          url = `https://www.google.com/search?q=${encodeURIComponent(valor)}`;
+          break;
+      }
+
+      window.location.href = url;
+    }
+  });
+}
+
+function configurarNotas() {
+  let notas = obtenerDeLocalStorage('notas');
+
+  function mostrarNotas() {
+    elementos.notasPestanas.innerHTML = '';
+    notas.forEach((nota, index) => {
+      const notaElem = document.createElement('div');
+      notaElem.classList.add('nota-pestana');
+      notaElem.textContent = nota.titulo;
+      notaElem.addEventListener('click', () => editarNota(index));
+      elementos.notasPestanas.appendChild(notaElem);
+    });
+  }
+
+  function editarNota(index) {
+    const nota = notas[index];
+    elementos.tituloNota.value = nota.titulo;
+    elementos.contenidoNota.value = nota.contenido;
+    elementos.eliminarNotaBtn.classList.remove('oculto');
+  }
+
+  elementos.guardarNotaBtn.addEventListener('click', () => {
+    const nuevaNota = {
+      titulo: elementos.tituloNota.value,
+      contenido: elementos.contenidoNota.value,
+    };
+    notas.push(nuevaNota);
+    guardarEnLocalStorage('notas', notas);
+    mostrarNotas();
+  });
+
+  elementos.eliminarNotaBtn.addEventListener('click', () => {
+    notas.pop();
+    guardarEnLocalStorage('notas', notas);
+    mostrarNotas();
+  });
+
+  mostrarNotas();
+}
+
+function configurarPopups() {
+  elementos.ajustesBtn.addEventListener('click', () => {
+    elementos.popup.style.display = 'block';
+  });
+
+  elementos.cerrarPopup.addEventListener('click', () => {
+    elementos.popup.style.display = 'none';
+  });
+
+  elementos.agregarFavoritoBtn.addEventListener('click', () => {
+    const favoritoPopup = document.getElementById('agregar-favorito');
+    favoritoPopup.classList.remove('oculto');
+  });
+
+  elementos.cerrarPopupFavorito.addEventListener('click', () => {
+    const favoritoPopup = document.getElementById('agregar-favorito');
+    favoritoPopup.classList.add('oculto');
+  });
+
+  elementos.idiomaSelect.addEventListener('change', (e) => {
+    const idiomaSeleccionado = e.target.value;
+    localStorage.setItem('idioma', idiomaSeleccionado);
+    fetch('lang.json')
+      .then((response) => response.json())
+      .then((data) => actualizarIdioma(idiomaSeleccionado, data));
+  });
+
+  elementos.buscadorSelect.addEventListener('change', (e) => {
+    localStorage.setItem('buscadorSeleccionado', e.target.value);
+  });
+
+  elementos.modoOscuroCheckbox.addEventListener('change', (e) => {
+    const activar = e.target.checked;
+    document.documentElement.style.setProperty('--color-modelight', activar ? 'var(--color-modedark)' : '#fefefecb');
+    document.documentElement.style.setProperty('--color-modelight1', activar ? 'var(--color-modedark1)' : '#e2e2e2cc');
+    document.documentElement.style.setProperty('--color-letrasdark', activar ? 'var(--color-letraswhite)' : '#161616');
+    localStorage.setItem('modoOscuro', activar);
+  });
+
+  elementos.colorTemaInput.addEventListener('input', (e) => {
+    const color = e.target.value;
+    document.documentElement.style.setProperty('--color-botones', color);
+    guardarEnLocalStorage('colorBotones', color);
+  });
+
+  elementos.decoracionRelojCheckbox.addEventListener('change', (e) => {
+    const activada = e.target.checked;
+    localStorage.setItem('decoracionReloj', activada);
+    actualizarDecoracionReloj(activada);
+  });
+}
+
+// INICIALIZACIÓN
+function inicializar() {
+  setInterval(actualizarReloj, 1000);
+  actualizarReloj();
+  configurarFondoGuardado();
+  cargarTraducciones();
+  configurarDecoracionReloj();
+  agregarEventoGuardarFondo();
+  configurarFavoritos();
+  configurarBuscador();
+  configurarNotas();
+  configurarPopups();
+}
+
+// EJECUCIÓN
+inicializar();
