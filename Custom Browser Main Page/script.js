@@ -1,4 +1,3 @@
-// --------- Custom Browser Main Page ---------
 // Variables globales
 const elementos = {
   reloj: document.getElementById('reloj'),
@@ -281,6 +280,13 @@ function configurarNotas() {
 
   elementos.cerrarMenuBtn.addEventListener('click', () => {
     elementos.menuNotas.classList.add('oculto');
+  });
+
+  elementos.crearNotaBtn.addEventListener('click', () => {
+    elementos.tituloNota.value = '';
+    elementos.contenidoNota.value = '';
+    elementos.eliminarNotaBtn.classList.add('oculto');
+    elementos.menuNotas.classList.remove('oculto');
   });
 
   mostrarNotas();
