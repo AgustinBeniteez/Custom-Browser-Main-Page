@@ -1,5 +1,4 @@
-// OPTIMIZACIÓN Y REORGANIZACIÓN DE script.js
-
+// --------- Custom Browser Main Page ---------
 // Variables globales
 const elementos = {
   reloj: document.getElementById('reloj'),
@@ -30,7 +29,9 @@ const elementos = {
   notasPestanas: document.getElementById('lista-notas'),
   buscadorSelect: document.getElementById('buscador'),
   modoOscuroCheckbox: document.getElementById('modo-oscuro'),
-  colorTemaInput: document.getElementById('color-tema')
+  colorTemaInput: document.getElementById('color-tema'),
+  menuNotas: document.getElementById('menu-notas'),
+  fondoPredeterminado: document.querySelectorAll('.fondo-predeterminado img')
 };
 
 // FUNCIONES DE UTILIDAD
@@ -99,16 +100,83 @@ function configurarFavoritos() {
   function mostrarFavoritos() {
     const favoritos = obtenerDeLocalStorage('favoritos');
     elementos.favoritosContainer.innerHTML = '';
-    favoritos.forEach(({ nombre, url }) => {
+    favoritos.forEach(({ nombre, url }, index) => {
       const item = document.createElement('div');
       item.classList.add('favorito-item');
+      item.style.position = 'relative';
+      item.style.display = 'flex';
+      item.style.flexDirection = 'column';
+      item.style.alignItems = 'center';
+      item.style.borderRadius = '10px';
+      item.style.padding = '10px';
+      item.style.margin = '10px';
+      item.style.backgroundColor = localStorage.getItem('modoOscuro') === 'true' ? 'var(--color-modelight)' : '#f0f0f0';
+      item.style.color = localStorage.getItem('modoOscuro') === 'true' ? '#fff' : '#000';
+      item.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+      item.style.transition = 'all 0.3s ease-in-out';
+
+      const eliminarBtn = document.createElement('button');
+      eliminarBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+      eliminarBtn.style.position = 'absolute';
+      eliminarBtn.style.top = '5px';
+      eliminarBtn.style.right = '0px';
+      eliminarBtn.style.backgroundColor = 'transparent';
+      eliminarBtn.style.color = 'red';
+      eliminarBtn.style.border = 'none';
+      eliminarBtn.style.fontWeight = 'bold';
+      eliminarBtn.style.fontSize = '15px';
+      eliminarBtn.style.borderRadius = '50%';
+      eliminarBtn.style.width = '30px';
+      eliminarBtn.style.height = '30px';
+      eliminarBtn.style.opacity = '0';
+      eliminarBtn.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out';
+      eliminarBtn.addEventListener('click', () => {
+        favoritos.splice(index, 1);
+        guardarEnLocalStorage('favoritos', favoritos);
+        mostrarFavoritos();
+      });
+
+      eliminarBtn.addEventListener('mouseenter', () => {
+        eliminarBtn.style.transform = 'scale(1.2)';
+        eliminarBtn.style.color = '#b30000';
+      });
+
+      eliminarBtn.addEventListener('mouseleave', () => {
+        eliminarBtn.style.transform = 'scale(1)';
+        eliminarBtn.style.color = 'red';
+      });
+
+      item.addEventListener('mouseenter', () => {
+        eliminarBtn.style.opacity = '1';
+      });
+
+      item.addEventListener('mouseleave', () => {
+        eliminarBtn.style.opacity = '0';
+      });
 
       const enlace = document.createElement('a');
       enlace.href = url;
       enlace.target = '_blank';
-      enlace.textContent = nombre;
+      enlace.style.display = 'flex';
+      enlace.style.flexDirection = 'column';
+      enlace.style.alignItems = 'center';
 
+      const icono = document.createElement('img');
+      icono.src = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=64`;
+      icono.alt = nombre;
+      icono.style.borderRadius = '10px';
+      icono.style.width = '64px';
+      icono.style.height = '64px';
+
+      const nombreElem = document.createElement('div');
+      nombreElem.textContent = nombre;
+      nombreElem.style.textAlign = 'center';
+      nombreElem.style.marginTop = '5px';
+
+      enlace.appendChild(icono);
+      item.appendChild(eliminarBtn);
       item.appendChild(enlace);
+      item.appendChild(nombreElem);
       elementos.favoritosContainer.appendChild(item);
     });
   }
@@ -196,12 +264,35 @@ function configurarNotas() {
   });
 
   elementos.eliminarNotaBtn.addEventListener('click', () => {
-    notas.pop();
-    guardarEnLocalStorage('notas', notas);
-    mostrarNotas();
+    const index = notas.findIndex(nota => nota.titulo === elementos.tituloNota.value);
+    if (index !== -1) {
+      notas.splice(index, 1);
+      guardarEnLocalStorage('notas', notas);
+      mostrarNotas();
+      elementos.tituloNota.value = '';
+      elementos.contenidoNota.value = '';
+      elementos.eliminarNotaBtn.classList.add('oculto');
+    }
+  });
+
+  elementos.verNotasBtn.addEventListener('click', () => {
+    elementos.menuNotas.classList.toggle('oculto');
+  });
+
+  elementos.cerrarMenuBtn.addEventListener('click', () => {
+    elementos.menuNotas.classList.add('oculto');
   });
 
   mostrarNotas();
+}
+
+function aplicarModoOscuro() {
+  const activar = localStorage.getItem('modoOscuro') === 'true';
+  document.documentElement.style.setProperty('--color-modelight', activar ? 'var(--color-modedark)' : '#fefefecb');
+  document.documentElement.style.setProperty('--color-modelight1', activar ? 'var(--color-modedark1)' : '#e2e2e2cc');
+  document.documentElement.style.setProperty('--color-letrasdark', activar ? 'var(--color-letraswhite)' : '#161616');
+  elementos.modoOscuroCheckbox.checked = activar;
+  configurarFavoritos(); // Para actualizar los colores de los favoritos
 }
 
 function configurarPopups() {
@@ -241,6 +332,7 @@ function configurarPopups() {
     document.documentElement.style.setProperty('--color-modelight1', activar ? 'var(--color-modedark1)' : '#e2e2e2cc');
     document.documentElement.style.setProperty('--color-letrasdark', activar ? 'var(--color-letraswhite)' : '#161616');
     localStorage.setItem('modoOscuro', activar);
+    configurarFavoritos(); // Para actualizar los colores de los favoritos
   });
 
   elementos.colorTemaInput.addEventListener('input', (e) => {
@@ -253,6 +345,16 @@ function configurarPopups() {
     const activada = e.target.checked;
     localStorage.setItem('decoracionReloj', activada);
     actualizarDecoracionReloj(activada);
+  });
+
+  elementos.fondoPredeterminado.forEach(img => {
+    img.addEventListener('click', () => {
+      const url = img.src;
+      document.body.style.backgroundImage = `url(${url})`;
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundPosition = 'center';
+      guardarEnLocalStorage('fondo-url', url);
+    });
   });
 }
 
@@ -268,6 +370,7 @@ function inicializar() {
   configurarBuscador();
   configurarNotas();
   configurarPopups();
+  aplicarModoOscuro(); // Aplicar modo oscuro al cargar la página
 }
 
 // EJECUCIÓN
