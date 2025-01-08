@@ -30,7 +30,8 @@ const elementos = {
   modoOscuroCheckbox: document.getElementById('modo-oscuro'),
   colorTemaInput: document.getElementById('color-tema'),
   menuNotas: document.getElementById('menu-notas'),
-  fondoPredeterminado: document.querySelectorAll('.fondo-predeterminado img')
+  fondoPredeterminado: document.querySelectorAll('.fondo-predeterminado img'),
+  searchButton: document.getElementById('search-button') // Añadido
 };
 
 // FUNCIONES DE UTILIDAD
@@ -198,36 +199,45 @@ function configurarFavoritos() {
 }
 
 function configurarBuscador() {
+  function realizarBusqueda() {
+    const valor = elementos.searchInput.value.trim();
+    if (!valor) return;
+
+    const buscador = localStorage.getItem('buscadorSeleccionado') || 'google';
+    let url;
+
+    switch (buscador) {
+      case 'bing':
+        url = `https://www.bing.com/search?q=${encodeURIComponent(valor)}`;
+        break;
+      case 'yahoo':
+        url = `https://search.yahoo.com/search?p=${encodeURIComponent(valor)}`;
+        break;
+      case 'brave':
+        url = `https://search.brave.com/search?q=${encodeURIComponent(valor)}`;
+        break;
+      case 'duckduckgo':
+        url = `https://duckduckgo.com/?q=${encodeURIComponent(valor)}`;
+        break;
+      case 'google':
+      default:
+        url = `https://www.google.com/search?q=${encodeURIComponent(valor)}`;
+        break;
+    }
+
+    window.location.href = url;
+  }
+
   elementos.searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      const valor = elementos.searchInput.value.trim();
-      if (!valor) return;
-
-      const buscador = localStorage.getItem('buscadorSeleccionado') || 'google';
-      let url;
-
-      switch (buscador) {
-        case 'bing':
-          url = `https://www.bing.com/search?q=${encodeURIComponent(valor)}`;
-          break;
-        case 'yahoo':
-          url = `https://search.yahoo.com/search?p=${encodeURIComponent(valor)}`;
-          break;
-        case 'brave':
-          url = `https://search.brave.com/search?q=${encodeURIComponent(valor)}`;
-          break;
-        case 'duckduckgo':
-          url = `https://duckduckgo.com/?q=${encodeURIComponent(valor)}`;
-          break;
-        case 'google':
-        default:
-          url = `https://www.google.com/search?q=${encodeURIComponent(valor)}`;
-          break;
-      }
-
-      window.location.href = url;
+      realizarBusqueda();
     }
+  });
+
+  elementos.searchButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    realizarBusqueda();
   });
 }
 
@@ -276,10 +286,12 @@ function configurarNotas() {
 
   elementos.verNotasBtn.addEventListener('click', () => {
     elementos.menuNotas.classList.toggle('oculto');
+    elementos.appContainer.classList.toggle('oculto'); // Mostrar/ocultar app-container
   });
 
   elementos.cerrarMenuBtn.addEventListener('click', () => {
     elementos.menuNotas.classList.add('oculto');
+    elementos.appContainer.classList.add('oculto'); // Ocultar app-container
   });
 
   elementos.crearNotaBtn.addEventListener('click', () => {
