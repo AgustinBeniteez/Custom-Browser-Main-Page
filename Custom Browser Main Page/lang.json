@@ -12,25 +12,29 @@
     "guardarNota": "Save Note",
     "eliminarNota": "Delete Note",
     "cerrarMenu": "Close",
-    "tituloNota": "Note Title",
-    "contenidoNota": "Note Content",
+    "tituloNota": "Title of the Note",
+    "contenidoNota": "Content of the Note",
     "destacarNota": "Pin Note",
     "note_details": "Note Details",
     "important_date": "Important Date (Optional)",
     "tituloFavoritos": "Favorites",
-    "agregarFavorito": "Add Favorites",
+    "agregarFavorito": "Add to Favorites",
     "nombreFavorito": "Site Name",
     "urlFavorito": "Site URL",
     "agregarBtn": "Add",
     "cerrarPopup": "Close",
-    "exportarNota": "Export Note"
+    "exportarNota": "Export Note",
+    "buscador": "Select Search Engine:",
+    "modoOscuro": "Dark Mode:",
+    "colorTema": "Theme Color:",
+    "decoracionReloj": "Clock Decoration:"
   },
   "es": {
     "titulo": "Nueva Pestaña",
     "placeholderGoogle": "Buscar...",
     "ajustes": "Ajustes",
     "wallpaperGallery": "Galería de Fondos",
-    "idioma": "Selecciona idioma:",
+    "idioma": "Selecciona Idioma:",
     "guardarFondo": "Guardar Fondo",
     "favoritos": "Favoritos",
     "crearNota": "Crear Nota",
@@ -49,7 +53,11 @@
     "urlFavorito": "URL del sitio",
     "agregarBtn": "Agregar",
     "cerrarPopup": "Cerrar",
-    "exportarNota": "Exportar Nota"
+    "exportarNota": "Exportar Nota",
+    "buscador": "Selecciona Motor Búsqueda:",
+    "modoOscuro": "Modo Oscuro:",
+    "colorTema": "Color del Tema:",
+    "decoracionReloj": "Decoración del Reloj:"
   },
   "val": {
     "titulo": "Nova Pestanya",
@@ -75,7 +83,11 @@
     "urlFavorito": "URL del lloc",
     "agregarBtn": "Afegir",
     "cerrarPopup": "Tancar",
-    "exportarNota": "Exportar Nota"
+    "exportarNota": "Exportar Nota",
+    "buscador": "Selecciona Motor de Cerca:",
+    "modoOscuro": "Mode Fosc:",
+    "colorTema": "Color del Tema:",
+    "decoracióRellotge": "Decoració del Rellotge:"
   },
   "fr": {
     "titulo": "Nouvel Onglet",
@@ -101,7 +113,11 @@
     "urlFavorito": "URL du site",
     "agregarBtn": "Ajouter",
     "cerrarPopup": "Fermer",
-    "exportarNota": "Exporter la Note"
+    "exportarNota": "Exporter la Note",
+    "buscador": "Choisissez le moteur:",
+    "modoOscuro": "Mode Sombre:",
+    "colorTema": "Couleur du Thème:",
+    "decoracionReloj": "Décoration de l'Horloge:"
   },
   "ru": {
     "titulo": "Новая Вкладка",
@@ -127,7 +143,11 @@
     "urlFavorito": "URL сайта",
     "agregarBtn": "Добавить",
     "cerrarPopup": "Закрыть",
-    "exportarNota": "Экспортировать заметку"
+    "exportarNota": "Экспортировать заметку",
+    "buscador": "Выберите поисковую систему:",
+    "modoOscuro": "Темный режим:",
+    "colorTema": "Цвет темы:",
+    "decoracionReloj": "Украшение часов:"
   },
   "zh": {
     "titulo": "新标签页",
@@ -153,7 +173,11 @@
     "urlFavorito": "网站网址",
     "agregarBtn": "添加",
     "cerrarPopup": "关闭",
-    "exportarNota": "导出笔记"
+    "exportarNota": "导出笔记",
+    "buscador": "选择搜索引擎:",
+    "modoOscuro": "黑暗模式:",
+    "colorTema": "主题颜色:",
+    "decoracionReloj": "时钟装饰:"
   },
   "ja": {
     "titulo": "新しいタブ",
@@ -179,7 +203,11 @@
     "urlFavorito": "サイトURL",
     "agregarBtn": "追加",
     "cerrarPopup": "閉じる",
-    "exportarNota": "ノートをエクスポート"
+    "exportarNota": "ノートをエクスポート",
+    "buscador": "検索エンジンを選択:",
+    "modoOscuro": "ダークモード:",
+    "colorTema": "テーマカラー:",
+    "decoracionReloj": "時計の装飾:"
   },
   "ko": {
     "titulo": "새 탭",
@@ -205,6 +233,10 @@
     "urlFavorito": "사이트 URL",
     "agregarBtn": "추가",
     "cerrarPopup": "닫기",
-    "exportarNota": "노트 내보내기"
+    "exportarNota": "노트 내보내기",
+    "buscador": "검색 엔진 선택:",
+    "modoOscuro": "다크 모드:",
+    "colorTema": "테마 색상:",
+    "decoracionReloj": "시계 장식:"
   }
 }

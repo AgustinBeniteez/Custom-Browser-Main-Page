@@ -44,7 +44,6 @@
       </div>
 
       <div class="formulario-nota">
-        
         <h3 class="note-details">Detalles de la Nota</h3>
         <input type="text" id="titulo-nota" placeholder="Título de la Nota" title="Title of the note">
         <textarea id="contenido-nota" placeholder="Contenido de la Nota"></textarea>
@@ -61,7 +60,7 @@
         <label for="fecha-nota" title="date">Fecha Importante (Opcional):</label>
         <input type="date" id="fecha-nota">
 
-        <button id="guardar-nota-btn">Save Note<i class="fa-solid fa-floppy-disk"></i></button>
+        <button id="guardar-nota-btn">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
         
         <button id="cerrar-menu-btn">Cerrar</button>
       </div>
@@ -84,8 +83,8 @@
     </form>
   </div>
   <!-- Popup de ajustes -->
-  <div class="popup" id="popup">
-    <div class="popup-content">
+  <div class="popup" id="popup" style="display: none;">
+    <div class="popup-content" id="ajustes-menu">
       <h2 id="ajustes-titulo">Settings</h2>
       <button id="cerrar-popup">Close</button>
       <div class="ajustes-container ajustes-columnas">

@@ -31,9 +31,8 @@ const elementos = {
   colorTemaInput: document.getElementById('color-tema'),
   menuNotas: document.getElementById('menu-notas'),
   fondoPredeterminado: document.querySelectorAll('.fondo-predeterminado img'),
-  searchButton: document.getElementById('search-button') // Añadido
+  searchButton: document.getElementById('search-button')
 };
-
 // FUNCIONES DE UTILIDAD
 const guardarEnLocalStorage = (clave, valor) => localStorage.setItem(clave, JSON.stringify(valor));
 const obtenerDeLocalStorage = (clave) => JSON.parse(localStorage.getItem(clave)) || [];
@@ -68,7 +67,127 @@ function actualizarIdioma(idioma, traducciones) {
   document.title = traducciones[idioma]?.titulo || 'New Tab';
   elementos.searchInput.placeholder = traducciones[idioma]?.placeholderGoogle || 'Search...';
   elementos.tituloFavoritos.textContent = traducciones[idioma]?.favoritos || 'Favorites';
+  
+  // Traducir elementos del menú de notas
+  const notatitle = document.querySelector('.notatitle');
+  if (notatitle) {
+    notatitle.innerHTML = `${traducciones[idioma]?.verNotas || 'Notes'} <i class="fa-regular fa-note-sticky"></i>`;
+  }
+
+  const noteDetails = document.querySelector('.note-details');
+  if (noteDetails) {
+    noteDetails.textContent = traducciones[idioma]?.note_details || 'Note Details';
+  }
+
+  const tituloNota = document.getElementById('titulo-nota');
+  if (tituloNota) {
+    tituloNota.placeholder = traducciones[idioma]?.tituloNota || 'Title of the Note';
+  }
+
+  const contenidoNota = document.getElementById('contenido-nota');
+  if (contenidoNota) {
+    contenidoNota.placeholder = traducciones[idioma]?.contenidoNota || 'Content of the Note';
+  }
+
+  const destacarNotaCheckboxLabel = document.querySelector('.destacar-notachekbox label');
+  if (destacarNotaCheckboxLabel) {
+    destacarNotaCheckboxLabel.innerHTML = `<input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;${traducciones[idioma]?.destacarNota || 'Pin Note'}`;
+  }
+
+  const eliminarNotaBtn = document.getElementById('eliminar-nota-btn');
+  if (eliminarNotaBtn) {
+    eliminarNotaBtn.innerHTML = `${traducciones[idioma]?.eliminarNota || 'Delete Note'} <i class="fa-solid fa-trash"></i>`;
+  }
+
+  const exportarNotaBtn = document.getElementById('exportar-nota-btn');
+  if (exportarNotaBtn) {
+    exportarNotaBtn.innerHTML = `${traducciones[idioma]?.exportarNota || 'Export Note'} &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i>`;
+  }
+
+  const fechaNotaLabel = document.querySelector('label[for="fecha-nota"]');
+  if (fechaNotaLabel) {
+    fechaNotaLabel.innerHTML = traducciones[idioma]?.important_date || 'Important Date (Optional)';
+  }
+
+  const guardarNotaBtn = document.getElementById('guardar-nota-btn');
+  if (guardarNotaBtn) {
+    guardarNotaBtn.innerHTML = `${traducciones[idioma]?.guardarNota || 'Save Note'} <i class="fa-solid fa-floppy-disk"></i>`;
+  }
+
+  const cerrarMenuBtn = document.getElementById('cerrar-menu-btn');
+  if (cerrarMenuBtn) {
+    cerrarMenuBtn.innerHTML = traducciones[idioma]?.cerrarMenu || 'Close';
+  }
+
+  // Traducir elementos del popup agregar-favorito
+  const agregarFavoritoTitulo = document.querySelector('#agregar-favorito h3');
+  if (agregarFavoritoTitulo) {
+    agregarFavoritoTitulo.innerHTML = traducciones[idioma]?.agregarFavorito || 'Add to Favorites';
+  }
+
+  const nombreFavorito = document.getElementById('nombre-favorito');
+  if (nombreFavorito) {
+    nombreFavorito.placeholder = traducciones[idioma]?.nombreFavorito || 'Site Name';
+  }
+
+  const urlFavorito = document.getElementById('url-favorito');
+  if (urlFavorito) {
+    urlFavorito.placeholder = traducciones[idioma]?.urlFavorito || 'Site URL';
+  }
+
+  const agregarBtn = document.getElementById('agregar-btn');
+  if (agregarBtn) {
+    agregarBtn.innerHTML = traducciones[idioma]?.agregarBtn || 'Add';
+  }
+
+  const cerrarPopupFavorito = document.getElementById('cerrar-popup-favorito');
+  if (cerrarPopupFavorito) {
+    cerrarPopupFavorito.innerHTML = traducciones[idioma]?.cerrarPopup || 'Close';
+  }
+
+  // Traducir elementos del popup de ajustes
+  const ajustesTitulo = document.querySelector('#ajustes-titulo');
+  if (ajustesTitulo) {
+    ajustesTitulo.innerHTML = traducciones[idioma]?.ajustes || 'Settings';
+  }
+
+  const idiomaLabel = document.querySelector('label[for="idioma"]');
+  if (idiomaLabel) {
+    idiomaLabel.innerHTML = traducciones[idioma]?.idioma || 'Select Language:';
+  }
+
+  const buscadorLabel = document.querySelector('label[for="buscador"]');
+  if (buscadorLabel) {
+    buscadorLabel.innerHTML = traducciones[idioma]?.buscador || 'Select Search Engine:';
+  }
+
+  const fondoUrlLabel = document.querySelector('label[for="fondo-url"]');
+  if (fondoUrlLabel) {
+    fondoUrlLabel.innerHTML = traducciones[idioma]?.guardarFondo || 'Save Background';
+  }
+
+  const modoOscuroLabel = document.querySelector('label[for="modo-oscuro"]');
+  if (modoOscuroLabel) {
+    modoOscuroLabel.innerHTML = traducciones[idioma]?.modoOscuro || 'Dark Mode:';
+  }
+
+  const colorTemaLabel = document.querySelector('label[for="color-tema"]');
+  if (colorTemaLabel) {
+    colorTemaLabel.innerHTML = traducciones[idioma]?.colorTema || 'Theme Color:';
+  }
+
+  const decoracionRelojLabel = document.querySelector('label[for="decoracion-reloj"]');
+  if (decoracionRelojLabel) {
+    decoracionRelojLabel.innerHTML = traducciones[idioma]?.decoracionReloj || 'Clock Decoration:';
+  }
+
+  // Traducir botón ver-notas
+  const verNotasBtn = document.getElementById('ver-notas-btn');
+  if (verNotasBtn) {
+    verNotasBtn.innerHTML = traducciones[idioma]?.verNotas || 'Notes';
+  }
 }
+
 
 function configurarDecoracionReloj() {
   const decoracionActiva = localStorage.getItem('decoracionReloj') !== 'false';
@@ -95,7 +214,6 @@ function agregarEventoGuardarFondo() {
     }
   });
 }
-
 function configurarFavoritos() {
   function mostrarFavoritos() {
     const favoritos = obtenerDeLocalStorage('favoritos');
@@ -130,6 +248,7 @@ function configurarFavoritos() {
       eliminarBtn.style.height = '30px';
       eliminarBtn.style.opacity = '0';
       eliminarBtn.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out';
+      eliminarBtn.style.cursor = 'pointer'; // Added cursor: pointer on hover
       eliminarBtn.addEventListener('click', () => {
         favoritos.splice(index, 1);
         guardarEnLocalStorage('favoritos', favoritos);
@@ -285,20 +404,18 @@ function configurarNotas() {
   });
 
   elementos.verNotasBtn.addEventListener('click', () => {
-    elementos.menuNotas.classList.toggle('oculto');
-    elementos.appContainer.classList.toggle('oculto'); // Mostrar/ocultar app-container
+    elementos.menuNotas.classList.toggle('visible');
   });
 
   elementos.cerrarMenuBtn.addEventListener('click', () => {
-    elementos.menuNotas.classList.add('oculto');
-    elementos.appContainer.classList.add('oculto'); // Ocultar app-container
+    elementos.menuNotas.classList.remove('visible');
   });
 
   elementos.crearNotaBtn.addEventListener('click', () => {
     elementos.tituloNota.value = '';
     elementos.contenidoNota.value = '';
     elementos.eliminarNotaBtn.classList.add('oculto');
-    elementos.menuNotas.classList.remove('oculto');
+    elementos.menuNotas.classList.add('visible');
   });
 
   mostrarNotas();
