@@ -360,14 +360,19 @@ function configurarBuscador() {
   });
 }
 
+// Función para cargar las notas
 function configurarNotas() {
   let notas = obtenerDeLocalStorage('notas');
+  let notaEditando = null;
 
   function mostrarNotas() {
     elementos.notasPestanas.innerHTML = '';
     notas.forEach((nota, index) => {
       const notaElem = document.createElement('div');
       notaElem.classList.add('nota-pestana');
+      if (nota.destacada) {
+        notaElem.classList.add('destacada'); // Resaltar las notas destacadas
+      }
       notaElem.textContent = nota.titulo;
       notaElem.addEventListener('click', () => editarNota(index));
       elementos.notasPestanas.appendChild(notaElem);
@@ -378,17 +383,35 @@ function configurarNotas() {
     const nota = notas[index];
     elementos.tituloNota.value = nota.titulo;
     elementos.contenidoNota.value = nota.contenido;
+    elementos.destacarNotaCheckbox.checked = nota.destacada;  // Sincronizar estado de "destacada"
     elementos.eliminarNotaBtn.classList.remove('oculto');
+    notaEditando = index;
   }
 
   elementos.guardarNotaBtn.addEventListener('click', () => {
-    const nuevaNota = {
-      titulo: elementos.tituloNota.value,
-      contenido: elementos.contenidoNota.value,
-    };
-    notas.push(nuevaNota);
+    const titulo = elementos.tituloNota.value.trim();
+    const contenido = elementos.contenidoNota.value.trim();
+    const destacada = elementos.destacarNotaCheckbox.checked;
+
+    if (!titulo) {
+      alert('La nota debe tener un título.');
+      return;
+    }
+
+    const nuevaNota = { titulo, contenido, destacada };
+
+    if (notaEditando !== null) {
+      notas[notaEditando] = nuevaNota;
+      notaEditando = null;
+    } else {
+      notas.push(nuevaNota);
+    }
+
     guardarEnLocalStorage('notas', notas);
     mostrarNotas();
+    elementos.tituloNota.value = '';
+    elementos.contenidoNota.value = '';
+    elementos.eliminarNotaBtn.classList.add('oculto');
   });
 
   elementos.eliminarNotaBtn.addEventListener('click', () => {
