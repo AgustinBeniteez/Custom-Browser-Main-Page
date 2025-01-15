@@ -5,8 +5,8 @@
     --color-modelight1:  #e2e2e2cc;
     --color-letraswhite: #ffffff;
     --color-letrasdark: #161616;
-    --color-botones: #772c64;
-    --color-botones-hover: #b15bb1;
+    --color-botones: hsl(320, 50%, 40%); /* Ejemplo de color en HSL */
+    --color-botones-hover: hsl(320, 50%, 30%); /* 10% más oscuro */
 }
 
 /* Estilos generales */
@@ -129,9 +129,8 @@ h1 {
 
 /* Estilo del botón al hacer hover (animación de borde y cambio de color) */
 .search-form button:hover {
-    background-color: var(--color-botones-hover); /* Cambio de color del botón */
+    background-color: var(--color-botones-hover); /* Color más oscuro */
     box-shadow: inset 0 0 0 2px var(--color-botones); /* Borde animado al hacer hover */
-    
 }
 
 /* Estilos para el popup */
@@ -829,20 +828,17 @@ background-color: #888;
     text-overflow: ellipsis; /* Agregar puntos suspensivos si el texto se corta */
 }
 
-
 #ver-notas-btn {
     border-radius: 30px;
     color: var(--color-letraswhite);
-    background-color:var(--color-botones);
+    background-color: var(--color-botones);
     padding: 10px 20px;
     border: 1px solid var(--color-botones);
     transition: background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 #ver-notas-btn:hover {
-    border-radius: 30px;
-    background-color: var(--color-botones-hover);
-    padding: 10px 20px;
+    background-color: rgba(119, 44, 100, 0.8); /* 80% de opacidad del color original */
     box-shadow: inset 0 0 0 2px var(--color-botones); /* Borde animado al hacer hover */
 }
 

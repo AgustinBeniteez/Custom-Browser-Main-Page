@@ -468,7 +468,6 @@ function configurarNotas() {
      alert('Selecciona una nota para exportar.');
    }
  });
-
  mostrarNotas();
 }
 
@@ -527,17 +526,46 @@ function configurarPopups() {
     configurarFavoritos(); // Para actualizar los colores de los favoritos
   });
 
-  elementos.colorTemaInput.addEventListener('input', (e) => {
-    const color = e.target.value;
-    document.documentElement.style.setProperty('--color-botones', color);
-    guardarEnLocalStorage('colorBotones', color);
-  });
+// Cargar el color guardado desde el localStorage al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+  const colorGuardado = localStorage.getItem('colorBotones');
+  const colorMasOscuroGuardado = localStorage.getItem('colorBotonesHover');
+  if (colorGuardado) {
+    document.documentElement.style.setProperty('--color-botones', colorGuardado);
+    elementos.colorTemaInput.value = colorGuardado;
+  }
+  if (colorMasOscuroGuardado) {
+    document.documentElement.style.setProperty('--color-botones-hover', JSON.parse(colorMasOscuroGuardado));
+  }
+});
 
-  elementos.decoracionRelojCheckbox.addEventListener('change', (e) => {
-    const activada = e.target.checked;
-    localStorage.setItem('decoracionReloj', activada);
-    actualizarDecoracionReloj(activada);
-  });
+// Función para calcular un color más oscuro
+function calcularColorMasOscuro(color, porcentaje) {
+  const f = parseInt(color.slice(1), 16);
+  const t = porcentaje < 0 ? 0 : 255;
+  const p = porcentaje < 0 ? porcentaje * -1 : porcentaje;
+  const R = f >> 16;
+  const G = (f >> 8) & 0x00FF;
+  const B = f & 0x0000FF;
+  return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+}
+
+elementos.colorTemaInput.addEventListener('input', (e) => {
+  const color = e.target.value;
+  const colorMasOscuro = calcularColorMasOscuro(color, -0.2); // 20% más oscuro
+  document.documentElement.style.setProperty('--color-botones', color);
+  document.documentElement.style.setProperty('--color-botones-hover', colorMasOscuro);
+  guardarEnLocalStorage('colorBotones', color);
+  guardarEnLocalStorage('colorBotonesHover', colorMasOscuro);
+});
+
+const guardarEnLocalStorage = (clave, valor) => localStorage.setItem(clave, JSON.stringify(valor));
+
+elementos.decoracionRelojCheckbox.addEventListener('change', (e) => {
+  const activada = e.target.checked;
+  localStorage.setItem('decoracionReloj', activada);
+  actualizarDecoracionReloj(activada);
+});
 
   elementos.fondoPredeterminado.forEach(img => {
     img.addEventListener('click', () => {
@@ -564,6 +592,5 @@ function inicializar() {
   configurarPopups();
   aplicarModoOscuro(); // Aplicar modo oscuro al cargar la página
 }
-
 // EJECUCIÓN
 inicializar();
