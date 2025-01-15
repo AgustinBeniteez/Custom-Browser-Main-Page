@@ -165,7 +165,6 @@ h1 {
     /* background-color: var(--color-modelight1); */
     margin: 0;
     padding: 20px;
-    border: 1px solid #888;
     height: 95%;
     border-radius: 8px;
 }
@@ -262,7 +261,7 @@ h1 {
 .ajustes-btn{
     background-color: transparent;
     border: none;
-    color: white;
+    color: var(--color-letrasdark);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;

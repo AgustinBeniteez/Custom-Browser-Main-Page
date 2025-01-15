@@ -359,7 +359,6 @@ function configurarBuscador() {
     realizarBusqueda();
   });
 }
-
 // Función para cargar las notas
 function configurarNotas() {
   let notas = obtenerDeLocalStorage('notas');
@@ -373,7 +372,7 @@ function configurarNotas() {
       if (nota.destacada) {
         notaElem.classList.add('destacada'); // Resaltar las notas destacadas
       }
-      notaElem.textContent = nota.titulo;
+      notaElem.textContent = `${nota.titulo} (${nota.fecha})`;
       notaElem.addEventListener('click', () => editarNota(index));
       elementos.notasPestanas.appendChild(notaElem);
     });
@@ -392,13 +391,14 @@ function configurarNotas() {
     const titulo = elementos.tituloNota.value.trim();
     const contenido = elementos.contenidoNota.value.trim();
     const destacada = elementos.destacarNotaCheckbox.checked;
+    const fecha = new Date().toLocaleString();
 
     if (!titulo) {
       alert('La nota debe tener un título.');
       return;
     }
 
-    const nuevaNota = { titulo, contenido, destacada };
+    const nuevaNota = { titulo, contenido, destacada, fecha };
 
     if (notaEditando !== null) {
       notas[notaEditando] = nuevaNota;
@@ -441,7 +441,35 @@ function configurarNotas() {
     elementos.menuNotas.classList.add('visible');
   });
 
-  mostrarNotas();
+ // Aquí agregamos la funcionalidad para exportar la nota
+ const exportarNotaBtn = document.getElementById('exportar-nota-btn');
+ exportarNotaBtn.addEventListener('click', () => {
+   if (notaEditando !== null) {
+     const nota = notas[notaEditando];
+     const texto = `Título: ${nota.titulo}\n\nContenido:\n${nota.contenido}\n\nFecha: ${nota.fecha}`;
+
+     // Crear un Blob con el contenido de la nota
+     const blob = new Blob([texto], { type: 'text/plain' });
+
+     // Crear una URL para descargar el Blob
+     const url = URL.createObjectURL(blob);
+
+     // Crear un enlace para descargar el archivo
+     const enlace = document.createElement('a');
+     enlace.href = url;
+     enlace.download = `${nota.titulo}.txt`;
+
+     // Simular el clic en el enlace para iniciar la descarga
+     enlace.click();
+
+     // Revocar la URL creada
+     URL.revokeObjectURL(url);
+   } else {
+     alert('Selecciona una nota para exportar.');
+   }
+ });
+
+ mostrarNotas();
 }
 
 function aplicarModoOscuro() {
@@ -483,6 +511,12 @@ function configurarPopups() {
   elementos.buscadorSelect.addEventListener('change', (e) => {
     localStorage.setItem('buscadorSeleccionado', e.target.value);
   });
+
+  // Mantener seleccionado el buscador al recargar la página
+  const buscadorSeleccionado = localStorage.getItem('buscadorSeleccionado');
+  if (buscadorSeleccionado) {
+    elementos.buscadorSelect.value = buscadorSeleccionado;
+  }
 
   elementos.modoOscuroCheckbox.addEventListener('change', (e) => {
     const activar = e.target.checked;
