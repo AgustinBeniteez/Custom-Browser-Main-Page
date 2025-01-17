@@ -5,7 +5,7 @@
     --color-modelight1:  #e2e2e2cc;
     --color-letraswhite: #ffffff;
     --color-letrasdark: #161616;
-    --color-botones: hsl(320, 50%, 40%); /* Ejemplo de color en HSL */
+    --color-botones: hsl(320, 50%, 40%); 
     --color-botones-hover: hsl(320, 50%, 30%); /* 10% más oscuro */
 }
 
