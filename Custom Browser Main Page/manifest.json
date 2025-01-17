@@ -4,7 +4,6 @@
   "description": "Custom Browser Main Page you can add image for you wallpaper by AgusTheKing",
   "version": "1.0",
   "permissions": [
-    "storage",
     "activeTab",
     "scripting"
   ],
