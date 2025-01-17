@@ -526,19 +526,17 @@ function configurarPopups() {
     configurarFavoritos(); // Para actualizar los colores de los favoritos
   });
 
-// Cargar el color guardado desde el localStorage al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-  const colorGuardado = localStorage.getItem('colorBotones');
-  const colorMasOscuroGuardado = localStorage.getItem('colorBotonesHover');
-  if (colorGuardado) {
-    document.documentElement.style.setProperty('--color-botones', colorGuardado);
-    elementos.colorTemaInput.value = colorGuardado;
-  }
-  if (colorMasOscuroGuardado) {
-    document.documentElement.style.setProperty('--color-botones-hover', JSON.parse(colorMasOscuroGuardado));
-  }
-});
-
+  document.addEventListener('DOMContentLoaded', () => {
+    const colorGuardado = localStorage.getItem('colorBotones');
+    const colorMasOscuroGuardado = localStorage.getItem('colorBotonesHover');
+    if (colorGuardado) {
+      document.documentElement.style.setProperty('--color-botones', colorGuardado);
+      elementos.colorTemaInput.value = colorGuardado;
+    }
+    if (colorMasOscuroGuardado) {
+      document.documentElement.style.setProperty('--color-botones-hover', colorMasOscuroGuardado);
+    }
+  });
 // Función para calcular un color más oscuro
 function calcularColorMasOscuro(color, porcentaje) {
   const f = parseInt(color.slice(1), 16);
@@ -555,8 +553,8 @@ elementos.colorTemaInput.addEventListener('input', (e) => {
   const colorMasOscuro = calcularColorMasOscuro(color, -0.2); // 20% más oscuro
   document.documentElement.style.setProperty('--color-botones', color);
   document.documentElement.style.setProperty('--color-botones-hover', colorMasOscuro);
-  guardarEnLocalStorage('colorBotones', color);
-  guardarEnLocalStorage('colorBotonesHover', colorMasOscuro);
+  localStorage.setItem('colorBotones', color);
+  localStorage.setItem('colorBotonesHover', colorMasOscuro);
 });
 
 const guardarEnLocalStorage = (clave, valor) => localStorage.setItem(clave, JSON.stringify(valor));
