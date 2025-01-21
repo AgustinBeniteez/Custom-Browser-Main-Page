@@ -1,3 +1,6 @@
-Agustin Benietez Lopez
-es 
+dev Agustin Benietez Lopez
+About me:
 https://agustinbeniteez.github.io/aboutmeAgus/
+
+and more proyects:
+https://github.com/AgustinBeniteez
