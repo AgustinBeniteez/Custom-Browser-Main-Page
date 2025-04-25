@@ -31,6 +31,21 @@ class TranslationManager {
         }
     }
 
+    createIconElement(className) {
+        const icon = document.createElement('i');
+        icon.className = className;
+        return icon;
+    }
+
+    setElementContent(element, text, iconClass = null) {
+        element.textContent = '';
+        element.textContent = text;
+        if (iconClass) {
+            element.appendChild(document.createTextNode(' '));
+            element.appendChild(this.createIconElement(iconClass));
+        }
+    }
+
     updateLanguage(language) {
         if (!this.translations || !this.translations[language]) return;
         
@@ -53,7 +68,7 @@ class TranslationManager {
         // Traducir elementos del menú de notas
         const notatitle = document.querySelector('.notatitle');
         if (notatitle) {
-            notatitle.innerHTML = `${this.translations[language]?.verNotas || 'Notes'} <i class="fa-regular fa-note-sticky"></i>`;
+            this.setElementContent(notatitle, this.translations[language]?.verNotas || 'Notes', 'fa-regular fa-note-sticky');
         }
 
         const noteDetails = document.querySelector('.note-details');
@@ -73,38 +88,44 @@ class TranslationManager {
 
         const destacarNotaCheckboxLabel = document.querySelector('.destacar-notachekbox label');
         if (destacarNotaCheckboxLabel) {
-            destacarNotaCheckboxLabel.innerHTML = `<input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;${this.translations[language]?.destacarNota || 'Pin Note'}`;
+            destacarNotaCheckboxLabel.textContent = '';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'destacar-nota';
+            destacarNotaCheckboxLabel.appendChild(checkbox);
+            destacarNotaCheckboxLabel.appendChild(this.createIconElement('fa-solid fa-thumbtack'));
+            destacarNotaCheckboxLabel.appendChild(document.createTextNode(' ' + (this.translations[language]?.destacarNota || 'Pin Note')));
         }
 
         const eliminarNotaBtn = document.getElementById('eliminar-nota-btn');
         if (eliminarNotaBtn) {
-            eliminarNotaBtn.innerHTML = `${this.translations[language]?.eliminarNota || 'Delete Note'} <i class="fa-solid fa-trash"></i>`;
+            this.setElementContent(eliminarNotaBtn, this.translations[language]?.eliminarNota || 'Delete Note', 'fa-solid fa-trash');
         }
 
         const exportarNotaBtn = document.getElementById('exportar-nota-btn');
         if (exportarNotaBtn) {
-            exportarNotaBtn.innerHTML = `${this.translations[language]?.exportarNota || 'Export Note'} &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i>`;
+            this.setElementContent(exportarNotaBtn, this.translations[language]?.exportarNota || 'Export Note', 'fa-solid fa-file-arrow-down fa-lg');
         }
 
         const fechaNotaLabel = document.querySelector('label[for="fecha-nota"]');
         if (fechaNotaLabel) {
-            fechaNotaLabel.innerHTML = this.translations[language]?.important_date || 'Important Date (Optional)';
+            fechaNotaLabel.textContent = this.translations[language]?.important_date || 'Important Date (Optional)';
         }
 
         const guardarNotaBtn = document.getElementById('guardar-nota-btn');
         if (guardarNotaBtn) {
-            guardarNotaBtn.innerHTML = `${this.translations[language]?.guardarNota || 'Save Note'} <i class="fa-solid fa-floppy-disk"></i>`;
+            this.setElementContent(guardarNotaBtn, this.translations[language]?.guardarNota || 'Save Note', 'fa-solid fa-floppy-disk');
         }
 
         const cerrarMenuBtn = document.getElementById('cerrar-menu-btn');
         if (cerrarMenuBtn) {
-            cerrarMenuBtn.innerHTML = this.translations[language]?.cerrarMenu || 'Close';
+            cerrarMenuBtn.textContent = this.translations[language]?.cerrarMenu || 'Close';
         }
 
         // Traducir elementos del popup agregar-favorito
         const agregarFavoritoTitulo = document.querySelector('#agregar-favorito h3');
         if (agregarFavoritoTitulo) {
-            agregarFavoritoTitulo.innerHTML = this.translations[language]?.agregarFavorito || 'Add to Favorites';
+            agregarFavoritoTitulo.textContent = this.translations[language]?.agregarFavorito || 'Add to Favorites';
         }
 
         const nombreFavorito = document.getElementById('nombre-favorito');
@@ -119,54 +140,54 @@ class TranslationManager {
 
         const agregarBtn = document.getElementById('agregar-btn');
         if (agregarBtn) {
-            agregarBtn.innerHTML = this.translations[language]?.agregarBtn || 'Add';
+            agregarBtn.textContent = this.translations[language]?.agregarBtn || 'Add';
         }
 
         const cerrarPopupFavorito = document.getElementById('cerrar-popup-favorito');
         if (cerrarPopupFavorito) {
-            cerrarPopupFavorito.innerHTML = this.translations[language]?.cerrarPopup || 'Close';
+            cerrarPopupFavorito.textContent = this.translations[language]?.cerrarPopup || 'Close';
         }
 
         // Traducir elementos del popup de ajustes
         const ajustesTitulo = document.querySelector('#ajustes-titulo');
         if (ajustesTitulo) {
-            ajustesTitulo.innerHTML = this.translations[language]?.ajustes || 'Settings';
+            ajustesTitulo.textContent = this.translations[language]?.ajustes || 'Settings';
         }
 
         const idiomaLabel = document.querySelector('label[for="idioma"]');
         if (idiomaLabel) {
-            idiomaLabel.innerHTML = this.translations[language]?.idioma || 'Select Language:';
+            idiomaLabel.textContent = this.translations[language]?.idioma || 'Select Language:';
         }
 
         const buscadorLabel = document.querySelector('label[for="buscador"]');
         if (buscadorLabel) {
-            buscadorLabel.innerHTML = this.translations[language]?.buscador || 'Select Search Engine:';
+            buscadorLabel.textContent = this.translations[language]?.buscador || 'Select Search Engine:';
         }
 
         const fondoUrlLabel = document.querySelector('label[for="fondo-url"]');
         if (fondoUrlLabel) {
-            fondoUrlLabel.innerHTML = this.translations[language]?.guardarFondo || 'Save Background';
+            fondoUrlLabel.textContent = this.translations[language]?.guardarFondo || 'Save Background';
         }
 
         const modoOscuroLabel = document.querySelector('label[for="modo-oscuro"]');
         if (modoOscuroLabel) {
-            modoOscuroLabel.innerHTML = this.translations[language]?.modoOscuro || 'Dark Mode:';
+            modoOscuroLabel.textContent = this.translations[language]?.modoOscuro || 'Dark Mode:';
         }
 
         const colorTemaLabel = document.querySelector('label[for="color-tema"]');
         if (colorTemaLabel) {
-            colorTemaLabel.innerHTML = this.translations[language]?.colorTema || 'Theme Color:';
+            colorTemaLabel.textContent = this.translations[language]?.colorTema || 'Theme Color:';
         }
 
         const decoracionRelojLabel = document.querySelector('label[for="decoracion-reloj"]');
         if (decoracionRelojLabel) {
-            decoracionRelojLabel.innerHTML = this.translations[language]?.decoracionReloj || 'Clock Decoration:';
+            decoracionRelojLabel.textContent = this.translations[language]?.decoracionReloj || 'Clock Decoration:';
         }
 
         // Traducir botón ver-notas
         const verNotasBtn = document.getElementById('ver-notas-btn');
         if (verNotasBtn) {
-            verNotasBtn.innerHTML = this.translations[language]?.verNotas || 'Notes';
+            verNotasBtn.textContent = this.translations[language]?.verNotas || 'Notes';
         }
 
         // Disparar evento de cambio de idioma

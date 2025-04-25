@@ -40,6 +40,12 @@ class SettingsManager {
 
     // Eventos para fondos predeterminados
     document.querySelectorAll('.fondo-predeterminado img').forEach(img => {
+      img.addEventListener('error', () => {
+        const fallbackSrc = img.dataset.fallback;
+        if (fallbackSrc) {
+          img.src = fallbackSrc;
+        }
+      });
       img.addEventListener('click', () => this.updateBackground(img.dataset.image));
     });
   }

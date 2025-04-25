@@ -91,11 +91,20 @@ class NotesManager {
   createFeaturedNoteElement(note) {
     const featuredElement = document.createElement('div');
     featuredElement.classList.add('nota-destacada');
-    featuredElement.innerHTML = `
-      <strong>${note.titulo}</strong>
-      <p>${note.contenido}</p>
-      <span>${note.fecha}</span>
-    `;
+    
+    const titleElement = document.createElement('strong');
+    titleElement.textContent = note.titulo;
+    
+    const contentElement = document.createElement('p');
+    contentElement.textContent = note.contenido;
+    
+    const dateElement = document.createElement('span');
+    dateElement.textContent = note.fecha;
+    
+    featuredElement.appendChild(titleElement);
+    featuredElement.appendChild(contentElement);
+    featuredElement.appendChild(dateElement);
+    
     return featuredElement;
   }
 

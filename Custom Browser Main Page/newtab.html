@@ -22,7 +22,7 @@
   <div class="search-container">
     <form id="search-form" action="https://www.google.com/search" method="get" class="search-form">
       <input type="text" id="search-input" name="q" placeholder="Search..." />
-      <button type="submit" id="search-button" onclick="buscar()">
+      <button type="submit" id="search-button">
         <i class="fa-sharp-duotone fa-solid fa-magnifying-glass"></i>
       </button>
     </form>
@@ -112,8 +112,7 @@
             <label>Choose a background:</label>
             <img src="./fondos/background1.png" alt="Background 1" data-image="./fondos/background1.png">
             <img src="./fondos/background2.png" alt="Background 2" data-image="./fondos/background2.png">
-            <img src="./fondos/background3.gif" alt="Background 3" data-image="./fondos/background3.gif"
-              onerror="this.onerror=null; this.src='./fondos/background3.png';">
+            <img src="./fondos/background3.gif" alt="Background 3" data-image="./fondos/background3.gif" data-fallback="./fondos/background3.png">
           </div>
           <label for="fondo-url">Or introduce a background URL (GIF/PNG):</label>
           <input type="url" id="fondo-url" placeholder="https://example.com/background.png">

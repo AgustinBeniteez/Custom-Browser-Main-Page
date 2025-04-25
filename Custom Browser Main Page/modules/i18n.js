@@ -51,6 +51,21 @@ class I18nManager {
     this.updateSettingsTranslations();
   }
 
+  createIconElement(className) {
+    const icon = document.createElement('i');
+    icon.className = className;
+    return icon;
+  }
+
+  setElementContent(element, text, iconClass = null) {
+    element.textContent = '';
+    element.textContent = text;
+    if (iconClass) {
+      element.appendChild(document.createTextNode(' '));
+      element.appendChild(this.createIconElement(iconClass));
+    }
+  }
+
   updateNotesTranslations() {
     const elements = {
       notatitle: '.notatitle',
@@ -71,19 +86,25 @@ class I18nManager {
       if (element) {
         switch (key) {
           case 'notatitle':
-            element.innerHTML = `${this.translate('verNotas')} <i class="fa-regular fa-note-sticky"></i>`;
+            this.setElementContent(element, this.translate('verNotas'), 'fa-regular fa-note-sticky');
             break;
           case 'destacarNotaLabel':
-            element.innerHTML = `<input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;${this.translate('destacarNota')}`;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'destacar-nota';
+            element.textContent = '';
+            element.appendChild(checkbox);
+            element.appendChild(this.createIconElement('fa-solid fa-thumbtack'));
+            element.appendChild(document.createTextNode(' ' + this.translate('destacarNota')));
             break;
           case 'eliminarNotaBtn':
-            element.innerHTML = `${this.translate('eliminarNota')} <i class="fa-solid fa-trash"></i>`;
+            this.setElementContent(element, this.translate('eliminarNota'), 'fa-solid fa-trash');
             break;
           case 'exportarNotaBtn':
-            element.innerHTML = `${this.translate('exportarNota')} &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i>`;
+            this.setElementContent(element, this.translate('exportarNota'), 'fa-solid fa-file-arrow-down fa-lg');
             break;
           case 'guardarNotaBtn':
-            element.innerHTML = `${this.translate('guardarNota')} <i class="fa-solid fa-floppy-disk"></i>`;
+            this.setElementContent(element, this.translate('guardarNota'), 'fa-solid fa-floppy-disk');
             break;
           default:
             if (element.placeholder !== undefined) {
@@ -112,7 +133,7 @@ class I18nManager {
         if (element.placeholder !== undefined) {
           element.placeholder = this.translate(key);
         } else {
-          element.innerHTML = this.translate(key);
+          element.textContent = this.translate(key);
         }
       }
     });
@@ -132,7 +153,7 @@ class I18nManager {
     Object.entries(elements).forEach(([key, selector]) => {
       const element = document.querySelector(selector);
       if (element) {
-        element.innerHTML = this.translate(key.replace('Label', ''));
+        element.textContent = this.translate(key.replace('Label', ''));
       }
     });
   }
