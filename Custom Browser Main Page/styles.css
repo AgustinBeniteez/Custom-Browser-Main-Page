@@ -268,7 +268,7 @@ h1 {
 .ajustes-btn{
     background-color: transparent;
     border: none;
-    color: var(--color-letrasdark);
+    color: var(--color-botones);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -352,6 +352,10 @@ h1 {
     position: relative; /* Para posicionar el botón de eliminar */
 }
 
+.favoritos-item:hover .boton-eliminar {
+    opacity: 1; /* Opacidad completa al hacer hover sobre el elemento favorito */
+}
+
 
 .favoritos-item img {
     width: 40px;
@@ -380,7 +384,8 @@ h1 {
     font-size: 16px; /* Tamaño del ícono del botón */
     color: red; /* Color del botón de eliminar */
     cursor: pointer;
-    transition: transform 0.3s ease; 
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.2; /* Opacidad inicial baja */
   }
   .boton-eliminar:hover {
     transform: scale(1.2); /* Hace que el logo crezca un 20% */
@@ -858,6 +863,11 @@ background-color: #888;
 
 #menu-notas.visible {
     display: flex; /* Mostrar cuando tenga la clase 'visible' */
+}
+
+/* Estilo hover para el botón de eliminar */
+button:has(.fa-trash):hover {
+    opacity: 1 !important;
 }
 
 #titulo-nota{
