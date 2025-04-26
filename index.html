@@ -256,6 +256,38 @@
             position: relative;
         }
 
+        /* Estilos para el popup de descarga */
+        .download-popup {
+            max-width: 25rem;
+            text-align: center;
+        }
+
+        .download-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1.5rem;
+        }
+
+        .browser-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            padding: 1rem;
+        }
+
+        .browser-option:hover {
+            transform: scale(1.1);
+        }
+
+        .browser-icon {
+            width: 4rem;
+            height: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
         .close-btn {
             background: transparent;
             color: #fff;
@@ -307,7 +339,7 @@
     <!-- Navegación fija -->
     <nav>
        <a href=""> <div class="nav-button">Home</div></a>
-       <a href="https://chromewebstore.google.com/category/extensions"> <div class="nav-button">Download</div></a>
+       <div class="nav-button" onclick="toggleDownloadPopup()">Download</div>
        <a href="aboutme.html"> <div class="nav-button">About Me</div></a>
        <div class="nav-button" class="contact-btn" onclick="togglePopup()">Contact</div>
     </nav>
@@ -347,7 +379,7 @@
 
         <h1 class="title">Custom Browser <br><span class="main_page_txt">Main Page</span></h1>
         
-        <a href="https://chromewebstore.google.com/category/extensions" class="download-btn">Download free</a>
+        <a href="javascript:void(0)" onclick="toggleDownloadPopup()" class="download-btn">Download free</a>
 
         <!-- Iframe que carga el archivo externo -->
         <div class="main-box">
@@ -366,10 +398,34 @@
                 </iframe>
             </div>
         </div>
+
+        <!-- Pop-up de descarga -->
+        <div class="popup-overlay" id="downloadPopupOverlay">
+            <div class="popup download-popup">
+                <button class="close-btn" onclick="toggleDownloadPopup()">✖</button>
+                <h2>Descargar Extensión</h2>
+                <div class="download-options">
+                    <a href="https://chromewebstore.google.com/category/extensions" class="browser-option" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome" class="browser-icon">
+                        <span>Chrome</span>
+                    </a>
+                    <a href="https://addons.mozilla.org/es/firefox/" class="browser-option" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="Firefox" class="browser-icon">
+                        <span>Firefox</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     <script>
-   // Función para mostrar/ocultar el popup
+   // Función para mostrar/ocultar el popup de contacto
         function togglePopup() {
             const popup = document.getElementById('popupOverlay');
+            popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Función para mostrar/ocultar el popup de descarga
+        function toggleDownloadPopup() {
+            const popup = document.getElementById('downloadPopupOverlay');
             popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
         }
 

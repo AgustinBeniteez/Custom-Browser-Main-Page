@@ -13,6 +13,72 @@
             box-sizing: border-box;
             text-decoration: none;
         }
+        /* Estilos para el popup */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .popup {
+            background: #333;
+            padding: 1.25rem;
+            width: 90%;
+            max-width: 31.25rem;
+            border-radius: 0.625rem;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+            color: #fff;
+            position: relative;
+        }
+
+        .download-popup {
+            max-width: 25rem;
+            text-align: center;
+        }
+
+        .download-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1.5rem;
+        }
+
+        .browser-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            padding: 1rem;
+        }
+
+        .browser-option:hover {
+            transform: scale(1.1);
+        }
+
+        .browser-icon {
+            width: 4rem;
+            height: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .close-btn {
+            background: transparent;
+            color: #fff;
+            font-size: 1.5rem;
+            position: absolute;
+            top: 0.625rem;
+            right: 0.9375rem;
+            border: none;
+            cursor: pointer;
+        }
         /* Estilos generales */
         body {
             background-color: #121212;
@@ -166,7 +232,7 @@
 <body>
     <nav>
         <a href="/Custom-Browser-Main-Page/index.html"><div class="nav-button">Home</div></a>
-        <a href="https://chromewebstore.google.com/category/extensions"><div class="nav-button">Download</div></a>
+        <div class="nav-button" onclick="toggleDownloadPopup()">Download</div>
         <a href="aboutme.html"><div class="nav-button">About Me</div></a>
     </nav>
 
@@ -185,7 +251,7 @@
         <div class="projects-section">
             <a href="https://enmamanualidades.github.io/">
                 <div class="project-card">
-                    <img src="https://agustinbeniteez.github.io/aboutmeAgus/projectenma.webp" alt="Project Image">
+                    <img src="https://enmamanualidades.github.io/src/EnmaManualidadesBaner.png" alt="Project Image">
                     <div class="project-card-content">
                         <div class="project-title">Enma Manualidades</div>
                         <div class="project-tags">Tags: e-commerce website</div>
@@ -193,9 +259,9 @@
                     </div>
                 </div>
             </a>
-            <a href="https://agustinbeniteez.github.io/">
+            <a href="https://elementscssdaj.github.io">
                 <div class="project-card">
-                    <img src="https://agustinbeniteez.github.io/aboutmeAgus/projectelements.webp" alt="Project Image">
+                    <img src="https://elementscssdaj.github.io/Aboutme/Elementscssdaj.webp" alt="Project Image">
                     <div class="project-card-content">
                         <div class="project-title">Elements CSS DAJ</div>
                         <div class="project-tags">Tags: Developer website</div>
@@ -215,5 +281,30 @@
             </a>
         </div>
     </div>
+    <!-- Pop-up de descarga -->
+    <div class="popup-overlay" id="downloadPopupOverlay">
+        <div class="popup download-popup">
+            <button class="close-btn" onclick="toggleDownloadPopup()">✖</button>
+            <h2>Descargar Extensión</h2>
+            <div class="download-options">
+                <a href="https://chromewebstore.google.com/category/extensions" class="browser-option" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome" class="browser-icon">
+                    <span>Chrome</span>
+                </a>
+                <a href="https://addons.mozilla.org/es/firefox/" class="browser-option" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="Firefox" class="browser-icon">
+                    <span>Firefox</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para mostrar/ocultar el popup de descarga
+        function toggleDownloadPopup() {
+            const popup = document.getElementById('downloadPopupOverlay');
+            popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
 </body>
 </html>
