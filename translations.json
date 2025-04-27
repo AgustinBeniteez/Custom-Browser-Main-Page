@@ -4,7 +4,7 @@
       "home": "Home",
       "download": "Download",
       "aboutMe": "About Me",
-      "contact": "Contact"
+      "contact": "Home"
     },
     "hero": {
       "title": "Custom Browser",
@@ -58,7 +58,7 @@
       "home": "Inicio",
       "download": "Descargar",
       "aboutMe": "Sobre Mí",
-      "contact": "Contacto"
+      "contact": "Inicio"
     },
     "hero": {
       "title": "Custom Browser",
@@ -112,7 +112,7 @@
       "home": "Accueil",
       "download": "Télécharger",
       "aboutMe": "À Propos",
-      "contact": "Contact"
+      "contact": "Accueil"
     },
     "hero": {
       "title": "Custom Browser",
@@ -166,7 +166,7 @@
       "home": "홈",
       "download": "다운로드",
       "aboutMe": "소개",
-      "contact": "연락처"
+      "contact": "홈"
     },
     "hero": {
       "title": "커스텀 브라우저",

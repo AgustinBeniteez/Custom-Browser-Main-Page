@@ -29,9 +29,12 @@ async function loadTranslations() {
 function applyTranslations() {
     const currentLang = getUserLanguage();
     const currentTranslations = translations[currentLang];
+    
+    // Sincronizar el selector de idioma con el idioma actual
+    document.querySelector('.language-selector select').value = currentLang;
 
     // Traducir la navegación
-    document.querySelector('nav a:first-child div').textContent = currentTranslations.nav.home;
+    document.querySelector('nav a:first-child div').textContent = 'Home';  // Mantenemos "Home" fijo
     document.querySelector('nav div:nth-child(2)').textContent = currentTranslations.nav.download;
     document.querySelector('nav a:nth-child(3) div').textContent = currentTranslations.nav.aboutMe;
     document.querySelector('nav div:last-child').textContent = currentTranslations.nav.contact;
@@ -83,6 +86,8 @@ function applyTranslations() {
 // Función para cambiar el idioma manualmente
 function changeLanguage(lang) {
     localStorage.setItem('userLanguage', lang);
+    // Actualizar el selector de idioma
+    document.querySelector('.language-selector select').value = lang;
     applyTranslations();
 }
 
