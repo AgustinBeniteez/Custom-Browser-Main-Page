@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="reveal-styles.css">
     <link rel="stylesheet" href="css/language-selector.css">
+    <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
     <script src="js/translations.js"></script>
@@ -147,6 +148,19 @@
                 <a href="javascript:void(0)" onclick="toggleDownloadPopup()" class="download-btn" style="margin-bottom: 2rem; margin-top: 2rem;">Download free</a>
             </div>
         </div>
+        
+        <footer class="site-footer" style="width: 100%; background-color: #333; padding: 20px 0; position: fixed; bottom: 0; left: 0; z-index: 1000;">
+            <div class="footer-content" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                <div class="footer-nav" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 15px;">
+                    <a href="../themes-nav/privacy.html" class="footer-link" style="color: #fff; text-decoration: none;">Política de Privacidad</a>
+                    <a href="../themes-nav/terms.html" class="footer-link" style="color: #fff; text-decoration: none;">Términos y Condiciones</a>
+                    <a href="../themes-nav/cookies.html" class="footer-link" style="color: #fff; text-decoration: none;">Política de Cookies</a>
+                </div>
+                <div class="footer-copyright" style="text-align: center; color: #fff;">
+                    <p>&copy; 2025 Custom Browser Main Page. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </footer>
     </section>
 
         <!-- Pop-up de contacto -->
@@ -179,6 +193,7 @@
                 </div>
             </div>
         </div>
+
     <script>
         // Función para mostrar/ocultar el popup de contacto
         function togglePopup() {
@@ -211,13 +226,19 @@
             // Función para actualizar la navegación
             function updateNavigation() {
                 const scrollPosition = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const isAtBottom = scrollPosition + windowHeight >= documentHeight - 50;
+
                 sections.forEach((section, index) => {
                     const sectionTop = section.offsetTop;
                     const sectionHeight = section.offsetHeight;
                     const dot = navigation.children[index];
+                    const isLastSection = index === sections.length - 1;
 
-                    if (scrollPosition >= sectionTop - sectionHeight / 3 && 
-                        scrollPosition < sectionTop + sectionHeight - sectionHeight / 3) {
+                    if ((isLastSection && isAtBottom) || 
+                        (scrollPosition >= sectionTop - sectionHeight / 3 && 
+                         scrollPosition < sectionTop + sectionHeight - sectionHeight / 3)) {
                         dot.classList.add('active');
                         section.classList.add('active');
                     } else {
