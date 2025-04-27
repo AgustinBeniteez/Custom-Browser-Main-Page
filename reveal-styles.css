@@ -1,0 +1,61 @@
+/* Estilos para reveal.js y navegación */
+.reveal-section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Navegación lateral */
+.reveal-navigation {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reveal-nav-dot {
+    width: 12px;
+    height: 72px;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3 sease;
+}
+
+.reveal-nav-dot.active {
+    background-color: #B486F0;
+    transform: scale(1.1);
+    gap: 1px;
+}
+
+/* Animaciones de transición */
+.reveal-section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+}
+
+.reveal-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .reveal-navigation {
+        right: 10px;
+    }
+    
+    .reveal-nav-dot {
+        width: 8px;
+        height: 8px;
+    }
+}

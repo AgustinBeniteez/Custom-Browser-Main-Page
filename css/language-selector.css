@@ -1,0 +1,47 @@
+.language-selector {
+    margin-left: 1rem;
+    position: absolute;
+    right: 20px;
+  }
+
+.language-selector select {
+    background-color: transparent;
+    border: 1px solid #4da7f3;
+    color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.language-selector select:hover {
+    background-color: rgba(77, 167, 243, 0.1);
+}
+
+.language-selector select:focus {
+    border-color: #b486f0;
+    box-shadow: 0 0 0 2px rgba(180, 134, 240, 0.2);
+}
+
+.language-selector select option {
+    background-color: #121212;
+    color: #ffffff;
+    padding: 0.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .language-selector {
+        margin: 0.5rem 0;
+        position: absolute;
+        right: 20px;
+        top: 50px;
+    }
+
+    .language-selector select {
+        width: 100%;
+        padding: 0.75rem;
+    }
+}

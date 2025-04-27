@@ -1,0 +1,218 @@
+{
+  "en": {
+    "nav": {
+      "home": "Home",
+      "download": "Download",
+      "aboutMe": "About Me",
+      "contact": "Contact"
+    },
+    "hero": {
+      "title": "Custom Browser",
+      "mainPage": "Main Page",
+      "downloadBtn": "Download free",
+      "signature": "by AgustinBenitez"
+    },
+    "features": {
+      "customization": {
+        "title": "Total Customization",
+        "description": "Transform your homepage into a unique space. Customize colors, layouts and widgets to create a workspace that reflects your personal style."
+      },
+      "theme": {
+        "title": "Dark and Light Mode",
+        "description": "Adapt your browser theme to your preference, making your browsing experience as personal as you are."
+      },
+      "favorites": {
+        "title": "Save your favorites",
+        "description": "Keep your favorite links and important notes always at hand. Our intuitive interface helps you keep everything organized and accessible."
+      },
+      "notes": {
+        "title": "Save your notes",
+        "description": "Create and save your notes in an easy-to-find place. This will help you keep your notes organized and accessible."
+      },
+      "download": {
+        "title": "Free Download",
+        "description": "Start customizing your browser today. Download for free and start creating your own workspace."
+      }
+    },
+    "download_popup": {
+      "title": "Download Extension"
+    },
+    "contact_popup": {
+      "title": "Contact Me"
+    },
+    "sidebar": {
+      "notes": "notes",
+      "clock": "clock",
+      "settings": "settings",
+      "favorites": "favorites",
+      "tooltips": {
+        "notes": "View, create, and manage your notes.",
+        "clock": "View the current time:",
+        "settings": "Adjust your preferences and settings.",
+        "favorites": "View and manage your favorite links."
+      }
+    }
+  },
+  "es": {
+    "nav": {
+      "home": "Inicio",
+      "download": "Descargar",
+      "aboutMe": "Sobre Mí",
+      "contact": "Contacto"
+    },
+    "hero": {
+      "title": "Custom Browser",
+      "mainPage": "Main Page",
+      "downloadBtn": "Descarga gratis",
+      "signature": "por AgustinBenitez"
+    },
+    "features": {
+      "customization": {
+        "title": "Personalización Total",
+        "description": "Transforma tu página de inicio en un espacio único. Personaliza colores, diseños y widgets para crear un ambiente de trabajo que refleje tu estilo personal."
+      },
+      "theme": {
+        "title": "Modo oscuro y claro",
+        "description": "Adapta el tema de tu navegador a tu preferencia, para que tu experiencia de navegación sea tan personal como tú."
+      },
+      "favorites": {
+        "title": "Guarda tus favoritos",
+        "description": "Mantén tus enlaces favoritos y notas importantes siempre a mano. Nuestra interfaz intuitiva te ayuda a mantener todo organizado y accesible."
+      },
+      "notes": {
+        "title": "Guarda tus notas",
+        "description": "Crea y guarda tus notas en un lugar fácil de encontrar. Esto te ayudará a mantener tus notas organizadas y accesibles."
+      },
+      "download": {
+        "title": "Descarga Gratuita",
+        "description": "Comienza a personalizar tu navegador hoy mismo. Descarga gratis y empieza a crear tu propio espacio de trabajo."
+      }
+    },
+    "download_popup": {
+      "title": "Descargar Extensión"
+    },
+    "contact_popup": {
+      "title": "Contáctame"
+    },
+    "sidebar": {
+      "notes": "notas",
+      "clock": "reloj",
+      "settings": "ajustes",
+      "favorites": "favoritos",
+      "tooltips": {
+        "notes": "Ver, crear y gestionar tus notas.",
+        "clock": "Ver la hora actual:",
+        "settings": "Ajusta tus preferencias y configuración.",
+        "favorites": "Ver y gestionar tus enlaces favoritos."
+      }
+    }
+  },
+  "fr": {
+    "nav": {
+      "home": "Accueil",
+      "download": "Télécharger",
+      "aboutMe": "À Propos",
+      "contact": "Contact"
+    },
+    "hero": {
+      "title": "Custom Browser",
+      "mainPage": "Main Page",
+      "downloadBtn": "Téléchargement gratuit",
+      "signature": "par AgustinBenitez"
+    },
+    "features": {
+      "customization": {
+        "title": "Personnalisation Totale",
+        "description": "Transformez votre page d'accueil en un espace unique. Personnalisez les couleurs, les mises en page et les widgets pour créer un espace de travail qui reflète votre style personnel."
+      },
+      "theme": {
+        "title": "Mode Sombre et Clair",
+        "description": "Adaptez le thème de votre navigateur à vos préférences, pour une expérience de navigation aussi personnelle que vous."
+      },
+      "favorites": {
+        "title": "Sauvegardez vos favoris",
+        "description": "Gardez vos liens favoris et notes importantes toujours à portée de main. Notre interface intuitive vous aide à tout garder organisé et accessible."
+      },
+      "notes": {
+        "title": "Sauvegardez vos notes",
+        "description": "Créez et sauvegardez vos notes dans un endroit facile à trouver. Cela vous aidera à garder vos notes organisées et accessibles."
+      },
+      "download": {
+        "title": "Téléchargement Gratuit",
+        "description": "Commencez à personnaliser votre navigateur dès aujourd'hui. Téléchargez gratuitement et commencez à créer votre propre espace de travail."
+      }
+    },
+    "download_popup": {
+      "title": "Télécharger l'Extension"
+    },
+    "contact_popup": {
+      "title": "Contactez-moi"
+    },
+    "sidebar": {
+      "notes": "notes",
+      "clock": "horloge",
+      "settings": "paramètres",
+      "favorites": "favoris",
+      "tooltips": {
+        "notes": "Voir, créer et gérer vos notes.",
+        "clock": "Voir l'heure actuelle :",
+        "settings": "Ajustez vos préférences et paramètres.",
+        "favorites": "Voir et gérer vos liens favoris."
+      }
+    }
+  },
+  "ko": {
+    "nav": {
+      "home": "홈",
+      "download": "다운로드",
+      "aboutMe": "소개",
+      "contact": "연락처"
+    },
+    "hero": {
+      "title": "커스텀 브라우저",
+      "mainPage": "메인 페이지",
+      "downloadBtn": "무료 다운로드",
+      "signature": "by AgustinBenitez"
+    },
+    "features": {
+      "customization": {
+        "title": "완벽한 커스터마이징",
+        "description": "홈페이지를 나만의 공간으로 변경하세요. 색상, 레이아웃, 위젯을 커스터마이징하여 개인 스타일을 반영한 작업 공간을 만드세요."
+      },
+      "theme": {
+        "title": "다크 모드와 라이트 모드",
+        "description": "브라우저 테마를 선호도에 맞게 조정하여 당신만큼 개성 있는 브라우징 경험을 만드세요."
+      },
+      "favorites": {
+        "title": "즐겨찾기 저장",
+        "description": "자주 사용하는 링크와 중요한 메모를 항상 손쉽게 이용하세요. 직관적인 인터페이스로 모든 것을 체계적이고 접근하기 쉽게 유지할 수 있습니다."
+      },
+      "notes": {
+        "title": "메모 저장",
+        "description": "쉽게 찾을 수 있는 곳에 메모를 작성하고 저장하세요. 메모를 체계적으로 정리하고 쉽게 접근할 수 있습니다."
+      },
+      "download": {
+        "title": "무료 다운로드",
+        "description": "지금 바로 브라우저 커스터마이징을 시작하세요. 무료로 다운로드하고 나만의 작업 공간을 만들어보세요."
+      }
+    },
+    "download_popup": {
+      "title": "확장 프로그램 다운로드"
+    },
+    "contact_popup": {
+      "title": "연락하기"
+    },
+    "sidebar": {
+      "notes": "메모",
+      "clock": "시계",
+      "settings": "설정",
+      "favorites": "즐겨찾기",
+      "tooltips": {
+        "notes": "메모 보기, 작성 및 관리.",
+        "clock": "현재 시간 보기:",
+        "settings": "환경 설정 및 설정 조정.",
+        "favorites": "즐겨찾기 링크 보기 및 관리."
+      }
+    }
+  }
+}

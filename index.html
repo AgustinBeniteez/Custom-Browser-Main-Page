@@ -32,351 +32,12 @@
 
     Download Free">
     <meta name="twitter:image" content="https://opengraph.b-cdn.net/production/images/5160444f-a0cb-45d2-8319-503d422805ea.png?token=RKu7GM4Ba2Zccyi8rmXYRQoDfj67QahgZnf5XlasBe4&height=687&width=1200&expires=33267272828">
-    <style>
-        /* Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            text-decoration: none;
-        }
-
-        /* Estilos generales */
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-top: -7.5rem; /* -120px a rem */
-            flex-direction: column;
-        }
-
-        /* Contenedor principal */
-        .container {
-            top: 0;
-            text-align: center;
-            position: relative;
-            width: 60rem; /* 75% de un tamaño base de 80rem */
-        }
-
-        /* Imagen del logo */
-        .logo {
-            position: absolute;
-            left: 6.75rem; /* 27% de 25rem */
-            top: 6.75rem; /* 27% de 25rem */
-            transform: translateY(-50%);
-            z-index: 2;
-        }
-
-        .logo img {
-            width: 6.25rem; /* 100px a rem */
-            height: auto;
-        }
-
-        /* Título principal */
-        .title {
-            font-size: 5rem;
-            font-weight: bold;
-            color: #B486F0;
-            background: linear-gradient(90deg, #4da7f3, #b486f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.625rem; /* 10px a rem */
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Texto "by AgusTheKing" */
-        .signature {
-            font-size: 2.3rem;
-            color: #ffffff;
-            font-style: italic;
-            position: absolute;
-            top: 38%;
-            left: 73%;
-            transform: translate(-50%, -50%);
-            font-family: 'Just Me Again Down Here', sans-serif;
-            z-index: 3;
-        }
-
-        /* Botón de descarga */
-        .download-btn {
-            display: inline-block;
-            padding: 0.625rem 1.25rem; /* 10px 20px a rem */
-            font-size: 1rem;
-            color: #ffffff;
-            background: linear-gradient(90deg, #4da7f3, #b486f0);
-            border-radius: 1.875rem; /* 30px a rem */
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-
-        .download-btn:hover {
-            background: linear-gradient(90deg, #b486f0, #4da7f3);
-        }
-
-        /* Menú lateral */
-        .sidebar {
-            position: fixed;
-            left: 1.25rem; /* 20px a rem */
-            top: 70%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 0.625rem; /* 10px a rem */
-            z-index: 1;
-        }
-
-        .sidebar-item {
-            width: 3.75rem; /* 60px a rem */
-            height: 3.75rem; /* 60px a rem */
-            background: linear-gradient(90deg, #4da7f3, #b486f0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.625rem; /* 10px a rem */
-            font-size: 0.9rem;
-            color: #ffffff;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .sidebar-item:hover {
-            transform: scale(1.1);
-        }
-
-        .sidebar-item span {
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        /* Iframe centrado y más ancho */
-        .main-box {
-            display: block;
-            width: 100%;
-            height: 118%;
-            border-top-left-radius: 2.3125rem; /* 37px a rem */
-            border-top-right-radius: 2.3125rem; /* 37px a rem */
-            overflow: hidden;
-            margin-top: 3.125rem; /* 50px a rem */
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            padding: 0.625rem 0; /* 10px 0 a rem */
-            z-index: 1000;
-            text-decoration: none;
-        }
-
-        .nav-button {
-            text-decoration: none;
-            padding: 0.625rem 1.25rem; /* 10px 20px a rem */
-            color: #ffffff;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            margin: 0 1.25rem; /* 20px a rem */
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
-            border-radius: 0.3125rem; /* 5px a rem */
-        }
-
-        .nav-button:hover {
-            background: linear-gradient(90deg, #4da7f3, #b486f0);
-            transform: scale(1.1);
-            border-radius: 1.875rem; /* 30px a rem */
-        }
-
-        /* Tooltip */
-        .tooltip {
-            font-size: 1.25rem; /* 20px a rem */
-            position: absolute;
-            left: 5rem; /* 80px a rem */
-            width: 12.5rem; /* 200px a rem */
-            padding: 0.625rem; /* 10px a rem */
-            background-color: #333;
-            color: #fff;
-            border-radius: 0.5rem; /* 8px a rem */
-            font-size: 0.9rem;
-            display: none; /* Oculto por defecto */
-            z-index: 10;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        /* Mostrar tooltip cuando activo */
-        .sidebar-item.active + .tooltip {
-            display: block;
-        }
-
-        /* Animación para entrada del tooltip */
-        .tooltip.fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-0.625rem); /* -10px a rem */ }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Estilos para el popup */
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-        }
-
-        .popup {
-            background: #333;
-            padding: 1.25rem; /* 20px a rem */
-            width: 90%;
-            max-width: 31.25rem; /* 500px a rem */
-            border-radius: 0.625rem; /* 10px a rem */
-            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
-            color: #fff;
-            position: relative;
-        }
-
-        /* Estilos para el popup de descarga */
-        .download-popup {
-            max-width: 25rem;
-            text-align: center;
-        }
-
-        .download-options {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 1.5rem;
-        }
-
-        .browser-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            text-decoration: none;
-            transition: transform 0.3s ease;
-            padding: 1rem;
-        }
-
-        .browser-option:hover {
-            transform: scale(1.1);
-        }
-
-        .browser-icon {
-            width: 4rem;
-            height: 4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .close-btn {
-            background: transparent;
-            color: #fff;
-            font-size: 1.5rem;
-            position: absolute;
-            top: 0.625rem; /* 10px a rem */
-            right: 0.9375rem; /* 15px a rem */
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Estilos para el iframe */
-        .form-iframe {
-            width: 100%;
-            height: 28.125rem; /* 450px a rem */
-            border: none;
-        }
-
-        /* Media Queries */
-        @media (max-width: 80rem) {
-            .container {
-                width: 90%;
-                margin: 0 auto;
-            }
-        }
-
-        @media (max-width: 48rem) {
-            .container {
-                width: 95%;
-            }
-            .nav-button {
-                font-size: 1rem;
-                padding: 8px 12px;
-                margin: 0 10px;
-            }
-            .sidebar {
-                left: 0.5rem;
-            }
-            .sidebar-item {
-                width: 3rem;
-                height: 3rem;
-            }
-            .main-box {
-                margin-top: 2rem;
-            }
-        }
-
-        @media (max-width: 30rem) {
-            body {
-                margin-top: -4rem;
-            }
-            .title {
-                font-size: 3rem;
-            }
-            .signature {
-                font-size: 1.2rem;
-                top: 45%;
-                left: 65%;
-            }
-            .logo {
-                left: 1rem;
-                top: 5rem;
-            }
-            .logo img {
-                width: 3rem;
-            }
-            .nav-button {
-                font-size: 0.9rem;
-                padding: 6px 10px;
-                margin: 0 5px;
-            }
-            .sidebar {
-                display: none;
-            }
-            .popup {
-                width: 95%;
-                padding: 1rem;
-            }
-            .download-options {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .browser-icon {
-                width: 3rem;
-                height: 3rem;
-            }
-        }
-
-    </style>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="reveal-styles.css">
+    <link rel="stylesheet" href="css/language-selector.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="js/translations.js"></script>
 </head>
 <body>
     <!-- Navegación fija -->
@@ -385,50 +46,103 @@
        <div class="nav-button" onclick="toggleDownloadPopup()">Download</div>
        <a href="aboutme.html"> <div class="nav-button">About Me</div></a>
        <div class="nav-button" class="contact-btn" onclick="togglePopup()">Contact</div>
+       <div class="language-selector">
+           <select onchange="changeLanguage(this.value)">
+               <option value="en">English</option>
+               <option value="es">Español</option>
+               <option value="fr">Français</option>
+               <option value="ko">한국어</option>
+           </select>
+       </div>
     </nav>
 
-   <!-- Menú lateral con tooltips -->
-   <div class="sidebar">
-    <div class="sidebar-item" onclick="showTooltip('notes-tooltip')">
-        <span>notes</span>
-    </div>
-    <div id="notes-tooltip" class="tooltip">View, create, and manage your notes.</div>
+    <!-- Navegación lateral con puntos -->
+    <div class="reveal-navigation" id="revealNavigation"></div>
 
-    <div class="sidebar-item" onclick="showTooltip('clock-tooltip')">
-        <span>clock</span>
-    </div>
-    <div id="clock-tooltip" class="tooltip fade-in">
-        View the current time:
-        <div id="tooltip-clock" class="tooltip-clock"></div>
-    </div>
 
-    <div class="sidebar-item" onclick="showTooltip('settings-tooltip')">
-        <span>settings</span>
-    </div>
-    <div id="settings-tooltip" class="tooltip">Adjust your preferences and settings.</div>
 
-    <div class="sidebar-item" onclick="showTooltip('favorites-tooltip')">
-        <span>favorites</span>
-    </div>
-        <div id="favorites-tooltip" class="tooltip">View and manage your favorite links.</div>
-    </div>
+    <!-- Sección principal con título e iframe -->
+    <section class="hero-section reveal-section" data-section-id="hero">
+        <div class="container">
+            <div class="signature">by AgustinBenitez</div>
+            
+            <div class="logo">
+                <img src="logo.png" alt="Logo del Navegador">
+            </div>
 
-    <div class="container">
-        <div class="signature">by AgustinBenitez</div>
-        
-        <div class="logo">
-            <img src="logo.png" alt="Logo del Navegador">
+            <h1 class="title">Custom Browser <br><span class="main_page_txt">Main Page</span></h1>
+            
+            <a href="javascript:void(0)" onclick="toggleDownloadPopup()" class="download-btn">Download free</a>
+
+            <!-- Iframe que carga el archivo externo -->
+            <div class="main-box">
+                <iframe src="extension/newtab.html"></iframe>
+            </div>
         </div>
+    </section>
 
-        <h1 class="title">Custom Browser <br><span class="main_page_txt">Main Page</span></h1>
-        
-        <a href="javascript:void(0)" onclick="toggleDownloadPopup()" class="download-btn">Download free</a>
-
-        <!-- Iframe que carga el archivo externo -->
-        <div class="main-box">
-            <iframe src="extension/newtab.html"></iframe>
+    <!-- Sección de Personalización Total -->
+    <section class="features-section reveal-section" data-section-id="personalization">
+        <div class="feature">
+            <div class="feature-image">
+                <img src="src/custom.webp" alt="Personalización">
+            </div>
+            <div class="feature-content">
+                <h2 class="feature-title">Personalización Total</h2>
+                <p class="feature-description">Transforma tu página de inicio en un espacio único. Personaliza colores, diseños y widgets para crear un ambiente de trabajo que refleje tu estilo personal.</p>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Sección de Modo Oscuro y Claro -->
+    <section class="features-section reveal-section" data-section-id="theme">
+        <div class="feature">
+            <div class="feature-image">
+                <img src="src/light&dark.webp" alt="light & dark">
+            </div>
+            <div class="feature-content">
+                <h2 class="feature-title">Modo oscuro y claro</h2>
+                <p class="feature-description">Adapta el tema de tu navegador a tu preferencia, para que tu experiencia de navegación sea tan personal como tú.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Organización Inteligente -->
+    <section class="features-section reveal-section" data-section-id="organization">
+        <div class="feature">
+            <div class="feature-image">
+                <img src="src/favs.webp" alt="Organización">
+            </div>
+            <div class="feature-content">
+                <h2 class="feature-title">Guarda tus favoritos</h2>
+                <p class="feature-description">Mantén tus enlaces favoritos y notas importantes siempre a mano. Nuestra interfaz intuitiva te ayuda a mantener todo organizado y accesible.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section reveal-section" data-section-id="organization">
+        <div class="feature">
+            <div class="feature-image">
+                <img src="src/notes.webp" alt="Organización">
+            </div>
+            <div class="feature-content">
+                <h2 class="feature-title">Guarda tus notas</h2>
+                <p class="feature-description">Crea y guarda tus notas en un lugar fácil de encontrar. Esto te ayudará a mantener tus notas organizadas y accesibles.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section reveal-section" data-section-id="organization">
+        <div class="feature" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            
+            <div class="feature-content">
+                <h2 class="feature-title">Descarga Gratuita</h2>
+                <p class="feature-description">Comienza a personalizar tu navegador hoy mismo. Descarga gratis y empieza a crear tu propio espacio de trabajo.</p>
+                <a href="javascript:void(0)" onclick="toggleDownloadPopup()" class="download-btn" style="margin-bottom: 2rem; margin-top: 2rem;">Download free</a>
+            </div>
+        </div>
+    </section>
+
         <!-- Pop-up de contacto -->
         <div class="popup-overlay" id="popupOverlay">
             <div class="popup">
@@ -460,7 +174,7 @@
             </div>
         </div>
     <script>
-   // Función para mostrar/ocultar el popup de contacto
+        // Función para mostrar/ocultar el popup de contacto
         function togglePopup() {
             const popup = document.getElementById('popupOverlay');
             popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
@@ -472,28 +186,61 @@
             popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        // Mostrar y ocultar tooltips
-        function showTooltip(id) {
-            document.querySelectorAll('.tooltip').forEach(tip => {
-                if (tip.id === id) {
-                    tip.style.display = tip.style.display === 'block' ? 'none' : 'block';
-                } else {
-                    tip.style.display = 'none';
-                }
-            });
-        }
 
-        // Función para actualizar la hora en el tooltip de "clock"
-        function updateClock() {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('tooltip-clock').innerText = `${hours}:${minutes}:${seconds}`;
-        }
-        
-        // Actualiza el reloj cada segundo
-        setInterval(updateClock, 1000);
+
+        // Configuración de reveal.js y navegación personalizada
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.reveal-section');
+            const navigation = document.getElementById('revealNavigation');
+
+            // Crear puntos de navegación
+            sections.forEach((section, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'reveal-nav-dot';
+                dot.setAttribute('data-index', index);
+                dot.onclick = () => scrollToSection(index);
+                navigation.appendChild(dot);
+            });
+
+            // Función para actualizar la navegación
+            function updateNavigation() {
+                const scrollPosition = window.scrollY;
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const dot = navigation.children[index];
+
+                    if (scrollPosition >= sectionTop - sectionHeight / 3 && 
+                        scrollPosition < sectionTop + sectionHeight - sectionHeight / 3) {
+                        dot.classList.add('active');
+                        section.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                        if (!section.classList.contains('active')) {
+                            section.classList.remove('active');
+                        }
+                    }
+                });
+            }
+
+            // Función para scroll suave a la sección
+            function scrollToSection(index) {
+                const section = sections[index];
+                window.scrollTo({
+                    top: section.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Eventos de scroll
+            window.addEventListener('scroll', updateNavigation);
+            window.addEventListener('resize', updateNavigation);
+
+            // Inicializar la primera sección como activa
+            sections[0].classList.add('active');
+            navigation.children[0].classList.add('active');
+            updateNavigation();
+        });
     </script>
 </body>
 </html>
