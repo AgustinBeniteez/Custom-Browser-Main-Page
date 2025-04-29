@@ -38,7 +38,9 @@
     "posicionIzquierda": "Left",
     "ocultar": "Hide",
     "fondoUrl": "Or introduce a background URL (GIF/PNG):",
-    "usarFondoUrl": "Use Background URL"
+    "usarFondoUrl": "Use Background URL",
+    "fontpage": "Page Font:",
+    "selecionarfuentepagina": "Select Font:"
   },
   "es": {
     "titulo": "Nueva Pestaña",
@@ -79,7 +81,9 @@
     "posicionIzquierda": "Izquierda",
     "ocultar": "Ocultar",
     "fondoUrl": "O introduce una URL de fondo (GIF/PNG):",
-    "usarFondoUrl": "Usar URL de Fondo"
+    "usarFondoUrl": "Usar URL de Fondo",
+    "fontpage": "Fuente de la página",
+    "selecionarfuentepagina": "Seleccionar Fuente:"
   },
   "val": {
     "titulo": "Nova Pestanya",
@@ -120,7 +124,9 @@
     "posicionIzquierda": "Esquerra",
     "ocultar": "Ocultar",
     "fondoUrl": "O introdueix una URL de fons (GIF/PNG):",
-    "usarFondoUrl": "Usar URL de Fons"
+    "usarFondoUrl": "Usar URL de Fons",
+    "fontpage": "Font de la pàgina",
+    "selecionarfuentepagina": "Seleccionar Fuente:"
   },
   "fr": {
     "titulo": "Nouvel Onglet",
@@ -161,7 +167,9 @@
     "posicionIzquierda": "Gauche",
     "ocultar": "Masquer",
     "fondoUrl": "Ou introduisez une URL d'arrière-plan (GIF/PNG):",
-    "usarFondoUrl": "Utiliser l'URL d'arrière-plan"
+    "usarFondoUrl": "Utiliser l'URL d'arrière-plan",
+    "fontpage": "Police de la page",
+    "selecionarfuentepagina": "Sélectionner la police:"
   },
   "ru": {
     "titulo": "Новая Вкладка",
@@ -202,7 +210,9 @@
     "posicionIzquierda": "Слева",
     "ocultar": "Скрыть",
     "fondoUrl": "Или введите URL фона (GIF/PNG):",
-    "usarFondoUrl": "Использовать URL фона"
+    "usarFondoUrl": "Использовать URL фона",
+    "fontpage": "Источник страницы",
+    "selecionarfuentepagina": "Выбрать шрифт:"
   },
   "zh": {
     "titulo": "新标签页",
@@ -243,7 +253,9 @@
     "posicionIzquierda": "左侧",
     "ocultar": "隐藏",
     "fondoUrl": "或输入背景图片URL (GIF/PNG):",
-    "usarFondoUrl": "使用背景URL"
+    "usarFondoUrl": "使用背景URL",
+    "fontpage": "页面源",
+    "selecionarfuentepagina": "选择字体:"
   },
   "ja": {
     "titulo": "新しいタブ",
@@ -284,7 +296,9 @@
     "posicionIzquierda": "左",
     "ocultar": "非表示",
     "fondoUrl": "または背景URLを入力 (GIF/PNG):",
-    "usarFondoUrl": "背景URLを使用"
+    "usarFondoUrl": "背景URLを使用",
+    "fontpage": "ページのソース",
+    "selecionarfuentepagina": "フォントを選択:"
   },
   "ko": {
     "titulo": "새 탭",
@@ -325,6 +339,8 @@
     "posicionIzquierda": "왼쪽",
     "ocultar": "숨기기",
     "fondoUrl": "또는 배경 URL 입력 (GIF/PNG):",
-    "usarFondoUrl": "배경 URL 사용"
+    "usarFondoUrl": "배경 URL 사용",
+    "fontpage": "페이지 소스",
+    "selecionarfuentepagina": "글꼴 선택:"
   }
 }

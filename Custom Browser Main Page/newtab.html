@@ -21,7 +21,7 @@
   <!-- Barra de búsqueda -->
   <div class="search-container">
     <form id="search-form" action="https://www.google.com/search" method="get" class="search-form">
-      <input type="text" id="search-input" name="q" placeholder="Search..." data-translate="search-placeholder" />
+      <input type="text" id="search-input" name="q" placeholder="Search..." data-translate="search-placeholder" class="fuente-aplicada"/>
       <button type="submit" id="search-button">
         <i class="fa-sharp-duotone fa-solid fa-magnifying-glass"></i>
       </button>
@@ -33,13 +33,13 @@
   <div class="app-container">
     <!-- Botones de menú -->
     <div class="botones-inferiores">
-      <button id="ver-notas-btn" data-translate="notes-button">Notes</button>
+      <button id="ver-notas-btn" data-translate="notes-button" class="fuente-aplicada">Notes</button>
     </div>
     <div class="menu-lateral oculto" id="menu-notas">
       <div class="lista-notas">
         <h3 class="notatitle" data-translate="notes-title">Notes <i class="fa-regular fa-note-sticky"></i></h3>
         <div id="lista-notas" class="scrollable-notes"></div> <!-- Añadido scrollable-notes -->
-        <button id="crear-nota-btn" class="fixed-button" data-translate="create-note">Create Note</button> <!-- Cambiado a fixed-button -->
+        <button id="crear-nota-btn" class="fixed-button" data-translate="create-note" style="font-family: var(--fuente-pagina);">Create Note</button> <!-- Cambiado a fixed-button -->
       </div>
 
       <div class="formulario-nota">
@@ -52,15 +52,15 @@
             <label class="destacar-notachekbox" style="display: none;">
                 <input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;
             </label>
-            <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note">Eliminar Nota <i class="fa-solid fa-trash"></i></button>
-            <button id="exportar-nota-btn" data-translate="export-note">Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
+            <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note" class="fuente-aplicada">Eliminar Nota <i class="fa-solid fa-trash"></i></button>
+            <button id="exportar-nota-btn" data-translate="export-note" class="fuente-aplicada">Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
         </section>
         <!-- Campo para seleccionar la fecha -->
 
     
-        <button id="guardar-nota-btn" data-translate="save-note">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
+        <button id="guardar-nota-btn" data-translate="save-note" class="fuente-aplicada">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
         
-        <button id="cerrar-notas-btn" data-translate="cerrarPopup">Cerrar</button>
+        <button id="cerrar-notas-btn" data-translate="cerrarPopup" class="fuente-aplicada">Cerrar</button>
       </div>
     </div>
   </div>
@@ -74,23 +74,23 @@
   <div id="agregar-favorito" class="agregar-favorito oculto">
     <h3 style="font-size: 30px;" data-translate="add-favorites-title">Add Favorites</h3>
     <form id="favorito-form">
-      <input type="text" id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Nombre del sitio" required>
-      <input type="url" id="url-favorito" data-translate="site-url-placeholder" placeholder="URL del sitio" required>
-      <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button">Add</button>
-      <button type="button" id="cerrar-popup-favorito" data-translate="close-button">Close</button>
+      <input class="fuente-aplicada" type="text" id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Nombre del sitio" required>
+      <input class="fuente-aplicada" type="url" id="url-favorito" data-translate="site-url-placeholder" placeholder="URL del sitio" required>
+      <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button" style="font-family: var(--fuente-pagina)">Add</button>
+      <button type="button" id="cerrar-popup-favorito" data-translate="close-button" class="fuente-aplicada">Close</button>
     </form>
   </div>
   <!-- Popup de ajustes -->
   <div class="popup" id="popup" style="display: none;">
     <div class="popup-content" id="ajustes-menu">
-      <button id="cerrar-popup"><i class="fa-solid fa-square-xmark"></i> <span id="cerrar-menu-btn" data-translate="cerrarPopup">Close</span> </button>
+      <button id="cerrar-popup" class="fuente-aplicada"><i class="fa-solid fa-square-xmark"></i> <span id="cerrar-menu-btn" data-translate="cerrarPopup">Close</span> </button>
       <div class="ajustes-container">
         <div class="ajustes-section main-settings">
           <h2 for="ajustes" data-translate="ajustes">Settings</h2>
           <div class="settings-group">
             <div class="setting-item">
               <label for="idioma" data-translate="select-language">Select Language:</label>
-              <select id="idioma">
+              <select id="idioma"  class="fuente-aplicada">
                 <option value="en">English</option>
                 <option value="es">Español</option>
                 <option value="val">Valencià</option>
@@ -103,7 +103,7 @@
             </div>
             <div class="setting-item">
               <label for="buscador" data-translate="select-search-engine">Select Search Engine:</label>
-              <select id="buscador">
+              <select id="buscador"  class="fuente-aplicada">
                 <option value="google">Google</option>
                 <option value="bing">Bing</option>
                 <option value="yahoo">Yahoo</option>
@@ -135,6 +135,7 @@
               <label for="mostrar-busqueda" data-translate="mostrarBusqueda">Mostrar Barra de Búsqueda:</label>
               <input class="checkbox-colors" type="checkbox" id="mostrar-busqueda" name="mostrar-busqueda" checked>
             </div>
+            
             <div class="setting-item">
               <label for="posicion-favoritos" data-translate="posicionFavoritos">Posición de Favoritos:</label>
               <div class="radio-group">
@@ -156,6 +157,21 @@
         </div>
 
         <div class="ajustes-section background-settings">
+          <div class="setting-item">
+            <h2 for="font-page" data-translate="fontpage">Font page</h2>
+            <label for="selecionarfuentepagina" data-translate="select-font">Seleccionar Fuente:</label>
+            <select id="fuente-pagina"  class="fuente-aplicada">
+              <option value="Arial, sans-serif" style="font-family: Arial">Arial</option>
+              <option value="Archivo, sans-serif" style="font-family: Archivo">Archivo</option>
+              <option value="Bebas Neue, sans-serif" style="font-family: Bebas Neue">Bebas Neue</option>
+              <option value="Cal Sans, sans-serif" style="font-family: Cal Sans">Cal Sans</option>
+              <option value="Comic Relief, sans-serif" style="font-family: Comic Relief">Comic Relief</option>
+              <option value="Dancing Script, cursive" style="font-family: Dancing Script">Dancing Script</option>
+              <option value="Playwrite, sans-serif" style="font-family: Playwrite">Playwrite</option>
+              <option value="Roboto Mono, monospace" style="font-family: Roboto Mono">Roboto Mono</option>
+              <option value="Roboto Condensed, sans-serif"style="font-family: Roboto Condensed">Roboto Condensed</option>
+            </select>
+          </div>
           <h2 for="fondo" data-translate="fondo">Background</h2>
           <div class="settings-group">
             <div class="setting-item">
@@ -168,8 +184,8 @@
             </div>
             <div class="setting-item">
               <label for="fondo-url" data-translate="background-url-label">Or introduce a background URL (GIF/PNG):</label>
-              <input type="url" id="fondo-url" placeholder="https://example.com/background.png">
-              <button id="guardar-fondo-url" data-translate="use-background-url">Use Background URL</button>
+              <input type="url" id="fondo-url" placeholder="https://example.com/background.png" class="fuente-aplicada">
+              <button id="guardar-fondo-url" data-translate="use-background-url" class="fuente-aplicada">Use Background URL</button>
             </div>
             <div class="setting-item gallery-link">
               <a href="https://github.com/AgustinBeniteez/themes-nav" target="_blank" class="img-container">

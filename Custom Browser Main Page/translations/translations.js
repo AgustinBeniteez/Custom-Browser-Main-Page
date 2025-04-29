@@ -112,6 +112,16 @@ class TranslationManager {
             fechaNotaLabel.textContent = this.translations[language]?.important_date || 'Important Date (Optional)';
         }
 
+        const fontTitle = document.querySelector('h2[for="font-page"]');
+        if (fontTitle) {
+            fontTitle.textContent = this.translations[language]?.fontpage || 'Font Page';
+        }
+        const selecionarfuentepag = document.querySelector('label[for="selecionarfuentepagina"]');
+        if (selecionarfuentepag) {
+            selecionarfuentepag.textContent = this.translations[language]?.selecionarfuentepagina || 'Select Font ';
+        }
+        
+
         const guardarNotaBtn = document.getElementById('guardar-nota-btn');
         if (guardarNotaBtn) {
             this.setElementContent(guardarNotaBtn, this.translations[language]?.guardarNota || 'Save Note', 'fa-solid fa-floppy-disk');

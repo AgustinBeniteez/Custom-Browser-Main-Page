@@ -1,3 +1,52 @@
+/* Importación de fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&display=swap');
+
+/* Declaración de fuentes locales */
+@font-face {
+    font-family: 'Archivo';
+    src: url('fonts/Archivo-Italic-VariableFont_wdth,wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('fonts/BebasNeue-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Cal Sans';
+    src: url('fonts/CalSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Comic Relief';
+    src: url('fonts/ComicRelief-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Dancing Script';
+    src: url('fonts/DancingScript-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Playwrite';
+    src: url('fonts/PlaywriteRO-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('fonts/RobotoMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('fonts/Roboto_Condensed-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
 :root{
     --color-modedark: #1a1e27d0;
     --color-modedark1:rgba(25, 27, 32, 0.849);
@@ -6,13 +55,18 @@
     --color-letraswhite: #ffffff;
     --color-letrasdark: #161616;
     --color-botones: hsl(320, 50%, 40%); 
-    --color-botones-hover: hsl(320, 50%, 30%); /* 10% más oscuro */
-    --color-reloj: #ffffff; /* Color por defecto del reloj */
+    --color-botones-hover: hsl(320, 50%, 30%); 
+    --color-reloj: #ffffff;
+    --fuente-pagina: 'Roboto', 'Archivo', 'Bebas Neue', 'Cal Sans', 'Comic Relief', 'Dancing Script', 'Playwrite', 'Roboto Mono', 'Roboto Condensed', Arial, sans-serif;
+}
+
+.fuente-aplicada{
+    font-family: var(--fuente-pagina)!important;
 }
 
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--fuente-pagina)!important;
     margin: 0;
     padding: 0;
     display: flex;
@@ -20,14 +74,14 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #161616;
-    transition: background-color 0.5s ease-in-out; /* Transición suave para el cambio de fondo */
-    overflow: hidden; /* Oculta la parte de la imagen que sobresale */
-    height: 100vh; /* Asegura que el body cubra toda la altura de la ventana */
-    width: 100vw; /* Asegura que el body cubra toda la anchura de la ventana */
-    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
-    background-position: center; /* Centra la imagen de fondo */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    animation: fadeIn 1s ease-in-out; /* Animación de entrada */
+    transition: background-color 0.5s ease-in-out;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: fadeIn 1s ease-in-out; 
 }
 
 /* Animación para entrada suave del contenido */
@@ -117,10 +171,10 @@ a:hover {
     color: var(--color-hover);
 }
 .header {
-    position: absolute; /* Posicionamiento absoluto */
-    top: 10px; /* Ajusta la posición desde la parte superior */
-    left: 10px; /* Ajusta la posición desde la izquierda */
-    z-index: 10; /* Asegúrate de que el botón esté sobre otros elementos */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
 }
 
 .reloj-container {
@@ -133,16 +187,16 @@ a:hover {
 }
 
 h1 {
-    font-size: 160px; /* Tamaño más grande para el reloj */
-    color: white; /* Color del reloj */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para mejor contraste */
-    animation: textGlow 2s ease-in-out infinite alternate; /* Animación de resplandor */
+    font-size: 160px; /* Tamaño LETRA para el reloj */
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    animation: textGlow 2s ease-in-out infinite alternate; 
 }
 
 .reloj-sin-animacion h1 {
-    font-size: 160px; /* Tamaño más grande para el reloj */
-    color: white; /* Color del reloj */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para mejor contraste */
+    font-size: 160px;
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
     /* Sin animación */
 }
 
@@ -173,9 +227,9 @@ h1 {
     color: var(--color-letrasdark) !important;
     padding: 12px;
     font-size: 16px;
-    border: 1px solid #dcdcdc; /* Color del borde */
-    border-radius: 24px; /* Bordes redondeados */
-    width: 300px; /* Ancho fijo */
+    border: 1px solid #dcdcdc; 
+    border-radius: 24px; 
+    width: 300px; 
     transition: border 0.3s;
 }
 
@@ -204,17 +258,17 @@ h1 {
     font-size: 16px;
     border: none;
     border-radius: 24px;
-    background-color: var(--color-botones); /* Color del botón */
-    color: white; /* Color del texto */
+    background-color: var(--color-botones);
+    color: white;
     cursor: pointer;
-    margin-left: 10px; /* Espacio entre el input y el botón */
-    transition: background-color 0.4s ease, box-shadow 0.4s ease; /* Transición suave para el color de fondo y el borde */
+    margin-left: 10px; 
+    transition: background-color 0.4s ease, box-shadow 0.4s ease; 
 }
 
 /* Estilo del botón al hacer hover (animación de borde y cambio de color) */
 .search-form button:hover {
-    background-color: var(--color-botones-hover); /* Color más oscuro */
-    box-shadow: inset 0 0 0 2px var(--color-botones); /* Borde animado al hacer hover */
+    background-color: var(--color-botones-hover); 
+    box-shadow: inset 0 0 0 2px var(--color-botones);
 }
 
 .popup {
@@ -238,11 +292,24 @@ h1 {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-
-    max-width: 90%;
-    max-height: 85vh;
+    max-width: 95%;
+    max-height: 89vh;
+    width: 75%;
     overflow-y: auto;
 }
+
+/* scroll bar */
+.popup-content::-webkit-scrollbar {
+    width: 10px; 
+    background-color: var(--color-modelight);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.popup-content::-webkit-scrollbar-thumb {
+    background-color: var(--color-botones);
+    border-radius: 10px;
+}
+
 
 
 
@@ -266,15 +333,16 @@ h1 {
 }
 
 #cerrar-popup {
-    position: absolute; /* Posiciona el botón en relación a .popup-content */
-    top: 10px; /* Ajusta la posición desde la parte superior */
-    background-color: var(--color-botones); /* Color de fondo */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    padding: 5px 10px; /* Relleno */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    border-radius: 5px; /* Bordes redondeados */
-    transition: right 0.3s, left 0.3s; /* Transición suave para el cambio de posición */
+    position: absolute;
+    top: 10px;
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: right 0.3s, left 0.3s;
 }
 
 .popup-izquierda #cerrar-popup {
@@ -322,7 +390,7 @@ body[data-theme="dark"] #fondo-url {
 }
 
 .ajustes-container label {
-    margin-bottom: 10px; /* Mayor espacio entre la etiqueta y el elemento */
+    margin-bottom: 10px;
     
 }
 
@@ -346,7 +414,7 @@ body[data-theme="dark"] #fondo-url {
 }
 
 .ajustes-container button:hover {
-    background-color: var(--color-botones-hover); /* Color del botón al pasar */
+    background-color: var(--color-botones-hover);
     border: 1px solid var(--color-botones-hover);
 }
 
@@ -368,16 +436,16 @@ body[data-theme="dark"] #fondo-url {
 }
 
 .fondo-predeterminado img:hover {
-    opacity: 0.8; /* Efecto de opacidad al pasar */
+    opacity: 0.8;
 }
 
 /* Estilos para la miniatura de la imagen cargada */
 .miniatura {
-    margin-top: 15px; /* Espacio superior */
-    width: 100%; /* Ancho completo */
-    height: auto; /* Ajuste automático de altura */
-    border-radius: 8px; /* Bordes redondeados */
-    display: none; /* Oculto por defecto */
+    margin-top: 15px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: none;
 }
 
 .ajustes-btn{
@@ -464,36 +532,36 @@ body[data-theme="dark"] #fondo-url {
 }
 
 .favoritos-list {
-    max-height: 300px; /* Altura máxima */
+    max-height: 300px;
 }
 
 /* Estilos para el scroll vertical */
 .favoritos-container::-webkit-scrollbar {
-    width: 8px; /* Ancho del scrollbar */
+    width: 8px;
 }
 
 .favoritos-container::-webkit-scrollbar-thumb {
-    background: var(--color-botones); /* Color del scrollbar */
-    border-radius: 10px; /* Bordes redondeados del scrollbar */
+    background: var(--color-botones); 
+    border-radius: 10px;
 }
 
 .favoritos-container::-webkit-scrollbar-thumb:hover {
-    background: var(--color-modelight1); /* Color del scrollbar al pasar el mouse */
+    background: var(--color-modelight1);
 }
 
 .favoritos-item {
     display: flex;
-    flex-direction: column; /* Coloca el ícono encima del texto */
-    align-items: center; /* Centra el contenido */
+    flex-direction: column;
+    align-items: center;
     margin: 5px 0;
-    background: var(--color-modelight); /* Fondo más claro para los favoritos */
+    background: var(--color-modelight);
     border-radius: 8px;
     padding: 5px;
-    position: relative; /* Para posicionar el botón de eliminar */
+    position: relative;
 }
 
 .favoritos-item:hover .boton-eliminar {
-    opacity: 1; /* Opacidad completa al hacer hover sobre el elemento favorito */
+    opacity: 1;
 }
 
 
@@ -507,28 +575,28 @@ body[data-theme="dark"] #fondo-url {
 
 
 .favoritos-item span {
-    white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
-    overflow: hidden; /* Ocultar el texto que desborda */
-    text-overflow: ellipsis; /* Añadir puntos suspensivos al final */
-    max-width: 150px; /* Ajusta este valor según el tamaño deseado */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
 }
 
   
   .boton-eliminar {
     font-weight: bold;
-    position: absolute; /* Posiciona el botón de eliminar */
+    position: absolute;
     top: 5px;
     right: 5px;
     background: transparent;
     border: none;
-    font-size: 16px; /* Tamaño del ícono del botón */
-    color: red; /* Color del botón de eliminar */
+    font-size: 16px;
+    color: red;
     cursor: pointer;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0.2; /* Opacidad inicial baja */
+    opacity: 0.2;
   }
   .boton-eliminar:hover {
-    transform: scale(1.2); /* Hace que el logo crezca un 20% */
+    transform: scale(1.2);
 }
 
   #agregar-favorito-btn {
@@ -536,10 +604,10 @@ body[data-theme="dark"] #fondo-url {
     margin: 10px 0;
     background: transparent;
     border: none;
-    font-size: 24px; /* Tamaño del ícono de agregar */
-    color: var(--color-letrasdark); /* Color del botón de agregar */
+    font-size: 24px;
+    color: var(--color-letrasdark);
     cursor: pointer;
-    position: absolute; /* Posiciona el botón de agregar */
+    position: absolute;
     top: 5px;
     right: 5px;
     
@@ -555,17 +623,17 @@ body[data-theme="dark"] #fondo-url {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    transition: transform 0.4s ease-in-out; /* Transición suave */
+    transition: transform 0.4s ease-in-out;
     color: var(--color-letrasdark);
   }
   
     #agregar-favorito.show {
-    transform: translate(-50%, -50%) scale(1); /* Aparece con la escala normal */
+    transform: translate(-50%, -50%) scale(1);
     }
 
     /* Ocultar con animación */
     #agregar-favorito.hide {
-        transform: translate(-50%, -50%) scale(0); /* Desaparece con la escala reducida */
+        transform: translate(-50%, -50%) scale(0);
     }
 
   #agregar-favorito h2 {
@@ -617,23 +685,23 @@ body[data-theme="dark"] #fondo-url {
     background-color: rgb(47, 117, 84);
 }
   .img-container {
-    position: relative; /* Asegúrate de que esto esté aquí */
-    display: inline-block; /* O usa block si necesitas que ocupe todo el ancho */
+    position: relative;
+    display: inline-block;
   }
   
   #descargar-temas-btn {
     position: relative;
     top: -100px;
     left: 200px;
-    transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
-    z-index: 1; /* Asegúrate de que el botón esté encima de la imagen */
-    background-color:var(--color-botones); /* Fondo blanco semitransparente */
-    padding: 20px 40px; /* Espaciado alrededor del texto */
-    border-radius: 40px; /* Bordes redondeados */
-    text-align: center; /* Centrar el texto */
-    text-decoration: none; /* Quitar el subrayado del enlace */
-    font-size: 20px; /* Tamaño del texto */
-    color: var(--color-letraswhite); /* Color del texto */
+    transform: translate(-50%, -50%);
+    z-index: 1; 
+    background-color:var(--color-botones); 
+    padding: 20px 40px; 
+    border-radius: 40px; 
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--color-letraswhite);
   }
   #descargar-temas-btn:hover {
     background-color: var(--color-botones-hover);
@@ -641,9 +709,11 @@ body[data-theme="dark"] #fondo-url {
   }
 
   .img_fondos {
-    display: block; /* Asegúrate de que la imagen no tenga espacio debajo */
-    width: 100%; /* Ajusta el tamaño según tus necesidades */
-    height: auto; /* Mantiene la proporción de la imagen */
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: blur(1px);
+    border-radius: 10px;
   }
   
 #ajustes-titulo{
@@ -685,23 +755,23 @@ body[data-theme="dark"] #fondo-url {
 .menu-lateral {
     display: flex;
     color: var(--color-letrasdark); 
-    background-color: var(--color-modelight); /* Fondo más opaco para el menú */
+    background-color: var(--color-modelight);
     border-radius: 15px;
     padding: 20px;
     width: 600px;
     height: 400px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    position: fixed; /* Cambiado a fixed para que no mueva otros elementos */
-    top: 50%; /* Centrado verticalmente */
-    left: 50%; /* Centrado horizontalmente */
-    transform: translate(-50%, -50%); /* Ajuste para centrar */
-    z-index: 10; /* Asegúrate de que el menú esté por encima */
-    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; 
+    display: none; 
 }
 
 /* Para mostrar el menú al hacer clic en un botón */
 .menu-lateral.mostrar {
-    display: flex; /* Cambia a flex para mostrarlo */
+    display: flex; 
 }
 
 /* El resto de los estilos aquí (como en el ejemplo anterior) */
@@ -712,7 +782,7 @@ body[data-theme="dark"] #fondo-url {
     display: flex;
     flex-direction: column;
     margin-right: 20px;
-    overflow-y: auto; /* Habilita el scroll vertical */
+    overflow-y: auto; 
 }
 /* Estilos para la barra de desplazamiento en WebKit */
 .scrollable-notes::-webkit-scrollbar {
@@ -720,20 +790,20 @@ body[data-theme="dark"] #fondo-url {
 }
 
 .scrollable-notes::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color del "pulgar" */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: #888; 
+    border-radius: 10px;
 }
 #crear-nota-btn {
-    position: sticky; /* Fija el botón en la parte inferior de la lista */
-    bottom: 0; /* Ajusta al fondo del contenedor */
-    left: 0; /* Ajusta al lado izquierdo */
-    background-color: var(--color-botones); /* Cambia a tu color preferido */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 10px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interno */
-    cursor: pointer; /* Cambia el cursor al pasar el ratón */
-    z-index: 1; /* Asegúrate de que esté encima */
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
     width: 92%;
 }
 
@@ -750,12 +820,12 @@ background-color: #888;
 .nota-pestana {
     padding: 10px;
     margin: 5px 0;
-    background-color: var(--color-modelight); /* Color de fondo claro para destacar */
+    background-color: var(--color-modelight); 
     border-radius: 15px;
-    font-weight: bold; /* Negrita para destacar */
+    font-weight: bold;
     cursor: pointer;
     border: solid 1px #ccc;
-    transition: background-color 0.3s; /* Transición suave al pasar el ratón */
+    transition: background-color 0.3s;
     overflow: hidden;
 }
 
@@ -765,7 +835,7 @@ background-color: #888;
 }
 
 .nota-pestana:hover {
-    background-color: #5c5c5c; /* Color de fondo al pasar el ratón */
+    background-color: #5c5c5c;
 }
 
 .formulario-nota {
@@ -789,12 +859,12 @@ background-color: #888;
 }
 
 #contenido-nota::-webkit-scrollbar {
-    width: 12px; /* Ancho de la barra de desplazamiento */
+    width: 12px; 
 }
 
 #contenido-nota::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color del "pulgar" */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: #888;
+    border-radius: 10px;
 }
 
 .destacar-notachekbox {
@@ -924,12 +994,12 @@ background-color: #888;
 }
 /* Estilos para la barra de desplazamiento en WebKit */
 .lista-notas::-webkit-scrollbar {
-    width: 12px; /* Ancho de la barra de desplazamiento */
+    width: 12px;
 }
 
 .lista-notas::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color del "pulgar" */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: #888;
+    border-radius: 10px;
 }
 .formulario-nota {
     flex-basis: 70%;
@@ -964,12 +1034,12 @@ background-color: #888;
 }
 
 .nota-pestana::-webkit-scrollbar {
-    width: 12px; /* Ancho de la barra de desplazamiento */
+    width: 12px;
 }
 
 .nota-pestana::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color del "pulgar" */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: #888;
+    border-radius: 10px;
 }
 
 .nota-pestana button {
@@ -1013,11 +1083,11 @@ background-color: #888;
 
 .nota-destacada strong {
     width: 100%;
-    height: auto; /* Cambia de 50% a auto */
+    height: auto;
     overflow: hidden;
-    display: -webkit-box; /* Para crear un contenedor flexible */
-    -webkit-box-orient: vertical; /* Orientar el contenido en vertical */
-    text-overflow: ellipsis; /* Agregar puntos suspensivos si el texto se corta */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 #ver-notas-btn {
@@ -1035,17 +1105,17 @@ background-color: #888;
 
 #ver-notas-btn:hover {
     background-color: var(--color-botones-hover);
-    box-shadow: inset 0 0 0 2px var(--color-botones); /* Borde animado al hacer hover */
+    box-shadow: inset 0 0 0 2px var(--color-botones); 
 }
 
 #menu-notas {
     width: 60%;
     height: 66%;
-    display: none; /* Oculto por defecto */
+    display: none;
 }
 
 #menu-notas.visible {
-    display: flex; /* Mostrar cuando tenga la clase 'visible' */
+    display: flex;
 }
 
 /* Estilo hover para el botón de eliminar */
@@ -1238,24 +1308,56 @@ button:has(.fa-trash):hover {
     display: flex;
     flex-direction: column;
     margin-right: 20px;
-    overflow-y: auto; /* Permitir desplazamiento vertical */
+    overflow-y: auto; 
     height: 500px;
 }
 
 /* Botón "Crear Nota" fijo al final de la lista */
 .fixed-button {
-    position: sticky; /* Cambiar a sticky para que se quede fijo en la parte inferior */
-    bottom: 0; /* Alineación al fondo del contenedor */
-    background-color: var(--color-botones); /* Color de fondo para el botón */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interno */
-    cursor: pointer; /* Cambiar cursor al pasar */
-    z-index: 5; /* Asegurarse de que esté por encima de otras cosas */
+    position: sticky;
+    bottom: 0;
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 5;
 }
 
 /* Estilo adicional para el botón al pasar el ratón */
 .fixed-button:hover {
-    background-color: var(--color-botones-hover); /* Cambiar color al pasar el ratón */
+    background-color: var(--color-botones-hover);
+}
+
+
+
+@media screen and (max-width: 1500px) {
+    .ajustes-container {
+        height: 86%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        border-radius: 8px;
+        padding: 20px;
+        background-color: var(--color-modelight);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 30px;
+        color: var(--color-letrasdark);
+    }
+    .fondo-predeterminado {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 15px;
+        flex-wrap: nowrap;
+        align-content: space-between;
+        justify-content: center;
+    }
+
+    .fondo-predeterminado img {
+        width: 170px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 10px;
+    }
 }

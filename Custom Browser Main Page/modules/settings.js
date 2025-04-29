@@ -28,7 +28,8 @@ class SettingsManager {
       relojContainer: document.querySelector('.reloj-container'),
       reloj: document.getElementById('reloj'),
       favoritosContainer: document.getElementById('favoritos-container'),
-      searchContainer: document.querySelector('.search-container')
+      searchContainer: document.querySelector('.search-container'),
+      fuentePaginaSelect: document.getElementById('fuente-pagina')
     };
   }
 
@@ -36,6 +37,7 @@ class SettingsManager {
     // Eventos del popup de ajustes
     if (this.elements.ajustesBtn) this.elements.ajustesBtn.addEventListener('click', () => this.togglePopup(true));
     if (this.elements.cerrarPopup) this.elements.cerrarPopup.addEventListener('click', () => this.togglePopup(false));
+    if (this.elements.fuentePaginaSelect) this.elements.fuentePaginaSelect.addEventListener('change', (e) => this.updateFont(e.target.value));
 
     // Eventos de configuración
     if (this.elements.idiomaSelect) this.elements.idiomaSelect.addEventListener('change', (e) => this.updateLanguage(e.target.value));
@@ -77,11 +79,26 @@ class SettingsManager {
     this.loadSearchVisibility();
     this.loadFavoritesPosition();
     this.loadBackground();
+    this.loadFont();
   }
 
   // Métodos de actualización de configuración
   togglePopup(show) {
     this.elements.popup.style.display = show ? 'block' : 'none';
+  }
+
+  // Métodos para manejar la fuente
+  updateFont(font) {
+    document.documentElement.style.setProperty('--fuente-pagina', font);
+    localStorage.setItem('fuente-pagina', font);
+  }
+
+  loadFont() {
+    const savedFont = localStorage.getItem('fuente-pagina');
+    if (savedFont && this.elements.fuentePaginaSelect) {
+      this.elements.fuentePaginaSelect.value = savedFont;
+      this.updateFont(savedFont);
+    }
   }
 
   async loadTranslations() {
