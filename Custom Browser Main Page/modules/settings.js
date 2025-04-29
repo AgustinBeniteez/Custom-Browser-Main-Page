@@ -19,9 +19,13 @@ class SettingsManager {
       modoOscuroCheckbox: document.getElementById('modo-oscuro'),
       colorTemaInput: document.getElementById('color-tema'),
       decoracionRelojCheckbox: document.getElementById('decoracion-reloj'),
+      colorRelojInput: document.getElementById('color-reloj'),
+      posicionFavoritosSelect: document.getElementById('posicion-favoritos'),
       fondoInput: document.getElementById('fondo-url'),
       guardarFondoBtn: document.getElementById('guardar-fondo-url'),
-      relojContainer: document.querySelector('.reloj-container')
+      relojContainer: document.querySelector('.reloj-container'),
+      reloj: document.getElementById('reloj'),
+      favoritosContainer: document.getElementById('favoritos-container')
     };
   }
 
@@ -36,6 +40,8 @@ class SettingsManager {
     this.elements.modoOscuroCheckbox.addEventListener('change', (e) => this.updateDarkMode(e.target.checked));
     this.elements.colorTemaInput.addEventListener('input', (e) => this.updateThemeColor(e.target.value));
     this.elements.decoracionRelojCheckbox.addEventListener('change', (e) => this.updateClockDecoration(e.target.checked));
+    this.elements.colorRelojInput.addEventListener('input', (e) => this.updateClockColor(e.target.value));
+    this.elements.posicionFavoritosSelect.addEventListener('change', (e) => this.updateFavoritesPosition(e.target.value));
     this.elements.guardarFondoBtn.addEventListener('click', () => this.updateBackground());
 
     // Eventos para fondos predeterminados
@@ -57,6 +63,8 @@ class SettingsManager {
     this.loadDarkMode();
     this.loadThemeColor();
     this.loadClockDecoration();
+    this.loadClockColor();
+    this.loadFavoritesPosition();
     this.loadBackground();
   }
 
@@ -102,6 +110,56 @@ class SettingsManager {
     });
   }
 
+  updateClockColor(color) {
+    document.documentElement.style.setProperty('--color-reloj', color);
+    localStorage.setItem('colorReloj', color);
+  }
+
+  loadClockColor() {
+    const savedColor = localStorage.getItem('colorReloj') || '#ffffff';
+    this.elements.colorRelojInput.value = savedColor;
+    document.documentElement.style.setProperty('--color-reloj', savedColor);
+  }
+
+  updateFavoritesPosition(position) {
+    const container = this.elements.favoritosContainer;
+    const ajustesBtn = this.elements.ajustesBtn;
+    const notasBtn = document.getElementById('ver-notas-btn');
+    const popup = this.elements.popup;
+    
+    container.classList.remove('favoritos-derecha', 'favoritos-izquierda', 'favoritos-oculto');
+    ajustesBtn.classList.remove('ajustes-derecha', 'ajustes-izquierda');
+    notasBtn.classList.remove('ajustes-derecha', 'ajustes-izquierda');
+    popup.classList.remove('popup-derecha', 'popup-izquierda');
+    
+    switch(position) {
+      case 'derecha':
+        container.classList.add('favoritos-derecha');
+        ajustesBtn.classList.add('ajustes-izquierda');
+        notasBtn.classList.add('ajustes-izquierda');
+        popup.classList.add('popup-izquierda');
+        break;
+      case 'izquierda':
+        container.classList.add('favoritos-izquierda');
+        ajustesBtn.classList.add('ajustes-derecha');
+        notasBtn.classList.add('ajustes-derecha');
+        popup.classList.add('popup-derecha');
+        break;
+      case 'oculto':
+        container.classList.add('favoritos-oculto');
+        break;
+    }
+    
+    localStorage.setItem('posicionFavoritos', position);
+  }
+
+  loadFavoritesPosition() {
+    const savedPosition = localStorage.getItem('posicionFavoritos') || 'derecha';
+    this.elements.posicionFavoritosSelect.value = savedPosition;
+    this.updateFavoritesPosition(savedPosition);
+  }
+      
+
   updateSearchEngine(engine) {
     localStorage.setItem('buscadorSeleccionado', engine);
   }
@@ -124,7 +182,12 @@ class SettingsManager {
 
   updateClockDecoration(enabled) {
     localStorage.setItem('decoracionReloj', enabled);
-    this.elements.relojContainer.style.animation = enabled ? 'textGlow 2s ease-in-out infinite alternate' : 'none';
+    const relojElement = document.querySelector('h1');
+    if (enabled) {
+      relojElement.style.animation = 'textGlow 2s ease-in-out infinite alternate';
+    } else {
+      relojElement.style.animation = 'none';
+    }
   }
 
   updateBackground(url) {
@@ -184,8 +247,8 @@ class SettingsManager {
     const R = f >> 16;
     const G = (f >> 8) & 0x00FF;
     const B = f & 0x0000FF;
-    return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + 
-                   (Math.round((t - G) * p) + G) * 0x100 + 
+    return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+                   (Math.round((t - G) * p) + G) * 0x100 +
                    (Math.round((t - B) * p) + B)).toString(16).slice(1);
   }
 }

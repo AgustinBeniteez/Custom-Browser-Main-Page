@@ -7,6 +7,7 @@
     --color-letrasdark: #161616;
     --color-botones: hsl(320, 50%, 40%); 
     --color-botones-hover: hsl(320, 50%, 30%); /* 10% más oscuro */
+    --color-reloj: #ffffff; /* Color por defecto del reloj */
 }
 
 /* Estilos generales */
@@ -56,6 +57,11 @@ a:hover {
 
 .reloj-container {
     margin-bottom: -60px; /* Espacio entre el reloj y la barra de búsqueda */
+}
+
+#reloj {
+    color: var(--color-reloj);
+    transition: color 0.3s ease;
 }
 
 h1 {
@@ -148,14 +154,21 @@ h1 {
     display: none;
     position: fixed;
     z-index: 1;
-    left: 10px;
     top: 1%;
     overflow: auto;
     background-color: var(--color-modelight);
     scrollbar-width: none;
     border-radius: 8px;
-    /* animation: slideIn 1s ease-in-out; */
+    transition: all 0.3s ease-in-out;
     color: var(--color-letrasdark);
+}
+
+.popup-izquierda {
+    left: 20px;
+}
+
+.popup-derecha {
+    right: 20px;
 }
 .popup.show {
     left: 10px; /* Mover a la posición visible */
@@ -179,14 +192,23 @@ h1 {
 #cerrar-popup {
     position: absolute; /* Posiciona el botón en relación a .popup-content */
     top: 10px; /* Ajusta la posición desde la parte superior */
-    right: 10px; /* Ajusta la posición desde la derecha */
     background-color: #ff4d4d; /* Color de fondo */
     color: white; /* Color del texto */
     border: none; /* Sin borde */
     padding: 5px 10px; /* Relleno */
     cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
     border-radius: 5px; /* Bordes redondeados */
-    
+    transition: right 0.3s, left 0.3s; /* Transición suave para el cambio de posición */
+}
+
+.popup-izquierda #cerrar-popup {
+    right: 10px;
+    left: auto;
+}
+
+.popup-derecha #cerrar-popup {
+    left: 10px;
+    right: auto;
 }
 
 #cerrar-popup:hover {
@@ -276,9 +298,20 @@ h1 {
     font-size: 26px;
     margin: 4px 2px;
     cursor: pointer;
-    width: 10%;
-    height: 10%;
-    
+    width: 30px;
+    height: 40px;
+    position: fixed;
+    top: 10px;
+    transition: right 0.3s, left 0.3s;
+}
+
+.ajustes-izquierda {
+    left: 10px;
+}
+
+.ajustes-derecha {
+    right: 10px;
+    left: auto !important;
 }
 
 #buscador{
@@ -299,7 +332,6 @@ h1 {
     position: fixed;
     height: 90%;
     width: 133px;
-    right: 20px;
     top: 50px;
     background: var(--color-modelight);
     padding: 10px;
@@ -309,7 +341,22 @@ h1 {
     z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    animation: slideIn 1s ease-in-out; /* Animación para que la lista de favoritos entre desde la derecha */
+    transition: right 0.3s ease, left 0.3s ease, opacity 0.3s ease;
+}
+
+.favoritos-derecha {
+    right: 20px;
+    left: auto;
+}
+
+.favoritos-izquierda {
+    left: 20px;
+    right: auto;
+}
+
+.favoritos-oculto {
+    opacity: 0;
+    pointer-events: none;
 }
 
 @keyframes slideIn {
@@ -525,10 +572,18 @@ h1 {
 /* Botones en la esquina inferior izquierda */
 .botones-inferiores {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: 50px; /* Aumentado el margen inferior para separar del botón de ajustes */
     display: flex;
     gap: 10px;
+    transition: right 0.3s, left 0.3s;
+}
+
+.botones-inferiores-izquierda {
+    left: 20px;
+}
+
+.botones-inferiores-derecha {
+    right: 20px;
 }
 
 
@@ -848,6 +903,10 @@ background-color: #888;
     padding: 10px 20px;
     border: 1px solid var(--color-botones);
     transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    transition: background-color 0.4s ease;
 }
 
 #ver-notas-btn:hover {
