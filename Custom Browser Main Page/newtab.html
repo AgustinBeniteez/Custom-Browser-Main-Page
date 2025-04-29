@@ -20,12 +20,12 @@
 
   <!-- Barra de búsqueda -->
   <div class="search-container">
-  <form id="search-form" action="https://www.google.com/search" method="get" class="search-form">
-    <input type="text" id="search-input" name="q" placeholder="Search..." />
-    <button type="submit" id="search-button">
-      <i class="fa-sharp-duotone fa-solid fa-magnifying-glass"></i>
-    </button>
-  </form>
+    <form id="search-form" class="search-form">
+      <input type="text" id="search-input" name="q" placeholder="Search..." class="fuente-aplicada"/>
+      <button type="submit" id="search-button">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
   </div>
   <div id="notas-destacadas" class="notas-destacadas">
     <!-- Aquí se mostrarán las notas destacadas -->
@@ -55,11 +55,8 @@
             <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note" class="fuente-aplicada">Eliminar Nota <i class="fa-solid fa-trash"></i></button>
             <button id="exportar-nota-btn" data-translate="export-note" class="fuente-aplicada">Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
         </section>
-        <!-- Campo para seleccionar la fecha -->
 
-    
         <button id="guardar-nota-btn" data-translate="save-note" class="fuente-aplicada">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
-        
         <button id="cerrar-notas-btn" data-translate="cerrarPopup" class="fuente-aplicada">Cerrar</button>
       </div>
     </div>
@@ -101,16 +98,7 @@
                 <option value="ko">한국어</option>
               </select>
             </div>
-            <div class="setting-item">
-              <label for="buscador">Select Search Engine:</label>
-              <select id="buscador">
-                <option value="google">Google</option>
-                <option value="bing">Bing</option>
-                <option value="yahoo">Yahoo</option>
-                <option value="brave">Brave Search</option>
-                <option value="duckduckgo">DuckDuckGo</option>
-              </select>
-            </div>
+
             <div class="setting-item">
               <i class="fa-solid fa-palette"></i> &nbsp;
               <label for="color-tema" data-translate="choose-theme-color">Choose Theme Color:</label>

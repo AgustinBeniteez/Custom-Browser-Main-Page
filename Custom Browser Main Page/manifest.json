@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Custom Browser Main Page",
   "description": "Custom Browser Main Page you can add image for your wallpaper by AgustinBenitez",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },

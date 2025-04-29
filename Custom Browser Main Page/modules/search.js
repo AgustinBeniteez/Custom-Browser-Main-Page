@@ -9,62 +9,27 @@ class SearchManager {
 
   initSearchHandlers() {
     const searchInput = document.getElementById('search-input');
-    const searchButton = document.getElementById('search-button');
-    const buscadorSelect = document.getElementById('buscador');
+    const searchForm = document.getElementById('search-form');
 
     // Configurar eventos de búsqueda
-    searchInput?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        this.realizarBusqueda();
-      }
-    });
-
-    searchButton?.addEventListener('click', (e) => {
+    searchForm?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.realizarBusqueda();
     });
-
-    // Configurar selector de buscador
-    buscadorSelect?.addEventListener('change', (e) => {
-      State.setState({ buscadorSeleccionado: e.target.value });
-    });
-
-    // Mantener seleccionado el buscador al recargar
-    const buscadorSeleccionado = State.getState().buscadorSeleccionado;
-    if (buscadorSeleccionado && buscadorSelect) {
-      buscadorSelect.value = buscadorSeleccionado;
-    }
   }
 
   realizarBusqueda() {
     const searchInput = document.getElementById('search-input');
-    const valor = searchInput?.value.trim();
-    if (!valor) return;
+    const query = searchInput?.value.trim();
+    if (!query) return;
 
-    const buscador = State.getState().buscadorSeleccionado || 'google';
-    let url;
-
-    switch (buscador) {
-      case 'bing':
-        url = `https://www.bing.com/search?q=${encodeURIComponent(valor)}`;
-        break;
-      case 'yahoo':
-        url = `https://search.yahoo.com/search?p=${encodeURIComponent(valor)}`;
-        break;
-      case 'brave':
-        url = `https://search.brave.com/search?q=${encodeURIComponent(valor)}`;
-        break;
-      case 'duckduckgo':
-        url = `https://duckduckgo.com/?q=${encodeURIComponent(valor)}`;
-        break;
-      case 'google':
-      default:
-        url = `https://www.google.com/search?q=${encodeURIComponent(valor)}`;
-        break;
+    // USO chrome.search.query que GOOGLE si le gusta porque no hago dos funciones en una misma extensión
+    if (chrome.search && chrome.search.query) {
+      chrome.search.query({ text: query });
+    } else {
+      // Fallback a Google si no estamos en una extensión
+      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
     }
-
-    window.location.href = url;
   }
 
   initThemeHandlers() {
