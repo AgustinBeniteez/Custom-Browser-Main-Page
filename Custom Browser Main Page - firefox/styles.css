@@ -1,0 +1,1414 @@
+
+/* Declaración de fuentes locales */
+@font-face {
+    font-family: 'Archivo';
+    src: url('fonts/Archivo-Italic-VariableFont_wdth,wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('fonts/BebasNeue-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Cal Sans';
+    src: url('fonts/CalSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Comic Relief';
+    src: url('fonts/ComicRelief-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Dancing Script';
+    src: url('fonts/DancingScript-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Playwrite';
+    src: url('fonts/PlaywriteRO-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('fonts/RobotoMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('fonts/Roboto_Condensed-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
+:root{
+    --color-modedark: #1a1e27d0;
+    --color-modedark1:rgba(25, 27, 32, 0.849);
+    --color-modelight:  #fefefecb;
+    --color-modelight1:  #e2e2e2cc;
+    --color-letraswhite: #ffffff;
+    --color-letrasdark: #161616;
+    --color-botones: hsl(320, 50%, 40%); 
+    --color-botones-hover: hsl(320, 50%, 30%); 
+    --color-reloj: #ffffff;
+    --fuente-pagina: 'Roboto', 'Archivo', 'Bebas Neue', 'Cal Sans', 'Comic Relief', 'Dancing Script', 'Playwrite', 'Roboto Mono', 'Roboto Condensed', Arial, sans-serif;
+}
+
+.fuente-aplicada{
+    font-family: var(--fuente-pagina)!important;
+}
+
+/* Estilos generales */
+body {
+    font-family: var(--fuente-pagina)!important;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #161616;
+    transition: background-color 0.5s ease-in-out;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: fadeIn 1s ease-in-out; 
+}
+
+/* Animación para entrada suave del contenido */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Estilos para los enlaces */
+a {
+    color: var(--color-blanco);
+}
+
+/* Estilos para los checkboxes personalizados */
+.checkbox-colors {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-letrasdark);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.checkbox-colors:hover {
+    border-color: var(--color-botones);
+    transform: scale(1.05);
+    box-shadow: 0 0 5px var(--color-botones);
+}
+
+.checkbox-colors:checked {
+    background-color: var(--color-botones);
+    border-color: var(--color-botones);
+    animation: checkmark 0.3s ease-in-out;
+}
+
+.checkbox-colors:checked::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.3s ease-in-out forwards;
+}
+
+.setting-item {
+    margin: 15px 0;
+}
+
+#credits{
+    display: flex;
+    justify-content: space-around;
+}
+
+#credits a:hover{
+    color: var(--color-botones);
+}
+
+.selecionable-color{
+    display: flex;
+    flex-direction: row;
+    appearance: none;
+    width: 70px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+@keyframes checkmark {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes checkmarkDraw {
+    0% { height: 0; opacity: 0; }
+    100% { height: 10px; opacity: 1; }
+}
+
+a:hover {
+    color: var(--color-hover);
+}
+.header {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+}
+
+.reloj-container {
+    margin-bottom: -60px; /* Espacio entre el reloj y la barra de búsqueda */
+}
+
+#reloj {
+    color: var(--color-reloj);
+    transition: color 0.3s ease;
+}
+
+h1 {
+    font-size: 160px; /* Tamaño LETRA para el reloj */
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    animation: textGlow 2s ease-in-out infinite alternate; 
+}
+
+.reloj-sin-animacion h1 {
+    font-size: 160px;
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    /* Sin animación */
+}
+
+/* Animación de resplandor del reloj */
+@keyframes textGlow {
+    0% {
+        text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        text-shadow: 2px 2px 20px rgba(255, 255, 255, 1);
+    }
+}
+
+/* Estilos para la barra de búsqueda */
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    position: relative; /* Para el posicionamiento de las sugerencias */
+}
+
+.search-form input {
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark) !important;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #dcdcdc; 
+    border-radius: 24px; 
+    width: 300px; 
+    transition: border 0.3s;
+}
+
+.search-form input:focus {
+    border: 1.5px solid var(--color-botones);
+    outline: none;
+    animation: inputFocus 0.3s ease-in-out forwards;
+}
+
+
+
+/* Animación suave cuando el input gana foco */
+@keyframes inputFocus {
+    from {
+        box-shadow: none;
+    }
+    to {
+        box-shadow: 0px 0px 8px var(--color-botones);
+    }
+}
+
+
+/* Estilo inicial del botón */
+.search-form button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 24px;
+    background-color: var(--color-botones);
+    color: white;
+    cursor: pointer;
+    margin-left: 10px; 
+    transition: background-color 0.4s ease, box-shadow 0.4s ease; 
+}
+
+/* Estilo del botón al hacer hover (animación de borde y cambio de color) */
+.search-form button:hover {
+    background-color: var(--color-botones-hover); 
+    box-shadow: inset 0 0 0 2px var(--color-botones);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--color-modelight);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 95%;
+    max-height: 89vh;
+    width: 75%;
+    overflow-y: auto;
+}
+
+/* scroll bar */
+.popup-content::-webkit-scrollbar {
+    width: 10px; 
+    background-color: var(--color-modelight);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.popup-content::-webkit-scrollbar-thumb {
+    background-color: var(--color-botones);
+    border-radius: 10px;
+}
+
+
+
+
+.popup.show {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup.hide {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+#cerrar-popup {
+    position: absolute;
+    top: 10px;
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: right 0.3s, left 0.3s;
+    right: 30px;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
+}
+
+#cerrar-popup:hover {
+    background-color: var(--color-botones-hover); /* Color al pasar el ratón */
+    padding: 6px 11px;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
+    font-size: 17px;
+}
+
+/* Estilos para la sección de ajustes */
+.ajustes-container {
+    height: 86%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: var(--color-modelight);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 30px;
+    color: var(--color-letrasdark);
+}
+
+body[data-theme="dark"] .ajustes-container {
+    color: var(--color-letraswhite);
+}
+
+body[data-theme="dark"] #fondo-url {
+    color: #888;
+}
+
+.ajustes-section {
+    flex: 1; /* Cada sección ocupa el mismo espacio */
+    padding: 15px;
+    border-radius: 8px;
+    background-color: var(--color-modelight);
+}
+
+.ajustes-container label {
+    margin-bottom: 10px;
+    
+}
+
+.ajustes-container select, .ajustes-container button {
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background: var(--color-modelight);
+    color: var(--color-letrasdark);
+    min-width: 200px;
+}
+
+.ajustes-container button {
+    background-color: var(--color-botones);
+    color: white;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-top: 5px;
+}
+
+.ajustes-container button:hover {
+    background-color: var(--color-botones-hover);
+    border: 1px solid var(--color-botones-hover);
+}
+
+/* Estilos para las opciones de fondo predeterminadas */
+.fondo-predeterminado {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+    flex-wrap: nowrap;
+    align-content: space-between;
+    justify-content: flex-start;
+}
+
+.fondo-predeterminado img {
+    width: 200px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.fondo-predeterminado img:hover {
+    opacity: 0.8;
+}
+
+/* Estilos para la miniatura de la imagen cargada */
+.miniatura {
+    margin-top: 15px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: none;
+}
+
+.ajustes-btn{
+    background-color: transparent;
+    border: none;
+    color: var(--color-botones);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 26px;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 30px;
+    height: 40px;
+    position: fixed;
+    top: 10px;
+    transition: right 0.3s, left 0.3s;
+}
+
+.ajustes-btn:hover i {
+    /* quiero que haga una animacion de girar un poco */
+    transform: rotate(360deg);
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.7s;
+
+}
+
+.ajustes-izquierda {
+    left: 10px;
+}
+
+.ajustes-derecha {
+    right: 10px;
+    left: auto !important;
+}
+
+#buscador{
+    width: 57%;
+}
+
+#fondo-url{
+    width: 37%;
+    padding: 10px;
+    border-radius: 30px;
+    border: solid 2px #ccc;
+    color: #888;
+    background-color: var(--color-modelight) !important;
+}
+  
+/* Otros estilos y animaciones */
+.favoritos-container {
+    position: fixed;
+    height: 90%;
+    width: 133px;
+    top: 50px;
+    background: var(--color-modelight);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: var(--color-letrasdark); 
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: right 0.3s ease, left 0.3s ease, opacity 0.3s ease;
+}
+
+.favoritos-derecha {
+    right: 20px;
+    left: auto;
+}
+
+.favoritos-izquierda {
+    left: 20px;
+    right: auto;
+}
+
+.favoritos-oculto {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes slideIn {
+    from {
+        right: -150px;
+        opacity: 0;
+    }
+    to {
+        right: 20px;
+        opacity: 1;
+    }
+}
+
+.favoritos-list {
+    max-height: 300px;
+}
+
+/* Estilos para el scroll vertical */
+.favoritos-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.favoritos-container::-webkit-scrollbar-thumb {
+    background: var(--color-botones); 
+    border-radius: 10px;
+}
+
+.favoritos-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-modelight1);
+}
+
+.favoritos-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0;
+    background: var(--color-modelight);
+    border-radius: 8px;
+    padding: 5px;
+    position: relative;
+}
+
+.favoritos-item:hover .boton-eliminar {
+    opacity: 1;
+}
+
+
+.favoritos-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+  
+
+
+.favoritos-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+  
+  .boton-eliminar {
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: red;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.2;
+  }
+  .boton-eliminar:hover {
+    transform: scale(1.2);
+}
+
+  #agregar-favorito-btn {
+    display: block;
+    margin: 10px 0;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--color-letrasdark);
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    
+  }
+  
+  #agregar-favorito {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-modelight);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    transition: transform 0.4s ease-in-out;
+    color: var(--color-letrasdark);
+  }
+  
+    #agregar-favorito.show {
+    transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Ocultar con animación */
+    #agregar-favorito.hide {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+  #agregar-favorito h2 {
+    margin: 0 0 10px;
+    font-weight: bold;
+  }
+
+  .oculto {
+    display: none;
+  }
+
+#nombre-favorito{
+    background-color: var(--color-modelight1);
+    border-radius: 10px;
+    height: 24px;
+    color: #888;
+}
+#url-favorito {
+    background-color: var(--color-modelight);
+    border-radius: 10px;
+    height: 24px;
+    color: #888;
+}
+  
+#cerrar-popup-favorito {
+    background-color: rgba(85, 27, 59, 0.815);
+    border-radius: 10px;
+    height: 24px;
+    color: #f0f0f0;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+#cerrar-popup-favorito:hover {
+    background-color: rgba(83, 40, 64, 0.815);
+}
+  
+.agregar-favorito-btn1 {
+    background-color: rgb(36, 165, 105);
+    border-radius: 10px;
+    height: 24px;
+    color: #f0f0f0;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.agregar-favorito-btn1:hover {
+    background-color: rgb(47, 117, 84);
+}
+  .img-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  #descargar-temas-btn {
+    position: relative;
+    top: -100px;
+    left: 200px;
+    transform: translate(-50%, -50%);
+    z-index: 1; 
+    background-color:var(--color-botones); 
+    padding: 20px 40px; 
+    border-radius: 40px; 
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--color-letraswhite);
+  }
+  #descargar-temas-btn:hover {
+    background-color: var(--color-botones-hover);
+    border: solid 2px var(--color-botones);
+  }
+
+  .img_fondos {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: blur(1px);
+    border-radius: 10px;
+  }
+  
+#ajustes-titulo{
+    font-size: 25px;
+    margin-left: 30%;
+}
+
+
+/* Bloc de notas */
+.app-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    background-color: var(--color-modelight);
+    background-size: cover;
+}
+
+/* Botones en la esquina inferior izquierda */
+.botones-inferiores {
+    position: fixed;
+    bottom: 50px; /* Aumentado el margen inferior para separar del botón de ajustes */
+    display: flex;
+    gap: 10px;
+    transition: right 0.3s, left 0.3s;
+}
+
+.botones-inferiores-izquierda {
+    left: 20px;
+}
+
+.botones-inferiores-derecha {
+    right: 20px;
+}
+
+
+
+/* Menú lateral que contiene las notas y el formulario de edición */
+.menu-lateral {
+    display: flex;
+    color: var(--color-letrasdark); 
+    background-color: var(--color-modelight);
+    border-radius: 15px;
+    padding: 20px;
+    width: 600px;
+    height: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; 
+    display: none; 
+}
+
+/* Para mostrar el menú al hacer clic en un botón */
+.menu-lateral.mostrar {
+    display: flex; 
+}
+
+/* El resto de los estilos aquí (como en el ejemplo anterior) */
+
+
+.lista-notas {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    overflow-y: auto; 
+}
+/* Estilos para la barra de desplazamiento en WebKit */
+.scrollable-notes::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+.scrollable-notes::-webkit-scrollbar-thumb {
+    background-color: #888; 
+    border-radius: 10px;
+}
+#crear-nota-btn {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+    width: 92%;
+}
+
+#crear-nota-btn:hover{
+background-color: #888;
+}
+.nota {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+/* Estilo para cada nota en la lista */
+.nota-pestana {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: var(--color-modelight); 
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    border: solid 1px #ccc;
+    transition: background-color 0.3s;
+    overflow: hidden;
+}
+
+.nota-pestana span {
+    width: 80%;
+    overflow: hidden;
+}
+
+.nota-pestana:hover {
+    background-color: #5c5c5c;
+}
+
+.formulario-nota {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: var(--color-letrasdark);
+}
+
+#contenido-nota{
+    resize:none;
+    margin-top: 10px;
+    padding: 10px;
+    width: 95%;
+    height: 50%;
+    border-radius: 15px;
+    border: solid 1px #ccc;
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark) !important;
+}
+
+#contenido-nota::-webkit-scrollbar {
+    width: 12px; 
+}
+
+#contenido-nota::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.destacar-notachekbox {
+    margin: 10px 0;
+    font-size: 14px;
+    display: inline-flex;
+    cursor: pointer;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: space-around;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* Estilo del checkbox */
+.destacar-notachekbox input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-letrasdark);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+/* Efecto al pasar el mouse */
+.destacar-notachekbox input[type="checkbox"]:hover {
+    border-color: var(--color-botones);
+    transform: scale(1.05);
+    box-shadow: 0 0 5px var(--color-botones);
+}
+
+/* Efecto al seleccionar */
+.destacar-notachekbox input[type="checkbox"]:checked {
+    background-color: var(--color-botones);
+    border-color: var(--color-botones);
+    animation: checkmark 0.3s ease-in-out;
+}
+
+/* Efecto de verificación con pseudo-elemento */
+.destacar-notachekbox input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.3s ease-in-out forwards;
+}
+
+@keyframes checkmark {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes checkmarkDraw {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    100% {
+        height: 10px;
+        opacity: 1;
+    }
+}
+
+#menu-notas button {
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark);
+    border: 1px solid #ccc;
+    border-radius: 17px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+#eliminar-nota-btn, #cerrar-notas-btn{
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark);
+    border: 1px solid #ccc;
+    border-radius: 17px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+    width: 98.5%;
+}
+
+#eliminar-nota-btn:hover, #cerrar-notas-btn:hover {
+    background-color: var(--color-botones-hover);
+    border: 1px solid #ccc;
+
+}
+
+#guardar-nota-btn{
+    background-color: #1e8361 !important;
+    margin-right: 10px !important;
+}
+#guardar-nota-btn:hover{
+    background-color: #3c9174 !important;
+    border: 1px solid #ccc !important;
+}
+.oculto {
+    display: none;
+}
+
+.mostrar {
+    display: flex !important; /* Mostrar el menú */
+}
+
+.lista-notas {
+    flex-basis: 30%;
+    margin-right: 20px;
+    overflow-y: auto;
+    
+}
+/* Estilos para la barra de desplazamiento en WebKit */
+.lista-notas::-webkit-scrollbar {
+    width: 12px;
+}
+
+.lista-notas::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+.formulario-nota {
+    flex-basis: 70%;
+}
+
+.cerrar-btn {
+    background-color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.eliminar-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.eliminar-btn.oculto {
+    display: none;
+}
+
+.nota-pestana {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px 30px 20px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.nota-pestana::-webkit-scrollbar {
+    width: 12px;
+}
+
+.nota-pestana::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.nota-pestana button {
+    background-color: #ff4d4d !important;
+    color: white!important;
+    border: none!important;
+    padding: 5px!important;
+    cursor: pointer!important;
+    width: 50px;
+}
+
+
+.notas-destacadas {
+    padding: 10px;
+    bottom: 4%;
+    position: fixed;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    flex-direction: row;
+    
+}
+.notas-destacadas strong {
+    font-size: 17px;
+}
+
+.nota-destacada {
+    padding: 10px;
+    margin-bottom: 10px;
+    color: var(--color-letrasdark);
+    background-color: var(--color-modelight);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-basis: 20%;
+    margin-right: 10px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nota-destacada strong {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+#ver-notas-btn {
+    border-radius: 30px;
+    color: var(--color-letraswhite);
+    background-color: var(--color-botones);
+    padding: 10px 20px;
+    border: 1px solid var(--color-botones);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    transition: background-color 0.4s ease;
+}
+
+#ver-notas-btn:hover {
+    background-color: var(--color-botones-hover);
+    box-shadow: inset 0 0 0 2px var(--color-botones); 
+}
+
+#menu-notas {
+    width: 60%;
+    height: 66%;
+    display: none;
+}
+
+#menu-notas.visible {
+    display: flex;
+}
+
+/* Estilo hover para el botón de eliminar */
+button:has(.fa-trash):hover {
+    opacity: 1 !important;
+}
+
+#titulo-nota{
+    height: 30px;
+    width: 96.5%;
+    border-radius: 15px;
+    border: solid 1px #ccc;
+    padding: 5px;
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark) !important;
+}
+
+#fecha-nota{
+    height: 30px;
+    width: 96.5%;
+    border-radius: 15px;
+    border: solid 1px #ccc;
+    padding: 5px;
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark);
+}
+
+#eliminar-nota-btn{
+    width: 160px;
+    background-color: rgb(158, 29, 29)!important;
+    color: white!important;
+    border: none!important;
+}
+#eliminar-nota-btn:hover{
+    background-color: rgb(131, 41, 41)!important;
+    color: white!important;
+    border: 1px solid  rgb(196, 75, 75)!important;
+}
+
+
+.columna-derecha {
+    width: 90%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: flex-end;
+    align-items: baseline;
+    justify-content: flex-start;
+}
+.columna-derecha label {
+    margin-left: 5%;
+}
+.columna-derecha input {
+    margin-left: 1%;
+    background-color: #38383842 !important;
+    border-radius: 6px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-botones);
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"]:checked {
+    background-color: var(--color-botones);
+    border-color: var(--color-botones-hover);
+}
+
+.radio-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-medelight);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: solid 1px var(--color-botones);
+}
+
+.radio-label span {
+    color: var(--color-letrasdark);
+    display: flex;
+    align-items: center;
+
+}
+
+.radio-label span::after {
+    content: '➡️';
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+.radio-label input[value="izquierda"] + span::after {
+    content: '⬅️';
+}
+
+.radio-label input[value="oculto"] + span::after {
+    content: '❌';
+    font-size: 14px;
+}
+.checkbox-colors {
+    background-color: var(--color-botones-hover) !important;
+    border-radius: 6px;
+}
+#modo-oscuro,
+#decoracion-reloj {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-letrasdark);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+#modo-oscuro:hover,
+#decoracion-reloj:hover {
+    border-color: var(--color-botones);
+    transform: scale(1.05);
+    box-shadow: 0 0 5px var(--color-botones);
+}
+
+#modo-oscuro:checked,
+#decoracion-reloj:checked {
+    background-color: var(--color-botones);
+    border-color: var(--color-botones);
+    animation: checkmark 0.3s ease-in-out;
+}
+
+#modo-oscuro:checked::before,
+#decoracion-reloj:checked::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.3s ease-in-out forwards;
+}
+#exportar-nota-btn {
+    width: 160px;
+    background-color: #1e8361 !important;
+    margin-right: 10px;
+}
+
+#exportar-nota-btn:hover {
+    background-color: #3f9478 !important;
+}
+
+
+/* Estilo para el contenedor de las notas que permite el desplazamiento */
+.scrollable-notes {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    overflow-y: auto; 
+    height: 500px;
+}
+
+/* Botón "Crear Nota" fijo al final de la lista */
+.fixed-button {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+/* Estilo adicional para el botón al pasar el ratón */
+.fixed-button:hover {
+    background-color: var(--color-botones-hover);
+}
+
+
+
+@media screen and (max-width: 1500px) {
+    .ajustes-container {
+        height: 86%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        border-radius: 8px;
+        padding: 20px;
+        background-color: var(--color-modelight);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 30px;
+        color: var(--color-letrasdark);
+    }
+    .fondo-predeterminado {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 15px;
+        flex-wrap: nowrap;
+        align-content: space-between;
+        justify-content: center;
+    }
+
+    .fondo-predeterminado img {
+        width: 170px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: 724px) {
+    #favoritos-container{
+        display: none;
+        transition: right 0.3s ease, opacity 0.3s ease;
+    }
+    #reloj{
+        font-size: 7.2rem;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+        flex-direction: column;
+    }
+
+    .fondo-predeterminado {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        flex-wrap: nowrap;
+        align-content: space-between;
+        justify-content: center;
+    }
+
+    #descargar-temas-btn {
+        position: relative;
+        top: -60px;
+        left: 20px;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        background-color: var(--color-botones);
+        padding: 10px 20px;
+        border-radius: 40px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 20px;
+        color: var(--color-letraswhite);
+    }
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New tab</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css' rel='stylesheet' />
+  <link rel="icon" href="icons/logoext.webp" type="image/png">
+</head>
+
+<body style="background-image: url('./fondos/background2.png'); background-size: cover;">
+  <div class="header">
+    <button id="ajustes-btn" class="ajustes-btn"><i class="fa-duotone fa-solid fa-gear"style="--fa-primary-color: #b8c5db; --fa-secondary-color: #1f3d6f;"></i></button>
+  </div>
+
+  <div class="reloj-container">
+    <h1 id="reloj"></h1>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="search-container">
+    <form id="search-form" action="https://www.google.com/search" method="get" class="search-form">
+      <input type="text" id="search-input" name="q" placeholder="Search..." data-translate="search-placeholder" class="fuente-aplicada"/>
+      <button type="submit" id="search-button">
+        <i class="fa-sharp-duotone fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+  </div>
+  <div id="notas-destacadas" class="notas-destacadas">
+    <!-- Aquí se mostrarán las notas destacadas -->
+  </div>
+  <div class="app-container">
+    <!-- Botones de menú -->
+    <div class="botones-inferiores">
+      <button id="ver-notas-btn" data-translate="notes-button" class="fuente-aplicada">Notes</button>
+    </div>
+    <div class="menu-lateral oculto" id="menu-notas">
+      <div class="lista-notas">
+        <h3 class="notatitle" data-translate="notes-title">Notes <i class="fa-regular fa-note-sticky"></i></h3>
+        <div id="lista-notas" class="scrollable-notes"></div> <!-- Añadido scrollable-notes -->
+        <button id="crear-nota-btn" class="fixed-button" data-translate="create-note" style="font-family: var(--fuente-pagina);">Create Note</button> <!-- Cambiado a fixed-button -->
+      </div>
+
+      <div class="formulario-nota">
+        <h3 class="note-details" data-translate="note-details">Detalles de la Nota</h3>
+        <input type="text" id="titulo-nota" data-translate="note-title-placeholder" placeholder="Título de la Nota" data-translate-title="note-title-tooltip" title="Title of the note">
+        <textarea id="contenido-nota" data-translate="note-content-placeholder" placeholder="Contenido de la Nota"></textarea>
+    
+        <!-- Checkbox para destacar nota -->
+        <section class="destacar-notachekbox">
+            <label class="destacar-notachekbox" style="display: none;">
+                <input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;
+            </label>
+            <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note" class="fuente-aplicada">Eliminar Nota <i class="fa-solid fa-trash"></i></button>
+            <button id="exportar-nota-btn" data-translate="export-note" class="fuente-aplicada">Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
+        </section>
+        <!-- Campo para seleccionar la fecha -->
+
+    
+        <button id="guardar-nota-btn" data-translate="save-note" class="fuente-aplicada">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
+        
+        <button id="cerrar-notas-btn" data-translate="cerrarPopup" class="fuente-aplicada">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  <!-- Contenedor de Favoritos -->
+  <div id="favoritos-container" class="favoritos-container">
+    <h3 id="titulo-favoritos" data-translate="favorites-title">Favorites</h3>
+    <div id="favoritos-list" class="favoritos-list"></div>
+    <button id="agregar-favorito-btn">+</button>
+  </div>
+  <!-- Popup de agregar favorito -->
+  <div id="agregar-favorito" class="agregar-favorito oculto">
+    <h3 style="font-size: 30px;" data-translate="add-favorites-title">Add Favorites</h3>
+    <form id="favorito-form">
+      <input class="fuente-aplicada" type="text" id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Nombre del sitio" required>
+      <input class="fuente-aplicada" type="url" id="url-favorito" data-translate="site-url-placeholder" placeholder="URL del sitio" required>
+      <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button" style="font-family: var(--fuente-pagina)">Add</button>
+      <button type="button" id="cerrar-popup-favorito" data-translate="close-button" class="fuente-aplicada">Close</button>
+    </form>
+  </div>
+  <!-- Popup de ajustes -->
+  <div class="popup" id="popup" style="display: none;">
+    <div class="popup-content" id="ajustes-menu">
+      <button id="cerrar-popup" class="fuente-aplicada"><i class="fa-solid fa-square-xmark"></i> <span id="cerrar-menu-btn" data-translate="cerrarPopup">Close</span> </button>
+      <div class="ajustes-container">
+        <div class="ajustes-section main-settings">
+          <h2 for="ajustes" data-translate="ajustes">Settings</h2>
+          <div class="settings-group">
+            <div class="setting-item">
+              <label for="idioma" data-translate="select-language">Select Language:</label>
+              <select id="idioma"  class="fuente-aplicada">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="val">Valencià</option>
+                <option value="fr">Français</option>
+                <option value="ru">Русский</option>
+                <option value="zh">中文</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+              </select>
+            </div>
+
+            <div class="setting-item">
+              <i class="fa-solid fa-palette"></i> &nbsp;
+              <label for="color-tema" data-translate="choose-theme-color">Choose Theme Color:</label>
+              <input class="selecionable-color" type="color" id="color-tema" name="color-tema" value="#781c52">
+            </div>
+            <div class="setting-item">
+              <i class="fa-solid fa-circle-half-stroke"></i> &nbsp;
+              <label for="modo-oscuro" data-translate="dark-mode">Dark Mode:</label>
+              <input class="checkbox-colors" type="checkbox" id="modo-oscuro" name="modo-oscuro">
+            </div>
+            <div class="setting-item">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> <i class="fa-solid fa-clock"></i> &nbsp;
+              <label for="decoracion-reloj" data-translate="enable-clock-decoration">Enable Clock Decoration:</label>
+              <input class="checkbox-colors" type="checkbox" id="decoracion-reloj" name="decoracion-reloj" checked>
+            </div>
+            <div class="setting-item">
+              <i class="fa-solid fa-palette"> <i class="fa-solid fa-clock"></i></i> &nbsp;
+              <label for="color-reloj" data-translate="colorReloj">Color del Reloj:</label>
+              <input class="selecionable-color" type="color" id="color-reloj" name="color-reloj" value="#ffffff">
+            </div>
+            <div class="setting-item">
+              <i class="fa-solid fa-eye-slash"></i> <i class="fa-solid fa-clock"></i> &nbsp;
+              <label for="mostrar-reloj" data-translate="mostrarReloj">Mostrar Reloj:</label>
+              <input class="checkbox-colors" type="checkbox" id="mostrar-reloj" name="mostrar-reloj" checked>
+            </div>
+            <div class="setting-item">
+              <i class="fa-solid fa-eye-slash"></i> <i class="fa-solid fa-magnifying-glass"></i> &nbsp;
+              <label for="mostrar-busqueda" data-translate="mostrarBusqueda">Mostrar Barra de Búsqueda:</label>
+              <input class="checkbox-colors" type="checkbox" id="mostrar-busqueda" name="mostrar-busqueda" checked>
+            </div>
+            
+            <div class="setting-item">
+              <i class="fa-solid fa-up-down-left-right"></i> &nbsp;
+              <label for="posicion-favoritos" data-translate="posicionFavoritos">Posición de Favoritos:</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="posicion-favoritos" value="derecha" checked>
+                  <span for="posicionDerecha" data-translate="posicionDerecha">Right</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="posicion-favoritos" value="izquierda">
+                  <span for="posicionIzquierda" data-translate="posicionIzquierda">Left</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="posicion-favoritos" value="oculto">
+                  <span for="posicionOculta" data-translate="ocultar">Hide</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ajustes-section background-settings">
+          <div class="setting-item">
+            <h2 for="font-page" data-translate="fontpage">Font page</h2>
+            <i class="fa-solid fa-font"></i> &nbsp;
+            <label for="selecionarfuentepagina" data-translate="select-font">Seleccionar Fuente:</label>
+            <select id="fuente-pagina"  class="fuente-aplicada">
+              <option value="Arial, sans-serif" style="font-family: Arial">Arial</option>
+              <option value="Archivo, sans-serif" style="font-family: Archivo">Archivo</option>
+              <option value="Bebas Neue, sans-serif" style="font-family: Bebas Neue">Bebas Neue</option>
+              <option value="Cal Sans, sans-serif" style="font-family: Cal Sans">Cal Sans</option>
+              <option value="Comic Relief, sans-serif" style="font-family: Comic Relief">Comic Relief</option>
+              <option value="Dancing Script, cursive" style="font-family: Dancing Script">Dancing Script</option>
+              <option value="Playwrite, sans-serif" style="font-family: Playwrite">Playwrite</option>
+              <option value="Roboto Mono, monospace" style="font-family: Roboto Mono">Roboto Mono</option>
+              <option value="Roboto Condensed, sans-serif"style="font-family: Roboto Condensed">Roboto Condensed</option>
+            </select>
+          </div>
+          <h2 for="fondo" data-translate="fondo">Background</h2>
+          <div class="settings-group">
+            <div class="setting-item">
+              <i class="fa-solid fa-image"></i> &nbsp;
+              <label for="choose-background" data-translate="choose-background">Choose a background:</label>
+              <div class="fondo-predeterminado">
+                <img src="./fondos/background1.png" alt="Background 1" data-image="./fondos/background1.png">
+                <img src="./fondos/background2.png" alt="Background 2" data-image="./fondos/background2.png">
+                <img src="./fondos/background3.gif" alt="Background 3" data-image="./fondos/background3.gif" data-fallback="./fondos/background3.png">
+              </div>
+            </div>
+            <div class="setting-item">
+              <i class="fa-solid fa-link"></i> &nbsp;
+              <label for="fondo-url" data-translate="background-url-label">Or introduce a background URL (GIF/PNG):</label>
+              <input type="url" id="fondo-url" placeholder="https://example.com/background.png" class="fuente-aplicada">
+              <button id="guardar-fondo-url" data-translate="use-background-url" class="fuente-aplicada">Use Background URL</button>
+            </div>
+            <div class="setting-item gallery-link">
+              <a href="https://github.com/AgustinBeniteez/themes-nav" target="_blank" class="img-container">
+                <img class="img_fondos" src="./fondos/wallpapergallery.webp" alt="Gallery wallpapers">
+                <a id="descargar-temas-btn" href="https://agustinbeniteez.github.io/themes-nav/themes-nav.html" target="_blank">
+                  <span id="wallpaper-gallery-text" data-translate="wallpaper-gallery">Wallpaper Gallery</span>
+                  <i class="fa-solid fa-images"></i>
+                </a>
+              </a>
+        <div id="credits">
+          <p class="credits">By AgustinBeniteez : <a href="https://github.com/AgustinBeniteez">https://github.com/AgustinBeniteez</a></p>
+          <p class="credits"><a href="https://agustinbeniteez.github.io/Custom-Browser-Main-Page/">WebSite Oficial</a></p>
+          <p class="credits"><a href="https://github.com/AgustinBeniteez/Custom-Browser-Main-Page">Open Source</a></p>
+        </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
