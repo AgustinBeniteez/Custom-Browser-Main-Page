@@ -32,6 +32,14 @@
       "download": {
         "title": "Free Download",
         "description": "Start customizing your browser today. Download for free and start creating your own workspace."
+      },
+      "clock": {
+        "title": "Customize the Clock",
+        "description": "You can change the clock color and many other features..."
+      },
+      "fonts": {
+        "title": "Customize the Typography",
+        "description": "Select the fonts you want to use in the extension. This will help you personalize your browsing experience."
       }
     },
     "download_popup": {
@@ -86,6 +94,14 @@
       "download": {
         "title": "Descarga Gratuita",
         "description": "Comienza a personalizar tu navegador hoy mismo. Descarga gratis y empieza a crear tu propio espacio de trabajo."
+      },
+      "clock": {
+        "title": "Customiza el reloj",
+        "description": "Puedes cambiar el color del reloj y muchas cosas mas..."
+      },
+      "fonts": {
+        "title": "Personaliza las tipografías",
+        "description": "Selecciona las tipografías que quieras utilizar en la extension. Esto te ayudará a personalizar tu experiencia de navegación."
       }
     },
     "download_popup": {
@@ -140,6 +156,14 @@
       "download": {
         "title": "Téléchargement Gratuit",
         "description": "Commencez à personnaliser votre navigateur dès aujourd'hui. Téléchargez gratuitement et commencez à créer votre propre espace de travail."
+      },
+      "clock": {
+        "title": "Personnaliser l'horloge",
+        "description": "Vous pouvez changer la couleur de l'horloge et bien d'autres fonctionnalités..."
+      },
+      "fonts": {
+        "title": "Personnaliser la typographie",
+        "description": "Sélectionnez les polices que vous souhaitez utiliser dans l'extension. Cela vous aidera à personnaliser votre expérience de navigation."
       }
     },
     "download_popup": {
@@ -194,6 +218,14 @@
       "download": {
         "title": "무료 다운로드",
         "description": "지금 바로 브라우저 커스터마이징을 시작하세요. 무료로 다운로드하고 나만의 작업 공간을 만들어보세요."
+      },
+      "clock": {
+        "title": "시계 커스터마이징",
+        "description": "시계 색상과 다양한 기능을 변경할 수 있습니다..."
+      },
+      "fonts": {
+        "title": "글꼴 커스터마이징",
+        "description": "확장 프로그램에서 사용할 글꼴을 선택하세요. 이를 통해 브라우징 경험을 개인화할 수 있습니다."
       }
     },
     "download_popup": {

@@ -52,7 +52,7 @@ function applyTranslations() {
     const featureDescriptions = document.querySelectorAll('.feature-description');
     
     // Mapeo de índices a claves de características
-    const featureKeys = ['customization', 'theme', 'favorites', 'notes', 'download'];
+    const featureKeys = ['customization', 'theme', 'favorites', 'clock', 'fonts', 'notes', 'download'];
     
     featureTitles.forEach((title, index) => {
         if (featureKeys[index]) {
