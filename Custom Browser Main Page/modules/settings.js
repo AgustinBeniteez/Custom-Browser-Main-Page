@@ -20,29 +20,34 @@ class SettingsManager {
       colorTemaInput: document.getElementById('color-tema'),
       decoracionRelojCheckbox: document.getElementById('decoracion-reloj'),
       colorRelojInput: document.getElementById('color-reloj'),
+      mostrarRelojCheckbox: document.getElementById('mostrar-reloj'),
+      mostrarBusquedaCheckbox: document.getElementById('mostrar-busqueda'),
       posicionFavoritosSelect: document.getElementById('posicion-favoritos'),
       fondoInput: document.getElementById('fondo-url'),
       guardarFondoBtn: document.getElementById('guardar-fondo-url'),
       relojContainer: document.querySelector('.reloj-container'),
       reloj: document.getElementById('reloj'),
-      favoritosContainer: document.getElementById('favoritos-container')
+      favoritosContainer: document.getElementById('favoritos-container'),
+      searchContainer: document.querySelector('.search-container')
     };
   }
 
   bindEvents() {
     // Eventos del popup de ajustes
-    this.elements.ajustesBtn.addEventListener('click', () => this.togglePopup(true));
-    this.elements.cerrarPopup.addEventListener('click', () => this.togglePopup(false));
+    if (this.elements.ajustesBtn) this.elements.ajustesBtn.addEventListener('click', () => this.togglePopup(true));
+    if (this.elements.cerrarPopup) this.elements.cerrarPopup.addEventListener('click', () => this.togglePopup(false));
 
     // Eventos de configuración
-    this.elements.idiomaSelect.addEventListener('change', (e) => this.updateLanguage(e.target.value));
-    this.elements.buscadorSelect.addEventListener('change', (e) => this.updateSearchEngine(e.target.value));
-    this.elements.modoOscuroCheckbox.addEventListener('change', (e) => this.updateDarkMode(e.target.checked));
-    this.elements.colorTemaInput.addEventListener('input', (e) => this.updateThemeColor(e.target.value));
-    this.elements.decoracionRelojCheckbox.addEventListener('change', (e) => this.updateClockDecoration(e.target.checked));
-    this.elements.colorRelojInput.addEventListener('input', (e) => this.updateClockColor(e.target.value));
-    this.elements.posicionFavoritosSelect.addEventListener('change', (e) => this.updateFavoritesPosition(e.target.value));
-    this.elements.guardarFondoBtn.addEventListener('click', () => this.updateBackground());
+    if (this.elements.idiomaSelect) this.elements.idiomaSelect.addEventListener('change', (e) => this.updateLanguage(e.target.value));
+    if (this.elements.buscadorSelect) this.elements.buscadorSelect.addEventListener('change', (e) => this.updateSearchEngine(e.target.value));
+    if (this.elements.modoOscuroCheckbox) this.elements.modoOscuroCheckbox.addEventListener('change', (e) => this.updateDarkMode(e.target.checked));
+    if (this.elements.colorTemaInput) this.elements.colorTemaInput.addEventListener('input', (e) => this.updateThemeColor(e.target.value));
+    if (this.elements.decoracionRelojCheckbox) this.elements.decoracionRelojCheckbox.addEventListener('change', (e) => this.updateClockDecoration(e.target.checked));
+    if (this.elements.colorRelojInput) this.elements.colorRelojInput.addEventListener('input', (e) => this.updateClockColor(e.target.value));
+    if (this.elements.mostrarRelojCheckbox) this.elements.mostrarRelojCheckbox.addEventListener('change', (e) => this.updateClockVisibility(e.target.checked));
+    if (this.elements.mostrarBusquedaCheckbox) this.elements.mostrarBusquedaCheckbox.addEventListener('change', (e) => this.updateSearchVisibility(e.target.checked));
+    if (this.elements.posicionFavoritosSelect) this.elements.posicionFavoritosSelect.addEventListener('change', (e) => this.updateFavoritesPosition(e.target.value));
+    if (this.elements.guardarFondoBtn) this.elements.guardarFondoBtn.addEventListener('click', () => this.updateBackground());
 
     // Eventos para fondos predeterminados
     document.querySelectorAll('.fondo-predeterminado img').forEach(img => {
@@ -64,6 +69,8 @@ class SettingsManager {
     this.loadThemeColor();
     this.loadClockDecoration();
     this.loadClockColor();
+    this.loadClockVisibility();
+    this.loadSearchVisibility();
     this.loadFavoritesPosition();
     this.loadBackground();
   }
@@ -147,6 +154,9 @@ class SettingsManager {
         break;
       case 'oculto':
         container.classList.add('favoritos-oculto');
+        ajustesBtn.classList.add('ajustes-izquierda');
+        notasBtn.classList.add('ajustes-izquierda');
+        popup.classList.add('popup-izquierda');
         break;
     }
     
@@ -237,6 +247,36 @@ class SettingsManager {
     if (url) {
       this.updateBackground(url);
     }
+  }
+
+  updateClockVisibility(visible) {
+    localStorage.setItem('mostrarReloj', visible);
+    if (this.elements.relojContainer) {
+      this.elements.relojContainer.style.display = visible ? 'block' : 'none';
+    }
+  }
+
+  loadClockVisibility() {
+    const visible = localStorage.getItem('mostrarReloj') !== 'false';
+    if (this.elements.mostrarRelojCheckbox) {
+      this.elements.mostrarRelojCheckbox.checked = visible;
+    }
+    this.updateClockVisibility(visible);
+  }
+
+  updateSearchVisibility(visible) {
+    localStorage.setItem('mostrarBusqueda', visible);
+    if (this.elements.searchContainer) {
+      this.elements.searchContainer.style.display = visible ? 'block' : 'none';
+    }
+  }
+
+  loadSearchVisibility() {
+    const visible = localStorage.getItem('mostrarBusqueda') !== 'false';
+    if (this.elements.mostrarBusquedaCheckbox) {
+      this.elements.mostrarBusquedaCheckbox.checked = visible;
+    }
+    this.updateSearchVisibility(visible);
   }
 
   // Utilidades
