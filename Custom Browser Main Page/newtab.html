@@ -20,12 +20,12 @@
 
   <!-- Barra de búsqueda -->
   <div class="search-container">
-    <form id="search-form" action="https://www.google.com/search" method="get" class="search-form">
-      <input type="text" id="search-input" name="q" placeholder="Search..." data-translate="search-placeholder" class="fuente-aplicada"/>
-      <button type="submit" id="search-button">
-        <i class="fa-sharp-duotone fa-solid fa-magnifying-glass"></i>
-      </button>
-    </form>
+  <form id="search-form" action="https://www.google.com/search" method="get" class="search-form">
+    <input type="text" id="search-input" name="q" placeholder="Search..." />
+    <button type="submit" id="search-button">
+      <i class="fa-sharp-duotone fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
   </div>
   <div id="notas-destacadas" class="notas-destacadas">
     <!-- Aquí se mostrarán las notas destacadas -->
@@ -101,7 +101,16 @@
                 <option value="ko">한국어</option>
               </select>
             </div>
-
+            <div class="setting-item">
+              <label for="buscador">Select Search Engine:</label>
+              <select id="buscador">
+                <option value="google">Google</option>
+                <option value="bing">Bing</option>
+                <option value="yahoo">Yahoo</option>
+                <option value="brave">Brave Search</option>
+                <option value="duckduckgo">DuckDuckGo</option>
+              </select>
+            </div>
             <div class="setting-item">
               <i class="fa-solid fa-palette"></i> &nbsp;
               <label for="color-tema" data-translate="choose-theme-color">Choose Theme Color:</label>
