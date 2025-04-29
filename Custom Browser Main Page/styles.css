@@ -343,20 +343,15 @@ h1 {
     border-radius: 5px;
     font-size: 15px;
     transition: right 0.3s, left 0.3s;
-}
-
-.popup-izquierda #cerrar-popup {
-    right: 10px;
-    left: auto;
-}
-
-.popup-derecha #cerrar-popup {
-    left: 10px;
-    right: auto;
+    right: 30px;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
 }
 
 #cerrar-popup:hover {
     background-color: var(--color-botones-hover); /* Color al pasar el ratón */
+    padding: 6px 11px;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
+    font-size: 17px;
 }
 
 /* Estilos para la sección de ajustes */
