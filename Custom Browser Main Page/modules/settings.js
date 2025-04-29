@@ -15,7 +15,6 @@ class SettingsManager {
       ajustesBtn: document.getElementById('ajustes-btn'),
       cerrarPopup: document.getElementById('cerrar-popup'),
       idiomaSelect: document.getElementById('idioma'),
-      buscadorSelect: document.getElementById('buscador'),
       modoOscuroCheckbox: document.getElementById('modo-oscuro'),
       colorTemaInput: document.getElementById('color-tema'),
       decoracionRelojCheckbox: document.getElementById('decoracion-reloj'),
@@ -41,7 +40,7 @@ class SettingsManager {
 
     // Eventos de configuración
     if (this.elements.idiomaSelect) this.elements.idiomaSelect.addEventListener('change', (e) => this.updateLanguage(e.target.value));
-    if (this.elements.buscadorSelect) this.elements.buscadorSelect.addEventListener('change', (e) => this.updateSearchEngine(e.target.value));
+
     if (this.elements.modoOscuroCheckbox) this.elements.modoOscuroCheckbox.addEventListener('change', (e) => this.updateDarkMode(e.target.checked));
     if (this.elements.colorTemaInput) this.elements.colorTemaInput.addEventListener('input', (e) => this.updateThemeColor(e.target.value));
     if (this.elements.decoracionRelojCheckbox) this.elements.decoracionRelojCheckbox.addEventListener('change', (e) => this.updateClockDecoration(e.target.checked));
@@ -70,7 +69,6 @@ class SettingsManager {
   loadSettings() {
     // Cargar configuraciones guardadas
     this.loadLanguage();
-    this.loadSearchEngine();
     this.loadDarkMode();
     this.loadThemeColor();
     this.loadClockDecoration();
@@ -236,10 +234,7 @@ class SettingsManager {
     this.updateLanguage(language);
   }
 
-  loadSearchEngine() {
-    const engine = localStorage.getItem('buscadorSeleccionado') || 'google';
-    this.elements.buscadorSelect.value = engine;
-  }
+
 
   loadDarkMode() {
     const enabled = localStorage.getItem('modoOscuro') === 'true';
