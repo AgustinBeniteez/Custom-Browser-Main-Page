@@ -45,6 +45,74 @@ a {
     color: var(--color-blanco);
 }
 
+/* Estilos para los checkboxes personalizados */
+.checkbox-colors {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-letrasdark);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.checkbox-colors:hover {
+    border-color: var(--color-botones);
+    transform: scale(1.05);
+    box-shadow: 0 0 5px var(--color-botones);
+}
+
+.checkbox-colors:checked {
+    background-color: var(--color-botones);
+    border-color: var(--color-botones);
+    animation: checkmark 0.3s ease-in-out;
+}
+
+.checkbox-colors:checked::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.3s ease-in-out forwards;
+}
+
+.setting-item {
+    margin: 15px 0;
+}
+
+.selecionable-color{
+    display: flex;
+    flex-direction: row;
+    appearance: none;
+    width: 70px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+@keyframes checkmark {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes checkmarkDraw {
+    0% { height: 0; opacity: 0; }
+    100% { height: 10px; opacity: 1; }
+}
+
 a:hover {
     color: var(--color-hover);
 }
@@ -117,6 +185,8 @@ h1 {
     animation: inputFocus 0.3s ease-in-out forwards;
 }
 
+
+
 /* Animación suave cuando el input gana foco */
 @keyframes inputFocus {
     from {
@@ -147,52 +217,58 @@ h1 {
     box-shadow: inset 0 0 0 2px var(--color-botones); /* Borde animado al hacer hover */
 }
 
-/* Estilos para el popup */
 .popup {
-    width: 800px;
-    height: 90%;
     display: none;
     position: fixed;
-    z-index: 1;
-    top: 1%;
-    overflow: auto;
-    background-color: var(--color-modelight);
-    scrollbar-width: none;
-    border-radius: 8px;
-    transition: all 0.3s ease-in-out;
-    color: var(--color-letrasdark);
-}
-
-.popup-izquierda {
-    left: 20px;
-}
-
-.popup-derecha {
-    right: 20px;
-}
-.popup.show {
-    left: 10px; /* Mover a la posición visible */
-    transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Transiciones para suavizar la animación */
-}
-
-/* Animación para ocultar el popup */
-.popup.hide {
-    left: -320px; /* Mover fuera de la vista hacia la izquierda */
-    animation: slideIn 1s ease-in-out; /* Animación para que la lista de favoritos entre desde la derecha */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
 }
 
 .popup-content {
-    /* background-color: var(--color-modelight1); */
-    margin: 0;
-    padding: 20px;
-    height: 95%;
-    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--color-modelight);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    max-width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+
+
+.popup.show {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup.hide {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 #cerrar-popup {
     position: absolute; /* Posiciona el botón en relación a .popup-content */
     top: 10px; /* Ajusta la posición desde la parte superior */
-    background-color: #ff4d4d; /* Color de fondo */
+    background-color: var(--color-botones); /* Color de fondo */
     color: white; /* Color del texto */
     border: none; /* Sin borde */
     padding: 5px 10px; /* Relleno */
@@ -212,20 +288,37 @@ h1 {
 }
 
 #cerrar-popup:hover {
-    background-color: #ff1a1a; /* Color al pasar el ratón */
+    background-color: var(--color-botones-hover); /* Color al pasar el ratón */
 }
 
 /* Estilos para la sección de ajustes */
 .ajustes-container {
     height: 86%;
     display: flex;
-    flex-direction: column; /* Alinear opciones verticalmente */
-    align-items: flex-start; /* Alinear a la izquierda */
-    margin-top: 20px; /* Espacio superior */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 20px; /* Espaciado interno */
-    background-color: var(--color-modelight); /* Color de fondo ligero */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: var(--color-modelight);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 30px;
+    color: var(--color-letrasdark);
+}
+
+body[data-theme="dark"] .ajustes-container {
+    color: var(--color-letraswhite);
+}
+
+body[data-theme="dark"] #fondo-url {
+    color: #888;
+}
+
+.ajustes-section {
+    flex: 1; /* Cada sección ocupa el mismo espacio */
+    padding: 15px;
+    border-radius: 8px;
+    background-color: var(--color-modelight);
 }
 
 .ajustes-container label {
@@ -234,14 +327,14 @@ h1 {
 }
 
 .ajustes-container select, .ajustes-container button {
-    margin-bottom: 15px;
-    padding: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 16px;
-    /* width: 24%; */
     background: var(--color-modelight);
     color: var(--color-letrasdark);
+    min-width: 200px;
 }
 
 .ajustes-container button {
@@ -315,7 +408,7 @@ h1 {
 }
 
 #buscador{
-    width: 37%;
+    width: 57%;
 }
 
 #fondo-url{
@@ -531,7 +624,7 @@ h1 {
   #descargar-temas-btn {
     position: relative;
     top: -100px;
-    left: 240px;
+    left: 200px;
     transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
     z-index: 1; /* Asegúrate de que el botón esté encima de la imagen */
     background-color:var(--color-botones); /* Fondo blanco semitransparente */
@@ -721,33 +814,64 @@ background-color: #888;
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #ccc;
-    border-color: var(--color-letrasdark);
+    border: 2px solid var(--color-letrasdark);
     border-radius: 4px;
     outline: none;
-    transition: border-color 0.3s, background-color 0.3s;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: transparent;
 }
 
 /* Efecto al pasar el mouse */
 .destacar-notachekbox input[type="checkbox"]:hover {
-    border-color: var(--color-botones-hover); /* Cambiar a morado al pasar el mouse */
-
+    border-color: var(--color-botones);
+    transform: scale(1.05);
+    box-shadow: 0 0 5px var(--color-botones);
 }
 
 /* Efecto al seleccionar */
 .destacar-notachekbox input[type="checkbox"]:checked {
-    background-color: var(--color-botones); /* Color de fondo al seleccionar */
-    border-color: var(--color-botones-hover); /* Color del borde al seleccionar */
+    background-color: var(--color-botones);
+    border-color: var(--color-botones);
+    animation: checkmark 0.3s ease-in-out;
 }
 
-/* Efecto de verificación */
-.destacar-notachekbox input[type="checkbox"]:checked::after {
-    content: '✓'; /* Símbolo de verificación */
-    color: white; /* Color del símbolo */
+/* Efecto de verificación con pseudo-elemento */
+.destacar-notachekbox input[type="checkbox"]:checked::before {
+    content: '';
     position: absolute;
-    left: 2px; /* Ajustar la posición */
-    top: 0; /* Ajustar la posición */
-    font-size: 18px; /* Tamaño del símbolo */
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.3s ease-in-out forwards;
+}
+
+@keyframes checkmark {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes checkmarkDraw {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    100% {
+        height: 10px;
+        opacity: 1;
+    }
 }
 
 #menu-notas button {
@@ -759,7 +883,7 @@ background-color: #888;
     padding: 10px 20px;
     margin-top: 10px;
 }
-#eliminar-nota-btn, #cerrar-menu-btn{
+#eliminar-nota-btn, #cerrar-notas-btn{
     background-color: var(--color-modelight);
     color: var(--color-letrasdark);
     border: 1px solid #ccc;
@@ -770,7 +894,7 @@ background-color: #888;
     width: 98.5%;
 }
 
-#eliminar-nota-btn:hover, #cerrar-menu-btn:hover {
+#eliminar-nota-btn:hover, #cerrar-notas-btn:hover {
     background-color: var(--color-botones-hover);
     border: 1px solid #ccc;
 
@@ -979,8 +1103,81 @@ button:has(.fa-trash):hover {
     background-color: #38383842 !important;
     border-radius: 6px;
 }
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-botones);
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"]:checked {
+    background-color: var(--color-botones);
+    border-color: var(--color-botones-hover);
+}
+
+.radio-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-medelight);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: solid 1px var(--color-botones);
+}
+
+.radio-label span {
+    color: var(--color-letrasdark);
+    display: flex;
+    align-items: center;
+
+}
+
+.radio-label span::after {
+    content: '➡️';
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+.radio-label input[value="izquierda"] + span::after {
+    content: '⬅️';
+}
+
+.radio-label input[value="oculto"] + span::after {
+    content: '❌';
+    font-size: 14px;
+}
 .checkbox-colors {
-    background-color: #882c65 !important;
+    background-color: var(--color-botones-hover) !important;
     border-radius: 6px;
 }
 #modo-oscuro,
@@ -988,29 +1185,41 @@ button:has(.fa-trash):hover {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid var(--color-botones);
+    border: 2px solid var(--color-letrasdark);
     border-radius: 4px;
     outline: none;
-    transition: background-color 0.3s, border-color 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+#modo-oscuro:hover,
+#decoracion-reloj:hover {
+    border-color: var(--color-botones);
+    transform: scale(1.05);
+    box-shadow: 0 0 5px var(--color-botones);
 }
 
 #modo-oscuro:checked,
 #decoracion-reloj:checked {
     background-color: var(--color-botones);
-    border-color: var(--color-botones-hover);
+    border-color: var(--color-botones);
+    animation: checkmark 0.3s ease-in-out;
 }
 
-#modo-oscuro:checked::after,
-#decoracion-reloj:checked::after {
-    content: '✓';
-    color: var(--color-letrasdark);
-   
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#modo-oscuro:checked::before,
+#decoracion-reloj:checked::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.3s ease-in-out forwards;
 }
 #exportar-nota-btn {
     width: 160px;

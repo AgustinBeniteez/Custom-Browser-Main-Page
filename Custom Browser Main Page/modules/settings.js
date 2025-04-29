@@ -22,7 +22,7 @@ class SettingsManager {
       colorRelojInput: document.getElementById('color-reloj'),
       mostrarRelojCheckbox: document.getElementById('mostrar-reloj'),
       mostrarBusquedaCheckbox: document.getElementById('mostrar-busqueda'),
-      posicionFavoritosSelect: document.getElementById('posicion-favoritos'),
+      posicionFavoritosRadios: document.getElementsByName('posicion-favoritos'),
       fondoInput: document.getElementById('fondo-url'),
       guardarFondoBtn: document.getElementById('guardar-fondo-url'),
       relojContainer: document.querySelector('.reloj-container'),
@@ -46,7 +46,11 @@ class SettingsManager {
     if (this.elements.colorRelojInput) this.elements.colorRelojInput.addEventListener('input', (e) => this.updateClockColor(e.target.value));
     if (this.elements.mostrarRelojCheckbox) this.elements.mostrarRelojCheckbox.addEventListener('change', (e) => this.updateClockVisibility(e.target.checked));
     if (this.elements.mostrarBusquedaCheckbox) this.elements.mostrarBusquedaCheckbox.addEventListener('change', (e) => this.updateSearchVisibility(e.target.checked));
-    if (this.elements.posicionFavoritosSelect) this.elements.posicionFavoritosSelect.addEventListener('change', (e) => this.updateFavoritesPosition(e.target.value));
+    if (this.elements.posicionFavoritosRadios) {
+      Array.from(this.elements.posicionFavoritosRadios).forEach(radio => {
+        radio.addEventListener('change', (e) => this.updateFavoritesPosition(e.target.value));
+      });
+    }
     if (this.elements.guardarFondoBtn) this.elements.guardarFondoBtn.addEventListener('click', () => this.updateBackground());
 
     // Eventos para fondos predeterminados
@@ -132,31 +136,26 @@ class SettingsManager {
     const container = this.elements.favoritosContainer;
     const ajustesBtn = this.elements.ajustesBtn;
     const notasBtn = document.getElementById('ver-notas-btn');
-    const popup = this.elements.popup;
     
     container.classList.remove('favoritos-derecha', 'favoritos-izquierda', 'favoritos-oculto');
     ajustesBtn.classList.remove('ajustes-derecha', 'ajustes-izquierda');
     notasBtn.classList.remove('ajustes-derecha', 'ajustes-izquierda');
-    popup.classList.remove('popup-derecha', 'popup-izquierda');
     
     switch(position) {
       case 'derecha':
         container.classList.add('favoritos-derecha');
         ajustesBtn.classList.add('ajustes-izquierda');
         notasBtn.classList.add('ajustes-izquierda');
-        popup.classList.add('popup-izquierda');
         break;
       case 'izquierda':
         container.classList.add('favoritos-izquierda');
         ajustesBtn.classList.add('ajustes-derecha');
         notasBtn.classList.add('ajustes-derecha');
-        popup.classList.add('popup-derecha');
         break;
       case 'oculto':
         container.classList.add('favoritos-oculto');
         ajustesBtn.classList.add('ajustes-izquierda');
         notasBtn.classList.add('ajustes-izquierda');
-        popup.classList.add('popup-izquierda');
         break;
     }
     
@@ -165,7 +164,10 @@ class SettingsManager {
 
   loadFavoritesPosition() {
     const savedPosition = localStorage.getItem('posicionFavoritos') || 'derecha';
-    this.elements.posicionFavoritosSelect.value = savedPosition;
+    const radioToSelect = Array.from(this.elements.posicionFavoritosRadios).find(radio => radio.value === savedPosition);
+    if (radioToSelect) {
+      radioToSelect.checked = true;
+    }
     this.updateFavoritesPosition(savedPosition);
   }
       

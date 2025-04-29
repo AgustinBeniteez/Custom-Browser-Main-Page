@@ -21,7 +21,7 @@
   <!-- Barra de búsqueda -->
   <div class="search-container">
     <form id="search-form" action="https://www.google.com/search" method="get" class="search-form">
-      <input type="text" id="search-input" name="q" placeholder="Search..." />
+      <input type="text" id="search-input" name="q" placeholder="Search..." data-translate="search-placeholder" />
       <button type="submit" id="search-button">
         <i class="fa-sharp-duotone fa-solid fa-magnifying-glass"></i>
       </button>
@@ -33,127 +33,157 @@
   <div class="app-container">
     <!-- Botones de menú -->
     <div class="botones-inferiores">
-      <button id="ver-notas-btn">Notes</button>
+      <button id="ver-notas-btn" data-translate="notes-button">Notes</button>
     </div>
     <div class="menu-lateral oculto" id="menu-notas">
       <div class="lista-notas">
-        <h3 class="notatitle">Notes <i class="fa-regular fa-note-sticky"></i></h3>
+        <h3 class="notatitle" data-translate="notes-title">Notes <i class="fa-regular fa-note-sticky"></i></h3>
         <div id="lista-notas" class="scrollable-notes"></div> <!-- Añadido scrollable-notes -->
-        <button id="crear-nota-btn" class="fixed-button">Create Note</button> <!-- Cambiado a fixed-button -->
+        <button id="crear-nota-btn" class="fixed-button" data-translate="create-note">Create Note</button> <!-- Cambiado a fixed-button -->
       </div>
 
       <div class="formulario-nota">
-        <h3 class="note-details">Detalles de la Nota</h3>
-        <input type="text" id="titulo-nota" placeholder="Título de la Nota" title="Title of the note">
-        <textarea id="contenido-nota" placeholder="Contenido de la Nota"></textarea>
+        <h3 class="note-details" data-translate="note-details">Detalles de la Nota</h3>
+        <input type="text" id="titulo-nota" data-translate="note-title-placeholder" placeholder="Título de la Nota" data-translate-title="note-title-tooltip" title="Title of the note">
+        <textarea id="contenido-nota" data-translate="note-content-placeholder" placeholder="Contenido de la Nota"></textarea>
     
         <!-- Checkbox para destacar nota -->
         <section class="destacar-notachekbox">
             <label class="destacar-notachekbox" style="display: none;">
                 <input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;
             </label>
-            <button id="eliminar-nota-btn" class="oculto">Eliminar Nota <i class="fa-solid fa-trash"></i></button>
-            <button id="exportar-nota-btn">Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
+            <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note">Eliminar Nota <i class="fa-solid fa-trash"></i></button>
+            <button id="exportar-nota-btn" data-translate="export-note">Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
         </section>
         <!-- Campo para seleccionar la fecha -->
 
     
-        <button id="guardar-nota-btn">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
+        <button id="guardar-nota-btn" data-translate="save-note">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
         
-        <button id="cerrar-menu-btn">Cerrar</button>
+        <button id="cerrar-notas-btn" data-translate="cerrarPopup">Cerrar</button>
       </div>
     </div>
   </div>
   <!-- Contenedor de Favoritos -->
   <div id="favoritos-container" class="favoritos-container">
-    <h3 id="titulo-favoritos">Favorites</h3>
+    <h3 id="titulo-favoritos" data-translate="favorites-title">Favorites</h3>
     <div id="favoritos-list" class="favoritos-list"></div>
     <button id="agregar-favorito-btn">+</button>
   </div>
   <!-- Popup de agregar favorito -->
   <div id="agregar-favorito" class="agregar-favorito oculto">
-    <h3 style="font-size: 30px;">Add Favorites</h3>
+    <h3 style="font-size: 30px;" data-translate="add-favorites-title">Add Favorites</h3>
     <form id="favorito-form">
-      <input type="text" id="nombre-favorito" placeholder="Nombre del sitio" required>
-      <input type="url" id="url-favorito" placeholder="URL del sitio" required>
-      <button type="submit" class="agregar-favorito-btn1">Add</button>
-      <button type="button" id="cerrar-popup-favorito">Close</button>
+      <input type="text" id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Nombre del sitio" required>
+      <input type="url" id="url-favorito" data-translate="site-url-placeholder" placeholder="URL del sitio" required>
+      <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button">Add</button>
+      <button type="button" id="cerrar-popup-favorito" data-translate="close-button">Close</button>
     </form>
   </div>
   <!-- Popup de ajustes -->
   <div class="popup" id="popup" style="display: none;">
     <div class="popup-content" id="ajustes-menu">
-      <h2 id="ajustes-titulo">Settings</h2>
-      <button id="cerrar-popup">Close</button>
-      <div class="ajustes-container ajustes-columnas">
-        <div class="columna-izquierda">
-          <label for="idioma">Select Language:</label>
-          <select id="idioma">
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="val">Valencià</option>
-            <option value="fr">Français</option>
-            <option value="ru">Русский</option>
-            <option value="zh">中文</option>
-            <option value="ja">日本語</option>
-            <option value="ko">한국어</option>
-          </select>
-          &nbsp &nbsp
-          <label for="buscador">Select Search Engine:</label>
-          <select id="buscador">
-            <option value="google">Google</option>
-            <option value="bing">Bing</option>
-            <option value="yahoo">Yahoo</option>
-            <option value="brave">Brave Search</option>
-            <option value="duckduckgo">DuckDuckGo</option>
-          </select>
-
-          <div class="fondo-predeterminado">
-            <label>Choose a background:</label>
-            <img src="./fondos/background1.png" alt="Background 1" data-image="./fondos/background1.png">
-            <img src="./fondos/background2.png" alt="Background 2" data-image="./fondos/background2.png">
-            <img src="./fondos/background3.gif" alt="Background 3" data-image="./fondos/background3.gif" data-fallback="./fondos/background3.png">
+      <button id="cerrar-popup"><i class="fa-solid fa-square-xmark"></i> <span id="cerrar-menu-btn" data-translate="cerrarPopup">Close</span> </button>
+      <div class="ajustes-container">
+        <div class="ajustes-section main-settings">
+          <h2 for="ajustes" data-translate="ajustes">Settings</h2>
+          <div class="settings-group">
+            <div class="setting-item">
+              <label for="idioma" data-translate="select-language">Select Language:</label>
+              <select id="idioma">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="val">Valencià</option>
+                <option value="fr">Français</option>
+                <option value="ru">Русский</option>
+                <option value="zh">中文</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <label for="buscador" data-translate="select-search-engine">Select Search Engine:</label>
+              <select id="buscador">
+                <option value="google">Google</option>
+                <option value="bing">Bing</option>
+                <option value="yahoo">Yahoo</option>
+                <option value="brave">Brave Search</option>
+                <option value="duckduckgo">DuckDuckGo</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <label for="color-tema" data-translate="choose-theme-color">Choose Theme Color:</label>
+              <input class="selecionable-color" type="color" id="color-tema" name="color-tema" value="#781c52">
+            </div>
+            <div class="setting-item">
+              <label for="modo-oscuro" data-translate="dark-mode">Dark Mode:</label>
+              <input class="checkbox-colors" type="checkbox" id="modo-oscuro" name="modo-oscuro">
+            </div>
+            <div class="setting-item">
+              <label for="decoracion-reloj" data-translate="enable-clock-decoration">Enable Clock Decoration:</label>
+              <input class="checkbox-colors" type="checkbox" id="decoracion-reloj" name="decoracion-reloj" checked>
+            </div>
+            <div class="setting-item">
+              <label for="color-reloj" data-translate="colorReloj">Color del Reloj:</label>
+              <input class="selecionable-color" type="color" id="color-reloj" name="color-reloj" value="#ffffff">
+            </div>
+            <div class="setting-item">
+              <label for="mostrar-reloj" data-translate="mostrarReloj">Mostrar Reloj:</label>
+              <input class="checkbox-colors" type="checkbox" id="mostrar-reloj" name="mostrar-reloj" checked>
+            </div>
+            <div class="setting-item">
+              <label for="mostrar-busqueda" data-translate="mostrarBusqueda">Mostrar Barra de Búsqueda:</label>
+              <input class="checkbox-colors" type="checkbox" id="mostrar-busqueda" name="mostrar-busqueda" checked>
+            </div>
+            <div class="setting-item">
+              <label for="posicion-favoritos" data-translate="posicionFavoritos">Posición de Favoritos:</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="posicion-favoritos" value="derecha" checked>
+                  <span for="posicionDerecha" data-translate="posicionDerecha">Right</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="posicion-favoritos" value="izquierda">
+                  <span for="posicionIzquierda" data-translate="posicionIzquierda">Left</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="posicion-favoritos" value="oculto">
+                  <span for="posicionOculta" data-translate="ocultar">Hide</span>
+                </label>
+              </div>
+            </div>
           </div>
-          <label for="fondo-url">Or introduce a background URL (GIF/PNG):</label>
-          <input type="url" id="fondo-url" placeholder="https://example.com/background.png">
-          <button id="guardar-fondo-url">Use Background URL</button>
-          <br>
-          <a href="https://github.com/AgustinBeniteez/themes-nav" target="_blank" class="img-container">
-            <img class="img_fondos" src="./fondos/wallpapergallery.webp" alt="Gallery wallpapers">
-            <a id="descargar-temas-btn" href="https://agustinbeniteez.github.io/themes-nav/themes-nav.html" target="_blank">
-              <span id="wallpaper-gallery-text" style="
-              margin-right: 10px;">Wallpaper Gallery</span><i class="fa-solid fa-images"></i>
-            </a>
-          </a>
         </div>
-        <br>
-        <div class="columna-derecha">
-          <label for="color-tema">Choose Theme Color:</label>
-          <input class="checkbox-colors" type="color" id="color-tema" name="color-tema" value="#781c52">
-          &nbsp &nbsp
-          <label for="modo-oscuro">Dark Mode:</label>
-          <input class="checkbox-colors" type="checkbox" id="modo-oscuro" name="modo-oscuro">
-          <br>
-          <label for="decoracion-reloj">Enable Clock Decoration:</label>
-          <input class="checkbox-colors" type="checkbox" id="decoracion-reloj" name="decoracion-reloj" checked>
-          <br>
-          <label for="color-reloj">Color del Reloj:</label>
-          <input class="checkbox-colors" type="color" id="color-reloj" name="color-reloj" value="#ffffff">
-          <br>
-          <label for="mostrar-reloj">Mostrar Reloj:</label>
-          <input class="checkbox-colors" type="checkbox" id="mostrar-reloj" name="mostrar-reloj" checked>
-          <br>
-          <label for="mostrar-busqueda">Mostrar Barra de Búsqueda:</label>
-          <input class="checkbox-colors" type="checkbox" id="mostrar-busqueda" name="mostrar-busqueda" checked>
-          <br>
-          <label for="posicion-favoritos">Posición de Favoritos:</label>
-          <select id="posicion-favoritos">
-            <option value="derecha">Derecha</option>
-            <option value="izquierda">Izquierda</option>
-            <option value="oculto">Ocultar</option>
-          </select>
+
+        <div class="ajustes-section background-settings">
+          <h2 for="fondo" data-translate="fondo">Background</h2>
+          <div class="settings-group">
+            <div class="setting-item">
+              <label for="choose-background" data-translate="choose-background">Choose a background:</label>
+              <div class="fondo-predeterminado">
+                <img src="./fondos/background1.png" alt="Background 1" data-image="./fondos/background1.png">
+                <img src="./fondos/background2.png" alt="Background 2" data-image="./fondos/background2.png">
+                <img src="./fondos/background3.gif" alt="Background 3" data-image="./fondos/background3.gif" data-fallback="./fondos/background3.png">
+              </div>
+            </div>
+            <div class="setting-item">
+              <label for="fondo-url" data-translate="background-url-label">Or introduce a background URL (GIF/PNG):</label>
+              <input type="url" id="fondo-url" placeholder="https://example.com/background.png">
+              <button id="guardar-fondo-url" data-translate="use-background-url">Use Background URL</button>
+            </div>
+            <div class="setting-item gallery-link">
+              <a href="https://github.com/AgustinBeniteez/themes-nav" target="_blank" class="img-container">
+                <img class="img_fondos" src="./fondos/wallpapergallery.webp" alt="Gallery wallpapers">
+                <a id="descargar-temas-btn" href="https://agustinbeniteez.github.io/themes-nav/themes-nav.html" target="_blank">
+                  <span id="wallpaper-gallery-text" data-translate="wallpaper-gallery">Wallpaper Gallery</span>
+                  <i class="fa-solid fa-images"></i>
+                </a>
+              </a>
+        <p class="credits">By AgustinBeniteez : <a href="https://github.com/AgustinBeniteez">https://github.com/AgustinBeniteez</a></p>
+
+            </div>
+          </div>
         </div>
-        <p style="margin-top: 14%;">By AgustinBeniteez : <a href="https://github.com/AgustinBeniteez">https://github.com/AgustinBeniteez</a> </p>
       </div>
     </div>
   </div>

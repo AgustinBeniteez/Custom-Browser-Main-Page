@@ -15,7 +15,7 @@ class NotesManager {
       verNotasBtn: document.getElementById('ver-notas-btn'),
       menuNotas: document.getElementById('menu-notas'),
       crearNotaBtn: document.getElementById('crear-nota-btn'),
-      cerrarMenuBtn: document.getElementById('cerrar-menu-btn'),
+      cerrarMenuBtn: document.getElementById('cerrar-notas-btn'),
       tituloNota: document.getElementById('titulo-nota'),
       contenidoNota: document.getElementById('contenido-nota'),
       destacarNotaCheckbox: document.getElementById('destacar-nota'),
