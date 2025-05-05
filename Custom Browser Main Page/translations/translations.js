@@ -337,11 +337,9 @@ class TranslationManager {
     }
 
     // Traducir elementos del popup de carpetas
-    const crearCarpetaBtn1 = document.querySelector(
-      'span[for="createfolder-translate"]'
-    );
-    if (crearCarpetaBtn1) {
-      crearCarpetaBtn1.textContent =
+    const crearCarpetaBtn = document.getElementById("createfolder-span");
+    if (crearCarpetaBtn) {
+      crearCarpetaBtn.textContent =
         this.translations[language]?.crearCarpeta || "Create Folder";
     }
 
@@ -409,10 +407,10 @@ class TranslationManager {
         this.translations[language]?.selectTypeTitle || "¿Qué deseas crear?";
     }
 
-    const favoritoTipoBtn = document.querySelector(".tipo-btn.fuente-aplicada");
+    const favoritoTipoBtn = document.querySelector("#crear-favorito-btn-span");
     if (favoritoTipoBtn) {
       favoritoTipoBtn.textContent =
-        this.translations[language]?.favoritoTipoBtn || "Favorito";
+        this.translations[language]?.favoritos || "Favorito";
     }
 
     const cerrarTipoPopup = document.getElementById("cerrar-tipo-popup");

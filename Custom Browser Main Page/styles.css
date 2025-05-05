@@ -883,12 +883,7 @@ body[data-theme="dark"] #fondo-url {
   font-weight: 600;
 }
 
-.tipo-botones {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
+
 
 .tipo-btn {
   padding: 1rem 1.5rem;
@@ -902,13 +897,35 @@ body[data-theme="dark"] #fondo-url {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--color-hover);
+  }
 }
 
-.tipo-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background-color: var(--color-hover);
-}
+.tipo-btn-2 {
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--color-botones)!important;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background-color: var(--color-hover);
+    }
+  }
+
+
 
 .tipo-btn i {
   font-size: 1.2rem;
@@ -917,7 +934,7 @@ body[data-theme="dark"] #fondo-url {
 #cerrar-tipo-popup {
   background-color: transparent;
   border: none;
-  color: var(--color-texto);
+  color: var(--color-letraswhite);
   padding: 10px;
   border-radius: 15px;
   background-color: var(--color-botones);

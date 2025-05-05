@@ -27,6 +27,7 @@ class FavoritesManager {
       ),
       confirmarEliminarBtn: document.getElementById("confirmar-eliminar-btn"),
       cancelarEliminarBtn: document.getElementById("cancelar-eliminar-btn"),
+      favoritosList: document.getElementById("favoritos-list"),
     };
     this.favoritoAEliminar = null;
   }
@@ -72,6 +73,34 @@ class FavoritesManager {
 
     // Actualizar favoritos cuando cambia el modo oscuro
     document.addEventListener("darkModeChanged", () => this.loadFavorites());
+
+    // Configurar eventos de arrastre para el contenedor principal de favoritos
+    this.elements.favoritosList.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.elements.favoritosList.style.backgroundColor =
+        "rgba(255, 255, 255, 0.1)";
+    });
+
+    this.elements.favoritosList.addEventListener("dragleave", () => {
+      this.elements.favoritosList.style.backgroundColor = "";
+    });
+
+    this.elements.favoritosList.addEventListener("drop", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const favoritoId = parseInt(e.dataTransfer.getData("text/plain"));
+      const favoritos = this.getFavorites();
+      const favoritoIndex = favoritos.findIndex((f) => f.id === favoritoId);
+
+      if (favoritoIndex !== -1 && favoritos[favoritoIndex].carpetaId) {
+        favoritos[favoritoIndex].carpetaId = null;
+        this.saveFavorites(favoritos);
+        this.loadFavorites();
+      }
+
+      this.elements.favoritosList.style.backgroundColor = "";
+    });
   }
 
   toggleTipoPopup(show) {

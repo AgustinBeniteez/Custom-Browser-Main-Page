@@ -69,10 +69,12 @@
   </div>
   <!-- Popup de selección de tipo -->
   <div id="seleccionar-tipo" class="agregar-favorito oculto">
-    <h3 style="font-size: 30px;" data-translate="select-type-title">¿Qué deseas crear?</h3>
+    <h3 style="font-size: 30px; color: #fff;" data-translate="select-type-title">What do you want to create?</h3>
     <div class="tipo-botones">
-      <button id="crear-carpeta-btn" class="tipo-btn fuente-aplicada"><i class="fa-solid fa-folder-plus"></i> <span for="createfolder-translate">Create Carpeta</span></button>
-      <button id="crear-favorito-btn" class="tipo-btn fuente-aplicada"><i class="fa-solid fa-bookmark"></i> Favorito</button>
+      <button id="crear-carpeta-btn" class="fuente-aplicada tipo-btn-2">
+        <i class="fa-solid fa-folder-plus" ></i>
+        <span id="createfolder-span">Create Carpeta</span>
+      <button id="crear-favorito-btn" class="tipo-btn fuente-aplicada"><i class="fa-solid fa-bookmark"></i><span id="crear-favorito-btn-span">Favorito</span> </button>
     </div>
     <button type="button" id="cerrar-tipo-popup" class="fuente-aplicada">Cerrar</button>
   </div>
@@ -83,7 +85,7 @@
     <form id="favorito-form">
       <input class="fuente-aplicada" type="text" id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Nombre del sitio" required>
       <input class="fuente-aplicada" type="url" id="url-favorito" data-translate="site-url-placeholder" placeholder="URL del sitio" required>
-      <select id="carpeta-favorito" class="fuente-aplicada">
+      <select style="display: none!important;" id="carpeta-favorito" class="fuente-aplicada">
         <option value="">Sin carpeta</option>
       </select>
       <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button" style="font-family: var(--fuente-pagina)">Add</button>

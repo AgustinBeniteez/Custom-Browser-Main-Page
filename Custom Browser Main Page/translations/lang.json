@@ -2,7 +2,6 @@
   "en": {
     "titulo": "New Tab",
     "selectTypeTitle": "What do you want to create?",
-    "favoritoTipoBtn": "Favorite",
     "addFolderTitle": "New folder",
     "placeholderGoogle": "Search...",
     "ajustes": "Settings",
@@ -57,7 +56,6 @@
   "es": {
     "titulo": "Nueva Pestaña",
     "selectTypeTitle": "¿Qué deseas crear?",
-    "favoritoTipoBtn": "Favorito",
     "addFolderTitle": "Nueva carpeta",
     "placeholderGoogle": "Buscar...",
     "ajustes": "Ajustes",
@@ -112,6 +110,7 @@
   "val": {
     "titulo": "Nova Pestanya",
     "placeholderGoogle": "Cercar...",
+    "selectTypeTitle":"Que vols crear?",
     "ajustes": "Ajustaments",
     "wallpaperGallery": "Galeria de Fons",
     "idioma": "Selecciona idioma:",
@@ -163,6 +162,7 @@
   },
   "fr": {
     "titulo": "Nouvel Onglet",
+    "selectTypeTitle":"¿Que voulez-vous créer?",
     "placeholderGoogle": "Rechercher...",
     "ajustes": "Réglages",
     "wallpaperGallery": "Galerie de Fonds d'Écran",
@@ -215,6 +215,7 @@
   },
   "ru": {
     "titulo": "Новая Вкладка",
+    "selectTypeTitle":"Что вы хотите создать?",
     "placeholderGoogle": "Поиск...",
     "ajustes": "Настройки",
     "wallpaperGallery": "Галерея Обоев",
@@ -267,6 +268,7 @@
   },
   "zh": {
     "titulo": "新标签页",
+    "selectTypeTitle":"你想创建什么？",
     "placeholderGoogle": "搜索...",
     "ajustes": "设置",
     "wallpaperGallery": "壁纸画廊",
@@ -319,6 +321,7 @@
   },
   "ja": {
     "titulo": "新しいタブ",
+    "selectTypeTitle":"何を作成しますか？",
     "placeholderGoogle": "検索...",
     "ajustes": "設定",
     "wallpaperGallery": "壁紙ギャラリー",
@@ -371,6 +374,7 @@
   },
   "ko": {
     "titulo": "새 탭",
+    "selectTypeTitle":"무엇을 만들어야 할까요?",
     "placeholderGoogle": "검색...",
     "ajustes": "설정",
     "wallpaperGallery": "배경화면 갤러리",
