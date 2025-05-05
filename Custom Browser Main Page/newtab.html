@@ -67,15 +67,50 @@
     <div id="favoritos-list" class="favoritos-list"></div>
     <button id="agregar-favorito-btn">+</button>
   </div>
+  <!-- Popup de selección de tipo -->
+  <div id="seleccionar-tipo" class="agregar-favorito oculto">
+    <h3 style="font-size: 30px;" data-translate="select-type-title">¿Qué deseas crear?</h3>
+    <div class="tipo-botones">
+      <button id="crear-carpeta-btn" class="tipo-btn fuente-aplicada"><i class="fa-solid fa-folder-plus"></i> <span for="createfolder-translate">Create Carpeta</span></button>
+      <button id="crear-favorito-btn" class="tipo-btn fuente-aplicada"><i class="fa-solid fa-bookmark"></i> Favorito</button>
+    </div>
+    <button type="button" id="cerrar-tipo-popup" class="fuente-aplicada">Cerrar</button>
+  </div>
+
   <!-- Popup de agregar favorito -->
   <div id="agregar-favorito" class="agregar-favorito oculto">
     <h3 style="font-size: 30px;" data-translate="add-favorites-title">Add Favorites</h3>
     <form id="favorito-form">
       <input class="fuente-aplicada" type="text" id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Nombre del sitio" required>
       <input class="fuente-aplicada" type="url" id="url-favorito" data-translate="site-url-placeholder" placeholder="URL del sitio" required>
+      <select id="carpeta-favorito" class="fuente-aplicada">
+        <option value="">Sin carpeta</option>
+      </select>
       <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button" style="font-family: var(--fuente-pagina)">Add</button>
       <button type="button" id="cerrar-popup-favorito" data-translate="close-button" class="fuente-aplicada">Close</button>
     </form>
+  </div>
+
+  <!-- Popup de crear carpeta -->
+  <div id="crear-carpeta" class="agregar-favorito oculto">
+    <h3 style="font-size: 30px;" data-translate="add-folder-title">Nueva Carpeta</h3>
+    <form id="carpeta-form">
+      <input class="fuente-aplicada" type="text" id="nombre-carpeta" data-translate="folder-name-placeholder" placeholder="Nombre de la carpeta" required>
+      <button id="crear-carpeta-submit" type="submit" class="agregar-favorito-btn1" data-translate="create-button" style="font-family: var(--fuente-pagina)">Crear</button>
+      <button type="button" id="cerrar-carpeta-popup" data-translate="close-button" class="fuente-aplicada">Cerrar</button>
+    </form>
+  </div>
+
+  <!-- Popup de confirmación para eliminar favorito -->
+  <div id="confirmar-eliminar-favorito" class="agregar-favorito oculto" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 9999;">
+    <div style="background-color: var(--color-modelight1); padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 400px; width: 90%; text-align: center; color: var(--color-texto);">
+      <h3 style="font-size: 24px; margin-bottom: 15px;" data-translate="confirm-delete-title">¿Estás seguro?</h3>
+      <p style="margin-bottom: 25px;" data-translate="confirm-delete-message">¿Estás seguro que deseas eliminar este favorito?</p>
+      <div class="confirmation-buttons" style="display: flex; justify-content: center; gap: 15px;">
+        <button id="confirmar-eliminar-btn" class="fuente-aplicada" style="padding: 10px 20px; border-radius: 8px; border: none; background-color: #dc3545; color: white; cursor: pointer; transition: background-color 0.3s;" data-translate="confirm-delete">Confirmar</button>
+        <button id="cancelar-eliminar-btn" class="fuente-aplicada" style="padding: 10px 20px; border-radius: 8px; border: none; background-color: var(--color-botones); color: white; cursor: pointer; transition: background-color 0.3s;" data-translate="cancel-delete">Cancelar</button>
+      </div>
+    </div>
   </div>
   <!-- Popup de ajustes -->
   <div class="popup" id="popup" style="display: none;">
@@ -141,6 +176,10 @@
                 <label class="radio-label">
                   <input type="radio" name="posicion-favoritos" value="izquierda">
                   <span for="posicionIzquierda" data-translate="posicionIzquierda">Left</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="posicion-favoritos" value="bottom">
+                  <span for="posicionBottom" data-translate="posicionBottom">Bottom</span>
                 </label>
                 <label class="radio-label">
                   <input type="radio" name="posicion-favoritos" value="oculto">

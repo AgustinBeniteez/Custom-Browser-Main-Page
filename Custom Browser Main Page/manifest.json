@@ -2,7 +2,14 @@
   "manifest_version": 3,
   "name": "Custom Browser Main Page",
   "description": "Custom Browser Main Page you can add image for your wallpaper by AgustinBenitez",
-  "version": "1.0.7",
+  "author": "Agustin Benitez",
+  "homepage_url": "https://agustinbeniteez.github.io/Custom-Browser-Main-Page/",
+  "version": "1.0.8",
+  "icons": {
+    "16": "icons/logo.png",
+    "48": "icons/logo.png",
+    "128": "icons/logo.png"
+  },
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },

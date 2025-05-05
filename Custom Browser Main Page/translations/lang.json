@@ -1,6 +1,9 @@
 {
   "en": {
     "titulo": "New Tab",
+    "selectTypeTitle": "What do you want to create?",
+    "favoritoTipoBtn": "Favorite",
+    "addFolderTitle": "New folder",
     "placeholderGoogle": "Search...",
     "ajustes": "Settings",
     "wallpaperGallery": "Wallpaper Gallery",
@@ -40,10 +43,22 @@
     "fondoUrl": "Or introduce a background URL (GIF/PNG):",
     "usarFondoUrl": "Use Background URL",
     "fontpage": "Page Font:",
-    "selecionarfuentepagina": "Select Font:"
+    "selecionarfuentepagina": "Select Font:",
+    "crearCarpeta": "Create Folder",
+    "nombreCarpeta": "Folder Name",
+    "descripcionCarpeta": "Folder Description (Optional)",
+    "guardarCarpeta": "Save Folder",
+    "editarCarpeta": "Edit Folder",
+    "eliminarCarpeta": "Delete Folder",
+    "moverA": "Move to",
+    "seleccionarCarpeta": "Select Folder",
+    "sinCarpeta": "No Folder"
   },
   "es": {
     "titulo": "Nueva Pestaña",
+    "selectTypeTitle": "¿Qué deseas crear?",
+    "favoritoTipoBtn": "Favorito",
+    "addFolderTitle": "Nueva carpeta",
     "placeholderGoogle": "Buscar...",
     "ajustes": "Ajustes",
     "wallpaperGallery": "Galería de Fondos",
@@ -83,7 +98,16 @@
     "fondoUrl": "O introduce una URL de fondo (GIF/PNG):",
     "usarFondoUrl": "Usar URL de Fondo",
     "fontpage": "Fuente de la página",
-    "selecionarfuentepagina": "Seleccionar Fuente:"
+    "selecionarfuentepagina": "Seleccionar Fuente:",
+    "crearCarpeta": "Crear Carpeta",
+    "nombreCarpeta": "Nombre de la Carpeta",
+    "descripcionCarpeta": "Descripción de la Carpeta (Opcional)",
+    "guardarCarpeta": "Guardar Carpeta",
+    "editarCarpeta": "Editar Carpeta",
+    "eliminarCarpeta": "Eliminar Carpeta",
+    "moverA": "Mover a",
+    "seleccionarCarpeta": "Seleccionar Carpeta",
+    "sinCarpeta": "Sin Carpeta"
   },
   "val": {
     "titulo": "Nova Pestanya",
@@ -126,7 +150,16 @@
     "fondoUrl": "O introdueix una URL de fons (GIF/PNG):",
     "usarFondoUrl": "Usar URL de Fons",
     "fontpage": "Font de la pàgina",
-    "selecionarfuentepagina": "Seleccionar Fuente:"
+    "selecionarfuentepagina": "Seleccionar Fuente:",
+    "crearCarpeta": "Crear Carpeta",
+    "nombreCarpeta": "Nom de la Carpeta",
+    "descripcionCarpeta": "Descripció de la Carpeta (Opcional)",
+    "guardarCarpeta": "Guardar Carpeta",
+    "editarCarpeta": "Editar Carpeta",
+    "eliminarCarpeta": "Eliminar Carpeta",
+    "moverA": "Moure a",
+    "seleccionarCarpeta": "Seleccionar Carpeta",
+    "sinCarpeta": "Sense Carpeta"
   },
   "fr": {
     "titulo": "Nouvel Onglet",
@@ -169,7 +202,16 @@
     "fondoUrl": "Ou introduisez une URL d'arrière-plan (GIF/PNG):",
     "usarFondoUrl": "Utiliser l'URL d'arrière-plan",
     "fontpage": "Police de la page",
-    "selecionarfuentepagina": "Sélectionner la police:"
+    "selecionarfuentepagina": "Sélectionner la police:",
+    "crearCarpeta": "Créer un Dossier",
+    "nombreCarpeta": "Nom du Dossier",
+    "descripcionCarpeta": "Description du Dossier (Optionnel)",
+    "guardarCarpeta": "Enregistrer le Dossier",
+    "editarCarpeta": "Modifier le Dossier",
+    "eliminarCarpeta": "Supprimer le Dossier",
+    "moverA": "Déplacer vers",
+    "seleccionarCarpeta": "Sélectionner le Dossier",
+    "sinCarpeta": "Sans Dossier"
   },
   "ru": {
     "titulo": "Новая Вкладка",
@@ -212,7 +254,16 @@
     "fondoUrl": "Или введите URL фона (GIF/PNG):",
     "usarFondoUrl": "Использовать URL фона",
     "fontpage": "Источник страницы",
-    "selecionarfuentepagina": "Выбрать шрифт:"
+    "selecionarfuentepagina": "Выбрать шрифт:",
+    "crearCarpeta": "Создать папку",
+    "nombreCarpeta": "Название папки",
+    "descripcionCarpeta": "Описание папки (необязательно)",
+    "guardarCarpeta": "Сохранить папку",
+    "editarCarpeta": "Редактировать папку",
+    "eliminarCarpeta": "Удалить папку",
+    "moverA": "Переместить в",
+    "seleccionarCarpeta": "Выбрать папку",
+    "sinCarpeta": "Без папки"
   },
   "zh": {
     "titulo": "新标签页",
@@ -255,7 +306,16 @@
     "fondoUrl": "或输入背景图片URL (GIF/PNG):",
     "usarFondoUrl": "使用背景URL",
     "fontpage": "页面源",
-    "selecionarfuentepagina": "选择字体:"
+    "selecionarfuentepagina": "选择字体:",
+    "crearCarpeta": "创建文件夹",
+    "nombreCarpeta": "文件夹名称",
+    "descripcionCarpeta": "文件夹描述（可选）",
+    "guardarCarpeta": "保存文件夹",
+    "editarCarpeta": "编辑文件夹",
+    "eliminarCarpeta": "删除文件夹",
+    "moverA": "移动到",
+    "seleccionarCarpeta": "选择文件夹",
+    "sinCarpeta": "无文件夹"
   },
   "ja": {
     "titulo": "新しいタブ",
@@ -298,7 +358,16 @@
     "fondoUrl": "または背景URLを入力 (GIF/PNG):",
     "usarFondoUrl": "背景URLを使用",
     "fontpage": "ページのソース",
-    "selecionarfuentepagina": "フォントを選択:"
+    "selecionarfuentepagina": "フォントを選択:",
+    "crearCarpeta": "フォルダを作成",
+    "nombreCarpeta": "フォルダ名",
+    "descripcionCarpeta": "フォルダの説明（任意）",
+    "guardarCarpeta": "フォルダを保存",
+    "editarCarpeta": "フォルダを編集",
+    "eliminarCarpeta": "フォルダを削除",
+    "moverA": "移動先",
+    "seleccionarCarpeta": "フォルダを選択",
+    "sinCarpeta": "フォルダなし"
   },
   "ko": {
     "titulo": "새 탭",
@@ -341,6 +410,15 @@
     "fondoUrl": "또는 배경 URL 입력 (GIF/PNG):",
     "usarFondoUrl": "배경 URL 사용",
     "fontpage": "페이지 소스",
-    "selecionarfuentepagina": "글꼴 선택:"
+    "selecionarfuentepagina": "글꼴 선택:",
+    "crearCarpeta": "폴더 만들기",
+    "nombreCarpeta": "폴더 이름",
+    "descripcionCarpeta": "폴더 설명 (선택 사항)",
+    "guardarCarpeta": "폴더 저장",
+    "editarCarpeta": "폴더 편집",
+    "eliminarCarpeta": "폴더 삭제",
+    "moverA": "이동할 위치",
+    "seleccionarCarpeta": "폴더 선택",
+    "sinCarpeta": "폴더 없음"
   }
 }
