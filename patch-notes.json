@@ -5,7 +5,7 @@
         "author": "Agustin Benitez",
         "date": "05-05-2025",
         "contenido1":"Additional settings have been added to position the Favorites bar at the bottom of the screen. ",
-        "image": "src/Patch-notes/v1.0.8.webp",
+        "image": "src/patch-notes/v1.0.8.webp",
         "contenido2": "You can now create folders within Favorites and easily drag items into folders or move them back out "
     },
     {
@@ -14,7 +14,7 @@
         "author": "Agustin Benitez",
         "date": "02-05-2025",
         "contenido1": "Built-in Clock: Check the time effortlessly without distractions.",
-        "image": "src/Patch-notes/v1.0.7.webp",
+        "image": "src/patch-notes/v1.0.7.webp",
         "contenido2":"Notes Management: Easily create, edit, and delete notes.",
         "contenido3":"Export Notes: Export your notes to a .txt file for easy storage and access later.",
         "contenido4":"Customizable Background: Choose between a static or animated background to personalize your homepage.",
