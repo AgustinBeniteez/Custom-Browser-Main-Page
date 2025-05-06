@@ -117,6 +117,8 @@ nav {
     padding: 0.625rem 0; /* 10px 0 a rem */
     z-index: 1000;
     text-decoration: none;
+    background-color: #121212ab;
+    backdrop-filter: blur(2.2px);
 }
 
 .nav-button {

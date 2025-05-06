@@ -52,7 +52,7 @@
        <div class="nav-button" onclick="toggleDownloadPopup()">Download</div>
        <a href="aboutme.html"> <div class="nav-button">About Me</div></a>
        <a href="https://agustinbeniteez.github.io/themes-nav/themes-nav.html"> <div class="nav-button"><i class="fa-solid fa-images"></i> Wallpapers</div></a>
-       <div class="nav-button" class="contact-btn" onclick="togglePopup()">Contact</div>
+       <a href="patch-notes.html"> <div class="nav-button"><i class="fa-solid fa-clipboard"></i> Parch Notes</div></a>
        <div class="language-selector">
            <select onchange="changeLanguage(this.value)">
                <option value="en">English</option>
@@ -179,6 +179,7 @@
                     <a href="../themes-nav/privacy.html" class="footer-link" style="color: #fff; text-decoration: none;">Política de Privacidad</a>
                     <a href="../themes-nav/terms.html" class="footer-link" style="color: #fff; text-decoration: none;">Términos y Condiciones</a>
                     <a href="../themes-nav/cookies.html" class="footer-link" style="color: #fff; text-decoration: none;">Política de Cookies</a>
+                    <a class="footer-link" onclick="togglePopup()">Contact</a>
                 </div>
                 <div class="footer-copyright" style="text-align: center; color: #fff;">
                     <p>&copy; 2025 Custom Browser Main Page. Todos los derechos reservados.</p>
@@ -193,8 +194,8 @@
                 <button class="close-btn" onclick="togglePopup()">✖</button>
                 <h2>Contact Me</h2>
                 <!-- Iframe con el formulario de Google -->
-                <iframe 
-                    class="form-iframe" 
+                <iframe
+                    class="form-iframe"
                     src="https://docs.google.com/forms/d/e/1FAIpQLSdJFmJPpFwYaQ_9mePpXBx0GFOsWjmTJES_4ArBJpm_tNdAYw/viewform?embedded=true">
                 </iframe>
             </div>
