@@ -226,6 +226,15 @@
               <input type="url" id="fondo-url" placeholder="https://example.com/background.png" class="fuente-aplicada">
               <button id="guardar-fondo-url" data-translate="use-background-url" class="fuente-aplicada">Use Background URL</button>
             </div>
+            <div class="setting-item">
+              <i class="fa-solid fa-upload"></i> &nbsp;
+              <label for="fondo-file" data-translate="background-file-label">Or upload your own image:</label>
+              <input type="file" id="fondo-file" accept="image/*" class="fuente-aplicada">
+              <button id="guardar-fondo-file" data-translate="use-background-file" class="fuente-aplicada">Use Uploaded Image</button>
+              <div id="preview-container" style="display: none; margin-top: 10px;">
+                <img id="preview-image" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 1px solid #ccc;" alt="Preview">
+              </div>
+            </div>
             <div class="setting-item gallery-link">
               <a href="https://github.com/AgustinBeniteez/themes-nav" target="_blank" class="img-container">
                 <img class="img_fondos" src="./fondos/wallpapergallery.webp" alt="Gallery wallpapers">

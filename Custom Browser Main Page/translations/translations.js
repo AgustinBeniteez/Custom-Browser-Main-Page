@@ -255,6 +255,20 @@ class TranslationManager {
         this.translations[language]?.usarFondoUrl || "Use Background URL:";
     }
 
+    const backgroundFileLabel = document.querySelector('label[for="fondo-file"]');
+    if (backgroundFileLabel) {
+      backgroundFileLabel.textContent =
+        this.translations[language]?.backgroundFileLabel || "Or upload your own image:";
+    }
+
+    const useBackgroundFileBtn = document.querySelector(
+      'button[id="guardar-fondo-file"]'
+    );
+    if (useBackgroundFileBtn) {
+      useBackgroundFileBtn.textContent =
+        this.translations[language]?.useBackgroundFile || "Use Uploaded Image";
+    }
+
     const settingsTitle = document.querySelector('h2[for="ajustes"]');
     if (settingsTitle) {
       settingsTitle.textContent =

@@ -497,6 +497,59 @@ body[data-theme="dark"] #fondo-url {
     color: #888;
     background-color: var(--color-modelight) !important;
 }
+
+#fondo-file {
+    width: 37%;
+    padding: 10px;
+    border-radius: 30px;
+    border: solid 2px #ccc;
+    color: #888;
+    background-color: var(--color-modelight) !important;
+    cursor: pointer;
+}
+
+#fondo-file::-webkit-file-upload-button {
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+#fondo-file::-webkit-file-upload-button:hover {
+    background-color: var(--color-accent-hover);
+}
+
+#guardar-fondo-file {
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#guardar-fondo-file:hover {
+    background-color: var(--color-botones-hover);
+}
+
+#image-preview-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#image-preview {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--color-accent);
+}
   
 /* Otros estilos y animaciones */
 .favoritos-container {

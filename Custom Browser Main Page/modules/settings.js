@@ -24,6 +24,10 @@ class SettingsManager {
       posicionFavoritosRadios: document.getElementsByName("posicion-favoritos"),
       fondoInput: document.getElementById("fondo-url"),
       guardarFondoBtn: document.getElementById("guardar-fondo-url"),
+      fondoFileInput: document.getElementById("fondo-file"),
+      guardarFondoFileBtn: document.getElementById("guardar-fondo-file"),
+      previewContainer: document.getElementById("preview-container"),
+      previewImage: document.getElementById("preview-image"),
       relojContainer: document.querySelector(".reloj-container"),
       reloj: document.getElementById("reloj"),
       favoritosContainer: document.getElementById("favoritos-container"),
@@ -87,6 +91,16 @@ class SettingsManager {
     if (this.elements.guardarFondoBtn)
       this.elements.guardarFondoBtn.addEventListener("click", () =>
         this.updateBackground()
+      );
+
+    // Eventos para subir archivos de fondo
+    if (this.elements.fondoFileInput)
+      this.elements.fondoFileInput.addEventListener("change", (e) =>
+        this.handleFileUpload(e)
+      );
+    if (this.elements.guardarFondoFileBtn)
+      this.elements.guardarFondoFileBtn.addEventListener("click", () =>
+        this.useUploadedBackground()
       );
 
     // Eventos para fondos predeterminados
@@ -295,6 +309,37 @@ class SettingsManager {
     }
   }
 
+  handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64Data = e.target.result;
+        // Mostrar preview
+        this.elements.previewImage.src = base64Data;
+        this.elements.previewContainer.style.display = 'block';
+        // Guardar en localStorage temporalmente
+        localStorage.setItem('temp-uploaded-background', base64Data);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Por favor selecciona un archivo de imagen válido.');
+    }
+  }
+
+  useUploadedBackground() {
+    const base64Data = localStorage.getItem('temp-uploaded-background');
+    if (base64Data) {
+      document.body.style.backgroundImage = `url(${base64Data})`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      localStorage.setItem("fondo-url", base64Data);
+      localStorage.removeItem('temp-uploaded-background');
+      // Ocultar preview
+      this.elements.previewContainer.style.display = 'none';
+    }
+  }
+
   // Métodos de carga de configuración
   loadLanguage() {
     const language = localStorage.getItem("idioma") || "en";
@@ -325,7 +370,15 @@ class SettingsManager {
   loadBackground() {
     const url = localStorage.getItem("fondo-url");
     if (url) {
-      this.updateBackground(url);
+      if (url.startsWith('data:image/')) {
+        // Es una imagen base64
+        document.body.style.backgroundImage = `url(${url})`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center";
+      } else {
+        // Es una URL normal
+        this.updateBackground(url);
+      }
     }
   }
 
