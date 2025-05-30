@@ -1,6 +1,6 @@
 dev Agustin Benietez Lopez
 About me:
-https://agustinbeniteez.github.io/aboutmeAgus/
+https://agustinbeniteez.github.io/
 
 and more proyects:
 https://github.com/AgustinBeniteez
