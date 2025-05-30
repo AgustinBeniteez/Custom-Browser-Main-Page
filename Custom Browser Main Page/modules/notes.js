@@ -2,10 +2,33 @@
 
 class NotesManager {
   constructor() {
+    this.currentEditingNote = null;
+    this.notesCache = null;
     this.initializeElements();
     this.bindEvents();
     this.loadNotes();
-    this.currentEditingNote = null;
+  }
+
+  // Validar datos de nota
+  validateNote(title, content) {
+    return {
+      isValid: title.trim().length > 0 && content.trim().length > 0,
+      title: title.trim(),
+      content: content.trim()
+    };
+  }
+
+  // Obtener notas con cache
+  getNotesFromCache() {
+    if (this.notesCache === null) {
+      this.notesCache = this.getNotes();
+    }
+    return this.notesCache;
+  }
+
+  // Invalidar cache
+  invalidateCache() {
+    this.notesCache = null;
   }
 
   initializeElements() {
@@ -55,9 +78,13 @@ class NotesManager {
   }
 
   loadNotes() {
-    const notes = this.getNotes();
-    this.renderNotesList(notes);
-    this.renderFeaturedNotes(notes);
+    const notes = this.getNotesFromCache();
+    
+    // Usar requestAnimationFrame para mejor rendimiento
+    requestAnimationFrame(() => {
+      this.renderNotesList(notes);
+      this.renderFeaturedNotes(notes);
+    });
   }
 
   renderNotesList(notes) {

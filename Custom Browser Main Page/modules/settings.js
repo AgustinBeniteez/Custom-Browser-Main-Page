@@ -3,10 +3,43 @@
 class SettingsManager {
   constructor() {
     this.translations = {};
+    this.debounceTimers = new Map();
     this.initializeElements();
     this.bindEvents();
+    this.ensureDefaultSettings();
     this.loadSettings();
     this.loadTranslations();
+  }
+
+  // Asegurar que todas las configuraciones tengan valores por defecto
+  ensureDefaultSettings() {
+    const defaultSettings = {
+      "idioma": "en",
+      "modoOscuro": "false",
+      "colorBotones": "hsl(320, 50%, 40%)",
+      "decoracionReloj": "true",
+      "colorReloj": "#ffffff",
+      "relojVisible": "true",
+      "buscadorVisible": "true",
+      "posicionFavoritos": "bottom",
+      "fuente-pagina": "Arial, sans-serif"
+    };
+
+    // Aplicar valores por defecto solo si no existen
+    Object.entries(defaultSettings).forEach(([key, defaultValue]) => {
+      if (localStorage.getItem(key) === null) {
+        localStorage.setItem(key, defaultValue);
+      }
+    });
+  }
+
+  // Método para debouncing de eventos
+  debounce(key, func, delay = 300) {
+    if (this.debounceTimers.has(key)) {
+      clearTimeout(this.debounceTimers.get(key));
+    }
+    const timer = setTimeout(func, delay);
+    this.debounceTimers.set(key, timer);
   }
 
   initializeElements() {
@@ -63,7 +96,7 @@ class SettingsManager {
       );
     if (this.elements.colorTemaInput)
       this.elements.colorTemaInput.addEventListener("input", (e) =>
-        this.updateThemeColor(e.target.value)
+        this.debounce('themeColor', () => this.updateThemeColor(e.target.value), 150)
       );
     if (this.elements.decoracionRelojCheckbox)
       this.elements.decoracionRelojCheckbox.addEventListener("change", (e) =>
@@ -71,7 +104,7 @@ class SettingsManager {
       );
     if (this.elements.colorRelojInput)
       this.elements.colorRelojInput.addEventListener("input", (e) =>
-        this.updateClockColor(e.target.value)
+        this.debounce('clockColor', () => this.updateClockColor(e.target.value), 150)
       );
     if (this.elements.mostrarRelojCheckbox)
       this.elements.mostrarRelojCheckbox.addEventListener("change", (e) =>
@@ -118,7 +151,26 @@ class SettingsManager {
   }
 
   loadSettings() {
-    // Cargar configuraciones guardadas
+    // Cargar configuraciones guardadas en lote para mejor rendimiento
+    const settings = {
+      language: localStorage.getItem("idioma"),
+      darkMode: localStorage.getItem("modo-oscuro"),
+      themeColor: localStorage.getItem("color-tema"),
+      clockDecoration: localStorage.getItem("decoracion-reloj"),
+      clockColor: localStorage.getItem("color-reloj"),
+      clockVisibility: localStorage.getItem("mostrar-reloj"),
+      searchVisibility: localStorage.getItem("mostrar-busqueda"),
+      favoritesPosition: localStorage.getItem("posicion-favoritos"),
+      backgroundUrl: localStorage.getItem("fondo-url"),
+      font: localStorage.getItem("fuente-pagina")
+    };
+
+    // Aplicar configuraciones
+    this.applySettings(settings);
+  }
+
+  applySettings(settings) {
+    // Cargar todas las configuraciones, usando valores por defecto si no existen
     this.loadLanguage();
     this.loadDarkMode();
     this.loadThemeColor();
@@ -143,11 +195,11 @@ class SettingsManager {
   }
 
   loadFont() {
-    const savedFont = localStorage.getItem("fuente-pagina");
-    if (savedFont && this.elements.fuentePaginaSelect) {
+    const savedFont = localStorage.getItem("fuente-pagina") || "Arial, sans-serif";
+    if (this.elements.fuentePaginaSelect) {
       this.elements.fuentePaginaSelect.value = savedFont;
-      this.updateFont(savedFont);
     }
+    this.updateFont(savedFont);
   }
 
   async loadTranslations() {
@@ -196,7 +248,9 @@ class SettingsManager {
 
   loadClockColor() {
     const savedColor = localStorage.getItem("colorReloj") || "#ffffff";
-    this.elements.colorRelojInput.value = savedColor;
+    if (this.elements.colorRelojInput) {
+      this.elements.colorRelojInput.value = savedColor;
+    }
     document.documentElement.style.setProperty("--color-reloj", savedColor);
   }
 
@@ -241,15 +295,11 @@ class SettingsManager {
   }
 
   loadFavoritesPosition() {
-    const savedPosition =
-      localStorage.getItem("posicionFavoritos") || "derecha";
-    const radioToSelect = Array.from(
-      this.elements.posicionFavoritosRadios
-    ).find((radio) => radio.value === savedPosition);
-    if (radioToSelect) {
-      radioToSelect.checked = true;
+    const position = localStorage.getItem("posicionFavoritos") || "bottom";
+    if (this.elements.posicionFavoritosSelect) {
+      this.elements.posicionFavoritosSelect.value = position;
     }
-    this.updateFavoritesPosition(savedPosition);
+    this.updateFavoritesPosition(position);
   }
 
   updateSearchEngine(engine) {
@@ -343,27 +393,33 @@ class SettingsManager {
   // Métodos de carga de configuración
   loadLanguage() {
     const language = localStorage.getItem("idioma") || "en";
-    this.elements.idiomaSelect.value = language;
+    if (this.elements.idiomaSelect) {
+      this.elements.idiomaSelect.value = language;
+    }
     this.updateLanguage(language);
   }
 
   loadDarkMode() {
     const enabled = localStorage.getItem("modoOscuro") === "true";
-    this.elements.modoOscuroCheckbox.checked = enabled;
+    if (this.elements.modoOscuroCheckbox) {
+      this.elements.modoOscuroCheckbox.checked = enabled;
+    }
     this.updateDarkMode(enabled);
   }
 
   loadThemeColor() {
-    const color = localStorage.getItem("colorBotones");
-    if (color) {
+    const color = localStorage.getItem("colorBotones") || "hsl(320, 50%, 40%)";
+    if (this.elements.colorTemaInput) {
       this.elements.colorTemaInput.value = color;
-      this.updateThemeColor(color);
     }
+    this.updateThemeColor(color);
   }
 
   loadClockDecoration() {
-    const enabled = localStorage.getItem("decoracionReloj") !== "false";
-    this.elements.decoracionRelojCheckbox.checked = enabled;
+    const enabled = localStorage.getItem("decoracionReloj") === "true";
+    if (this.elements.decoracionRelojCheckbox) {
+      this.elements.decoracionRelojCheckbox.checked = enabled;
+    }
     this.updateClockDecoration(enabled);
   }
 
@@ -379,6 +435,10 @@ class SettingsManager {
         // Es una URL normal
         this.updateBackground(url);
       }
+    } else {
+      // Aplicar fondo por defecto si no hay uno guardado
+      document.body.style.backgroundImage = "";
+      document.body.style.backgroundColor = "var(--color-letrasdark)";
     }
   }
 
@@ -390,26 +450,27 @@ class SettingsManager {
   }
 
   loadClockVisibility() {
-    const visible = localStorage.getItem("mostrarReloj") !== "false";
-    if (this.elements.mostrarRelojCheckbox) {
-      this.elements.mostrarRelojCheckbox.checked = visible;
+    const isVisible = localStorage.getItem("relojVisible") !== "false";
+    if (this.elements.relojVisibleCheckbox) {
+      this.elements.relojVisibleCheckbox.checked = isVisible;
     }
-    this.updateClockVisibility(visible);
+    this.updateClockVisibility(isVisible);
   }
 
-  updateSearchVisibility(visible) {
-    localStorage.setItem("mostrarBusqueda", visible);
-    if (this.elements.searchContainer) {
-      this.elements.searchContainer.style.display = visible ? "block" : "none";
+  updateSearchVisibility(isVisible) {
+    const searchContainer = document.querySelector(".search-container");
+    if (searchContainer) {
+      searchContainer.style.display = isVisible ? "block" : "none";
     }
+    localStorage.setItem("buscadorVisible", isVisible);
   }
 
   loadSearchVisibility() {
-    const visible = localStorage.getItem("mostrarBusqueda") !== "false";
-    if (this.elements.mostrarBusquedaCheckbox) {
-      this.elements.mostrarBusquedaCheckbox.checked = visible;
+    const isVisible = localStorage.getItem("buscadorVisible") !== "false";
+    if (this.elements.buscadorVisibleCheckbox) {
+      this.elements.buscadorVisibleCheckbox.checked = isVisible;
     }
-    this.updateSearchVisibility(visible);
+    this.updateSearchVisibility(isVisible);
   }
 
   // Utilidades

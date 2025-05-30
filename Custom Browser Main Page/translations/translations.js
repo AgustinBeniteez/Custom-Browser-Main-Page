@@ -3,6 +3,8 @@ class TranslationManager {
   constructor() {
     this.translations = null;
     this.currentLanguage = localStorage.getItem("idioma") || "en";
+    this.translationCache = new Map();
+    this.isLoading = false;
     this.init();
   }
 
@@ -11,16 +13,29 @@ class TranslationManager {
     this.setupLanguageSelector();
   }
 
-  loadTranslations() {
-    fetch("./translations/lang.json")
-      .then((response) => response.json())
-      .then((data) => {
-        this.translations = data;
-        this.updateLanguage(this.currentLanguage);
-      })
-      .catch((error) =>
-        console.error("Error al cargar las traducciones:", error)
-      );
+  async loadTranslations() {
+    if (this.isLoading) return;
+    
+    this.isLoading = true;
+    
+    try {
+      const response = await fetch("./translations/lang.json");
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      this.translations = data;
+      this.updateLanguage(this.currentLanguage);
+      
+    } catch (error) {
+      console.error("Error al cargar las traducciones:", error);
+      // Fallback a inglés si hay error
+      this.currentLanguage = "en";
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   setupLanguageSelector() {
@@ -50,9 +65,17 @@ class TranslationManager {
 
   updateLanguage(language) {
     if (!this.translations || !this.translations[language]) return;
+    
+    // Evitar actualizaciones innecesarias
+    if (this.currentLanguage === language && this.translationCache.has(language)) {
+      return;
+    }
 
     this.currentLanguage = language;
     localStorage.setItem("idioma", language);
+    
+    // Marcar como cacheado
+    this.translationCache.set(language, true);
 
     // Actualizar título y elementos básicos
     document.title = this.translations[language]?.titulo || "New Tab";
