@@ -66,10 +66,16 @@ class SearchManager {
 
     // Aplicar color del tema inicial
     const colorGuardado = State.getState().colorBotones;
+    const colorHoverGuardado = State.getState().colorBotonesHover;
+    
     if (colorGuardado && colorTemaInput) {
       colorTemaInput.value = colorGuardado;
       document.documentElement.style.setProperty('--color-botones', colorGuardado);
-      document.documentElement.style.setProperty('--color-botones-hover', State.getState().colorBotonesHover);
+    }
+    
+    // Siempre aplicar el color hover (por defecto o guardado)
+    if (colorHoverGuardado) {
+      document.documentElement.style.setProperty('--color-botones-hover', colorHoverGuardado);
     }
   }
 

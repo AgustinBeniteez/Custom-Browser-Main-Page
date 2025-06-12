@@ -790,7 +790,7 @@ body[data-theme="dark"] #fondo-url {
 }
 
 .favoritos-list {
-    max-height: 300px;
+    height: 100%;
 }
 
 /* Estilos para el scroll vertical */

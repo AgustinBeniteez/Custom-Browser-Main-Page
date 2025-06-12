@@ -10,7 +10,7 @@ const State = {
     notas: [],
     fondoUrl: '',
     colorBotones: '',
-    colorBotonesHover: ''
+    colorBotonesHover: '#802447'
   },
 
   // Observadores

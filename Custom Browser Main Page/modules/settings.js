@@ -16,13 +16,15 @@ class SettingsManager {
     const defaultSettings = {
       "idioma": "en",
       "modoOscuro": "false",
-      "colorBotones": "hsl(320, 50%, 40%)",
+      "colorBotones": "#b3336b",
+      "colorBotonesHover": "#802447",
       "decoracionReloj": "true",
       "colorReloj": "#ffffff",
       "relojVisible": "true",
       "buscadorVisible": "true",
       "posicionFavoritos": "bottom",
-      "fuente-pagina": "Arial, sans-serif"
+      "fuente-pagina": "Arial, sans-serif",
+      "fondo-url": "./fondos/background2.png"
     };
 
     // Aplicar valores por defecto solo si no existen
@@ -174,6 +176,7 @@ class SettingsManager {
     this.loadLanguage();
     this.loadDarkMode();
     this.loadThemeColor();
+    this.loadThemeHoverColor();
     this.loadClockDecoration();
     this.loadClockColor();
     this.loadClockVisibility();
@@ -327,6 +330,8 @@ class SettingsManager {
 
   updateThemeColor(color) {
     const colorMasOscuro = this.calcularColorMasOscuro(color, -0.2);
+    const hoverColor = localStorage.getItem("colorBotonesHover") || "#802447";
+    
     document.documentElement.style.setProperty("--color-botones", color);
     document.documentElement.style.setProperty(
       "--color-botones-hover",
@@ -408,11 +413,27 @@ class SettingsManager {
   }
 
   loadThemeColor() {
-    const color = localStorage.getItem("colorBotones") || "hsl(320, 50%, 40%)";
+    const color = localStorage.getItem("colorBotones") || "#b3336b";
+    let displayColor = color;
+    
+    // Convertir HSL a hexadecimal si es necesario para el input de color
+    if (color.startsWith('hsl')) {
+      const hslMatch = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+      if (hslMatch) {
+        const [, h, s, l] = hslMatch.map(Number);
+        displayColor = this.hslToHex(h, s, l);
+      }
+    }
+    
     if (this.elements.colorTemaInput) {
-      this.elements.colorTemaInput.value = color;
+      this.elements.colorTemaInput.value = displayColor;
     }
     this.updateThemeColor(color);
+  }
+
+  loadThemeHoverColor() {
+    const hoverColor = localStorage.getItem("colorBotonesHover") || "#802447";
+    document.documentElement.style.setProperty("--color-botones-hover", hoverColor);
   }
 
   loadClockDecoration() {
@@ -437,8 +458,9 @@ class SettingsManager {
       }
     } else {
       // Aplicar fondo por defecto si no hay uno guardado
-      document.body.style.backgroundImage = "";
-      document.body.style.backgroundColor = "var(--color-letrasdark)";
+      document.body.style.backgroundImage = "url('./fondos/background2.png')";
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
     }
   }
 
@@ -474,6 +496,17 @@ class SettingsManager {
   }
 
   // Utilidades
+  hslToHex(h, s, l) {
+    l /= 100;
+    const a = s * Math.min(l, 1 - l) / 100;
+    const f = n => {
+      const k = (n + h / 30) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color).toString(16).padStart(2, '0');
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+  }
+
   calcularColorMasOscuro(color, porcentaje) {
     const f = parseInt(color.slice(1), 16);
     const t = porcentaje < 0 ? 0 : 255;

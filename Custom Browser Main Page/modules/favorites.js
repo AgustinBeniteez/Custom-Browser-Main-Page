@@ -78,12 +78,14 @@ class FavoritesManager {
     this.elements.favoritosList.addEventListener("dragover", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      this.elements.favoritosList.style.backgroundColor =
-        "rgba(255, 255, 255, 0.1)";
+      // Comentado para ocultar el cambio de color de fondo al arrastrar
+      // this.elements.favoritosList.style.backgroundColor =
+      //   "rgba(255, 255, 255, 0.1)";
     });
 
     this.elements.favoritosList.addEventListener("dragleave", () => {
-      this.elements.favoritosList.style.backgroundColor = "";
+      // Comentado para ocultar el cambio de color de fondo al arrastrar
+      // this.elements.favoritosList.style.backgroundColor = "";
     });
 
     this.elements.favoritosList.addEventListener("drop", (e) => {
@@ -99,7 +101,8 @@ class FavoritesManager {
         this.loadFavorites();
       }
 
-      this.elements.favoritosList.style.backgroundColor = "";
+      // Comentado para ocultar el cambio de color de fondo al arrastrar
+      // this.elements.favoritosList.style.backgroundColor = "";
     });
   }
 
@@ -248,18 +251,20 @@ class FavoritesManager {
 
     folderDiv.addEventListener("dragover", (e) => {
       e.preventDefault();
-      folderDiv.style.backgroundColor = isDarkMode
-        ? "var(--color-modedark)"
-        : "#e0e0e0";
+      // Comentado para ocultar el cambio de color de fondo al arrastrar
+      // folderDiv.style.backgroundColor = isDarkMode
+      //   ? "var(--color-modedark)"
+      //   : "#e0e0e0";
       folderDiv.style.transform = "scale(1.05)";
       folderDiv.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.2)";
       folderIcon.querySelector("i").style.color = "#ffc400";
     });
 
     folderDiv.addEventListener("dragleave", () => {
-      folderDiv.style.backgroundColor = isDarkMode
-        ? "var(--color-modelight)"
-        : "#f0f0f0";
+      // Comentado para ocultar el cambio de color de fondo al arrastrar
+      // folderDiv.style.backgroundColor = isDarkMode
+      //   ? "var(--color-modelight)"
+      //   : "#f0f0f0";
       folderDiv.style.transform = "scale(1)";
       folderDiv.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
       folderIcon.querySelector("i").style.color = "#ffd700";
@@ -297,9 +302,10 @@ class FavoritesManager {
         }
       }
 
-      folderDiv.style.backgroundColor = isDarkMode
-        ? "var(--color-modelight)"
-        : "#f0f0f0";
+      // Comentado para ocultar el cambio de color de fondo al arrastrar
+      // folderDiv.style.backgroundColor = isDarkMode
+      //   ? "var(--color-modelight)"
+      //   : "#f0f0f0";
     });
 
     const folderIcon = document.createElement("div");
