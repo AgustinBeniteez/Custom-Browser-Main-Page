@@ -16,6 +16,7 @@ class FavoritesManager {
   _initElements() {
     this.el = {
       favoritosContainer: document.getElementById('favoritos-list'),
+      expandidoContainer: document.getElementById('favoritos-expandido'),
       rootContainer: document.getElementById('favoritos-container'),
       agregarFavoritoBtn: document.getElementById('agregar-favorito-btn'),
       seleccionarTipoPopup: document.getElementById('seleccionar-tipo'),
@@ -34,12 +35,12 @@ class FavoritesManager {
       cancelarEliminarBtn: document.getElementById('cancelar-eliminar-btn'),
       contextMenu: document.getElementById('context-menu'),
     };
-    /** Índice del favorito que se va a eliminar (para confirmar). */
     this._favoritoAEliminar = null;
     this._itemEnEdicion = null;
     this._editingItemId = null;
     this._editingType = null;
     this._openFolderId = null;
+    this._originalTop = null;
   }
 
   _bindEvents() {
@@ -282,15 +283,24 @@ class FavoritesManager {
   loadFavorites() {
     const favoritos = this.getFavorites();
     const carpetas = this.getFolders();
-    if (!this.el.favoritosContainer) return;
-    this.el.favoritosContainer.innerHTML = '';
 
-    // 1. Si hay una carpeta abierta, renderizar su contenido expandido ARRIBA
+    // Restaurar posición si estaba ajustada
+    this._resetPositionAfterExpansion();
+
+    if (this.el.expandidoContainer) this.el.expandidoContainer.innerHTML = '';
+    this.el.favoritosContainer.innerHTML = '';
+    this.el.rootContainer?.classList.remove('has-expanded-folder');
+
+    // 1. Si hay una carpeta abierta, renderizar su contenido expandido en su propio contenedor ARRIBA
     if (this._openFolderId) {
       const activeFolder = carpetas.find(c => String(c.id) === String(this._openFolderId));
       if (activeFolder) {
         const items = favoritos.filter(f => String(f.carpetaId) === String(activeFolder.id));
         this._renderExpandedFolder(activeFolder, items);
+        this.el.rootContainer?.classList.add('has-expanded-folder');
+
+        // Ajustar posición si estamos cerca del fondo
+        setTimeout(() => this._adjustPositionForExpansion(), 0);
       }
     }
 
@@ -313,6 +323,40 @@ class FavoritesManager {
     // Si no hay nada, marcamos el contenedor para mostrar siempre el "+"
     const isEmpty = favoritos.length === 0 && carpetas.length === 0;
     this.el.favoritosContainer.parentElement?.classList.toggle('is-empty', isEmpty);
+  }
+
+  // ─── Ajuste de Posición para Crecimiento Vertical ──────────────────────────
+
+  _adjustPositionForExpansion() {
+    const el = this.el.rootContainer;
+    if (!el || el.classList.contains('favoritos-bottom') || this._originalTop) return;
+
+    // Solo si está posicionado con top (edit mode o layouts manuales)
+    if (!el.style.top || el.style.top === 'auto') return;
+
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    // Si el centro del widget está en la mitad inferior, o está cerca del fondo
+    if (rect.top + rect.height / 2 > vh / 2 || rect.bottom > vh - 100) {
+      this._originalTop = el.style.top;
+      const currentBottom = vh - rect.bottom;
+
+      // Aseguramos que no quede fuera por abajo si ya lo estaba
+      const safeBottom = Math.max(20, currentBottom);
+
+      el.style.top = 'auto';
+      el.style.bottom = safeBottom + 'px';
+    }
+  }
+
+  _resetPositionAfterExpansion() {
+    const el = this.el.rootContainer;
+    if (!el || !this._originalTop) return;
+
+    el.style.top = this._originalTop;
+    el.style.bottom = 'auto';
+    this._originalTop = null;
   }
 
   // ─── Render de carpeta ─────────────────────────────────────────────────────
@@ -373,7 +417,11 @@ class FavoritesManager {
       }
     });
 
-    this.el.favoritosContainer.appendChild(folderDiv);
+    if (this.el.expandidoContainer) {
+      this.el.expandidoContainer.appendChild(folderDiv);
+    } else {
+      this.el.favoritosContainer.prepend(folderDiv);
+    }
   }
 
   _renderFolder(carpeta, favoritos, isSource = false) {

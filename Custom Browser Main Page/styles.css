@@ -327,32 +327,49 @@ a:hover {
 
 /* (hover de <a> movido al bloque global de arriba) */
 .header {
-    position: absolute;
+    position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 10;
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+    transition: top 0.3s ease;
+}
+
+body.widgets-menu-open .header {
+    top: 80px;
+    /* Bajar los botones cuando el menú superior de widgets está abierto */
 }
 
 .reloj-container {
     margin-bottom: -60px;
     /* Espacio entre el reloj y la barra de búsqueda */
+    container-type: size;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 160px;
+    max-width: 100vw;
 }
 
 #reloj {
     color: var(--color-reloj);
     transition: color 0.3s ease;
+    margin: 0;
+    line-height: 1;
 }
 
 h1 {
-    font-size: 160px;
-    /* Tamaño LETRA para el reloj */
+    font-size: min(30cqw, 100cqh);
+    /* Responsive to container size */
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     animation: textGlow 2s ease-in-out infinite alternate;
 }
 
 .reloj-sin-animacion h1 {
-    font-size: 160px;
+    font-size: min(30cqw, 100cqh);
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     /* Sin animación */
@@ -374,12 +391,19 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 450px;
+    height: 50px;
+    max-width: 90vw;
 }
 
 .search-form {
     display: flex;
     position: relative;
     /* Para el posicionamiento de las sugerencias */
+    width: 100%;
+    height: 100%;
+    align-items: center;
 }
 
 .search-form input {
@@ -389,7 +413,9 @@ h1 {
     font-size: 16px;
     border: 2px solid #b0b0b0;
     border-radius: 24px;
-    width: 300px;
+    flex-grow: 1;
+    width: 100%;
+    min-width: 0;
     min-height: var(--min-touch-size);
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -439,6 +465,12 @@ h1 {
 .search-form button:focus-visible {
     outline: var(--focus-outline);
     outline-offset: var(--focus-outline-offset);
+}
+
+/* Modificador para forma cuadrada del widget de búsqueda */
+.widget-square .search-form input,
+.widget-square .search-form button {
+    border-radius: 8px;
 }
 
 .popup {
@@ -649,14 +681,11 @@ body[data-theme="dark"] #fondo-url {
     align-items: center;
     justify-content: center;
     font-size: 26px;
-    margin: 4px 2px;
     cursor: pointer;
     min-width: var(--min-touch-size);
     min-height: var(--min-touch-size);
-    position: fixed;
-    top: 10px;
     border-radius: 8px;
-    transition: right 0.3s ease, left 0.3s ease, background-color 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
 .ajustes-btn:hover {
@@ -681,8 +710,190 @@ body[data-theme="dark"] #fondo-url {
 }
 
 .ajustes-derecha {
-    right: 10px;
+    right: 10px !important;
     left: auto !important;
+}
+
+/* ── Edit Mode ────────────────────────────────────────────────────────── */
+body.edit-mode::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent overlay to ensure contrast */
+    z-index: 1;
+    /* Below editable widgets (z-index: 99), but above background */
+    pointer-events: none;
+}
+
+body.edit-mode::before {
+    content: "EDIT MODE";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10vw;
+    color: rgba(255, 255, 255, 0.1);
+    z-index: 2;
+    pointer-events: none;
+    font-weight: bold;
+}
+
+.editable-widget {
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    z-index: 99 !important;
+    overflow: visible !important;
+    transition: none !important;
+}
+
+/* Overlay invisible para bloquear clicks en el input o enlaces mientras se edita */
+.editable-widget::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    cursor: default;
+}
+
+.editable-widget:hover {
+    border-color: var(--color-botones);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.widget-controls {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    display: flex;
+    gap: 5px;
+    z-index: 10;
+}
+
+.widget-toggle-vis {
+    background-color: var(--color-botones);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-medium);
+}
+
+.widget-toggle-vis:hover {
+    background-color: var(--color-botones-hover);
+}
+
+.widget-resize-handle {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-botones);
+    border-radius: 50%;
+    cursor: nwse-resize;
+    z-index: 10;
+    box-shadow: var(--shadow-small);
+}
+
+.widget-drag-handle {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-botones);
+    color: white;
+    border-radius: 50%;
+    cursor: grab;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-small);
+}
+
+.widget-drag-handle:active {
+    cursor: grabbing;
+}
+
+body:not(.edit-mode) .widget-hidden-by-user {
+    display: none !important;
+}
+
+body.edit-mode .widget-hidden-by-user {
+    opacity: 0.3 !important;
+    filter: grayscale(1);
+    display: flex !important;
+}
+
+#favoritos-container.widget-horizontal .favoritos-list {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    align-content: flex-start !important;
+}
+
+#favoritos-container.widget-horizontal .favorito-item {
+    flex: 0 0 auto;
+    width: 180px !important;
+}
+
+.widget-resize-handle {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-botones);
+    border-radius: 50%;
+    cursor: se-resize;
+    z-index: 10;
+    border: 2px solid white;
+}
+
+.widget-drag-handle {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 26px;
+    height: 26px;
+    background-color: var(--color-botones);
+    color: white;
+    border-radius: 50%;
+    cursor: grab;
+    z-index: 10;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    box-shadow: var(--shadow-small, 0 2px 5px rgba(0, 0, 0, 0.3));
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.widget-drag-handle:hover {
+    transform: scale(1.1);
+    background-color: var(--color-botones-hover);
+}
+
+.widget-drag-handle:active {
+    cursor: grabbing;
+    transform: scale(0.95);
 }
 
 #buscador {
@@ -812,6 +1023,33 @@ body[data-theme="dark"] #fondo-url {
     gap: 10px;
 }
 
+/* Sección separada para carpeta abierta */
+.favoritos-expandido {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.favoritos-expandido:not(:empty) {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+/* Forzar que la carpeta abierta siempre ocupe todo el ancho disponible */
+.favoritos-container .favoritos-expandido .favorito-item.abierta {
+    width: 100% !important;
+    min-width: 100% !important;
+    flex: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.favoritos-container.has-expanded-folder {
+    height: auto !important;
+    max-height: 90vh !important;
+}
+
 .favoritos-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -854,11 +1092,12 @@ body[data-theme="dark"] .favoritos-container {
     z-index: 500;
 }
 
-.favoritos-bottom .favoritos-list {
+.favoritos-bottom .favoritos-list,
+.favoritos-container.widget-horizontal .favoritos-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 12px;
 }
 
@@ -882,27 +1121,35 @@ body[data-theme="dark"] .favoritos-container {
     /* In sidebar */
 }
 
-/* Layout for items in bottom list or inside folders */
-.favoritos-bottom .favoritos-item,
+/* Layout for items in bottom list or inside folders or horizontal widgets */
+.favoritos-bottom .favorito-item,
+.widget-horizontal .favorito-item,
 .favorito-carpeta-contenido .favorito-item {
-    width: 180px;
-    flex-shrink: 0;
+    width: 180px !important;
+    flex: 0 0 180px !important;
 }
 
+/* EXCEPCIÓN: La carpeta abierta debe ser 100% */
 .favorito-item.abierta {
     width: 100% !important;
+    flex: 0 0 100% !important;
     background: var(--color-modedark) !important;
-    /* Más opaco para el scroll */
     border: 1px solid var(--color-botones);
     cursor: default;
     transform: none !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(15px);
     position: sticky;
-    top: -15px;
-    /* Compensa el padding del contenedor si es necesario */
+    top: 0;
     z-index: 110;
     margin-bottom: 15px;
+}
+
+/* Asegurar que la carpeta abierta no sea de 180px aunque esté en widget horizontal */
+#favoritos-container.widget-horizontal .favorito-item.abierta,
+#favoritos-container .favoritos-expandido .favorito-item.abierta {
+    width: 100% !important;
+    flex: 0 0 100% !important;
 }
 
 .favorito-item.folder-source-open {
@@ -1037,16 +1284,24 @@ body[data-theme="dark"] .favoritos-container {
 .favorito-carpeta-contenido {
     display: none;
     width: 100%;
-    padding: 15px;
+    padding: 20px;
     gap: 15px;
     flex-wrap: wrap;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.1);
+    flex-direction: row;
+    /* Forzar fila */
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 0 0 12px 12px;
 }
 
 .abierta .favorito-carpeta-contenido {
-    display: flex;
+    display: flex !important;
+}
+
+/* Items dentro de la carpeta siempre 180px */
+.favorito-carpeta-contenido .favorito-item {
+    width: 180px !important;
+    flex: 0 0 180px !important;
 }
 
 .favoritos-bottom .favorito-item {
@@ -1111,10 +1366,18 @@ body[data-theme="dark"] #agregar-favorito-btn {
     display: none;
 }
 
-.favoritos-bottom #agregar-favorito-btn {
+.favoritos-bottom #agregar-favorito-btn,
+.widget-horizontal #agregar-favorito-btn {
     width: 180px;
-    /* Same width as favorites in bottom dock */
+    /* Same width as favorites */
     margin: 0;
+    height: 54px;
+    /* Approximate height of an item row */
+    opacity: 0.8;
+}
+
+.widget-horizontal #titulo-favoritos {
+    width: 100%;
 }
 
 /* ── Botón Eliminar ─────────────────────────────────────────────────── */
@@ -1568,12 +1831,9 @@ body[data-theme="dark"] #agregar-favorito-btn {
 
 /* Botones en la esquina inferior izquierda */
 .botones-inferiores {
-    position: fixed;
-    bottom: 50px;
-    /* Aumentado el margen inferior para separar del botón de ajustes */
     display: flex;
     gap: 10px;
-    transition: right 0.3s, left 0.3s;
+    z-index: 10;
 }
 
 .botones-inferiores-izquierda {
@@ -1942,6 +2202,13 @@ body[data-theme="dark"] #agregar-favorito-btn {
     text-overflow: ellipsis;
 }
 
+#widget-notes {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
 #ver-notas-btn {
     border-radius: 30px;
     color: var(--color-letraswhite);
@@ -1949,13 +2216,11 @@ body[data-theme="dark"] #agregar-favorito-btn {
     padding: 10px 20px;
     border: 1px solid var(--color-botones);
     transition: background-color 0.4s ease, box-shadow 0.4s ease;
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    transition: background-color 0.4s ease;
+    width: 100%;
+    height: 100%;
 }
 
-#ver-notas-btn:hover {
+#ver-notas-btn:not(.editable-widget):hover {
     background-color: var(--color-botones-hover);
     box-shadow: inset 0 0 0 2px var(--color-botones);
 }
@@ -3661,4 +3926,367 @@ button:has(.fa-trash):hover {
     background: #f38ba8;
     color: #111;
     border-color: #f38ba8;
+}
+
+/* ── Widgets Menu Popup (Modo Edicion) ── */
+.widgets-menu-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-modelight, #1e1e2e);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    z-index: 200;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: var(--color-letraswhite, #cdd6f4);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    height: 60px;
+}
+
+.widgets-menu-popup.oculto {
+    display: none !important;
+}
+
+.widgets-menu-header {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    /* Empujar el botón cerrar a la derecha */
+}
+
+.widgets-menu-header h3 {
+    display: none;
+    /* Ocultar el título 'Widgets' */
+}
+
+.widgets-menu-header button {
+    background: transparent;
+    border: none;
+    color: var(--color-letraswhite, #cdd6f4);
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.widgets-menu-header button:hover {
+    transform: scale(1.1);
+}
+
+.widgets-list {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    overflow-x: auto;
+    flex-grow: 1;
+}
+
+.widget-menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid var(--color-letraswhite);
+    transition: all 0.2s;
+    font-weight: normal;
+    font-style: normal;
+    color: var(--color-letraswhite);
+    white-space: nowrap;
+    gap: 8px;
+}
+
+.widget-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.widget-menu-item.active {
+    border: 1px solid var(--color-botones);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-botones);
+}
+
+/* ── Calendar Widget ── */
+.calendar-widget-container {
+    background: var(--color-modelight);
+    color: var(--color-letrasdark);
+    padding: 15px;
+    border-radius: 16px;
+    width: 250px;
+    height: 250px;
+    box-shadow: var(--shadow-medium);
+    container-type: size;
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: min(15px, 5cqw);
+    font-weight: bold;
+    font-size: min(16px, 8cqw);
+}
+
+.calendar-widget-header button {
+    background: transparent;
+    color: var(--color-letrasdark);
+    border: none;
+    cursor: pointer;
+    font-size: min(14px, 7cqw);
+}
+
+.calendar-widget-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: min(4px, 1cqw);
+    flex-grow: 1;
+}
+
+.cal-day-name {
+    font-size: min(12px, 6cqw);
+    font-weight: bold;
+    color: var(--color-botones);
+    margin-bottom: min(5px, 2cqw);
+}
+
+.cal-day {
+    padding: 2px;
+    font-size: min(13px, 6cqw);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cal-day.today {
+    background: var(--color-botones);
+    color: white;
+    font-weight: bold;
+}
+
+.cal-day.today>span {
+    color: white !important;
+}
+
+/* Dots for pinned notes */
+.widget-cal-dots {
+    display: flex;
+    gap: 2px;
+    margin-top: 2px;
+    justify-content: center;
+}
+
+.widget-cal-dot {
+    width: min(4px, 2cqw);
+    height: min(4px, 2cqw);
+    border-radius: 50%;
+    background-color: var(--color-letrasdark);
+    /* fallback */
+}
+
+
+/* ── Important Notes Widget ── */
+.widget-important-notes-container {
+    background: var(--color-modelight);
+    color: var(--color-letrasdark);
+    padding: 15px;
+    border-radius: 16px;
+    width: 250px;
+    height: 400px;
+    box-shadow: var(--shadow-medium);
+    container-type: size;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Modo Horizontal (cuando se despliega a lo ancho) */
+.widget-important-notes-container.widget-horizontal {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    width: 600px;
+    height: 150px;
+}
+
+.important-notes-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: min(10px, 5cqh);
+    font-weight: bold;
+    font-size: min(16px, 12cqh);
+    color: var(--color-botones);
+    white-space: nowrap;
+}
+
+.widget-important-notes-container.widget-horizontal .important-notes-header {
+    margin-bottom: 0;
+    flex-direction: column;
+}
+
+.important-notes-grid {
+    display: flex;
+    gap: min(10px, 3cqw);
+    flex-grow: 1;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.widget-important-notes-container.widget-horizontal .important-notes-grid {
+    flex-direction: row;
+}
+
+.important-note-card {
+    flex: 1;
+    min-width: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    /* Ligeramente más claro para separar del fondo */
+    border: 1px solid var(--color-botones);
+    border-radius: 8px;
+    padding: min(8px, 4cqw);
+    display: flex;
+    flex-direction: column;
+    font-size: min(12px, 9cqh);
+    overflow: hidden;
+}
+
+.important-note-card h4 {
+    margin: 0 0 5px 0;
+    font-size: min(13px, 10cqh);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.important-note-card .note-date {
+    font-size: min(10px, 8cqh);
+    color: var(--color-botones);
+    margin-bottom: 5px;
+}
+
+.important-note-card .note-content {
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    opacity: 0.8;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LAYOUT EDITOR & WIDGETS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.editable-widget {
+    outline: 2px dashed var(--color-botones);
+    outline-offset: 4px;
+    cursor: move !important;
+    transition: outline 0.2s ease;
+    z-index: 1000 !important;
+}
+
+/* En modo edición, desactivar eventos en el contenido para que no interfieran con el drag */
+.editable-widget>*:not(.widget-controls):not(.widget-drag-handle):not(.widget-resize-handle) {
+    pointer-events: none !important;
+}
+
+.editable-widget .widget-controls,
+.editable-widget .widget-drag-handle,
+.editable-widget .widget-resize-handle {
+    pointer-events: auto !important;
+}
+
+.editable-widget:hover {
+    outline-color: var(--color-botones-hover);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.widget-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    z-index: 1001;
+    background: var(--color-modedark);
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+}
+
+.widget-controls button {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.widget-controls button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.widget-drag-handle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 28px;
+    height: 28px;
+    background: var(--color-modedark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: move;
+    z-index: 1001;
+    box-shadow: var(--shadow-medium);
+}
+
+.widget-resize-handle {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    background: var(--color-botones);
+    border-radius: 50%;
+    cursor: nwse-resize;
+    z-index: 1001;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.widget-hidden-by-user {
+    display: none !important;
+}
+
+body.edit-mode .widget-hidden-by-user {
+    display: flex !important;
+    opacity: 0.4;
+    filter: grayscale(1);
+}
+
+/* Specific widget fixes */
+#ver-notas-btn.editable-widget {
+    min-width: 120px;
+}
+
+.reloj-container.editable-widget {
+    margin-bottom: 0;
 }

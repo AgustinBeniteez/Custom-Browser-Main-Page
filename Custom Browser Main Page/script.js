@@ -8,9 +8,10 @@ import { settingsManager } from './modules/settings.js';
 import { clockSearchManager } from './modules/clock-search.js';
 import { favoritesManager } from './modules/favorites.js';
 import { notesManager } from './modules/notes.js';
+import { editModeManager } from './modules/edit-mode.js';
 
 State.init();
 
 // Los módulos se auto-inicializan al instanciarse.
 // Las referencias se conservan para depuración o acceso global futuro.
-export { settingsManager, clockSearchManager, favoritesManager, notesManager };
+export { settingsManager, clockSearchManager, favoritesManager, notesManager, editModeManager };

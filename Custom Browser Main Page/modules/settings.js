@@ -98,6 +98,7 @@ class SettingsManager {
       relojContainer: document.querySelector('.reloj-container'),
       favoritosContainer: document.getElementById('favoritos-container'),
       searchContainer: document.querySelector('.search-container'),
+      headerActions: document.getElementById('header-actions'),
       fuentePaginaSelect: document.getElementById('fuente-pagina'),
       showFavBgCheckbox: document.getElementById('show-fav-bg'),
       folderClosedFileInput: document.getElementById('folder-closed-file'),
@@ -397,11 +398,11 @@ class SettingsManager {
   // ─── Posición de favoritos ─────────────────────────────────────────────────
 
   updateFavoritesPosition(position) {
-    const { favoritosContainer: container, ajustesBtn } = this.el;
+    const { favoritosContainer: container, headerActions } = this.el;
     const notasBtn = document.getElementById('ver-notas-btn');
 
     container?.classList.remove('favoritos-derecha', 'favoritos-izquierda', 'favoritos-oculto', 'favoritos-bottom');
-    ajustesBtn?.classList.remove('ajustes-derecha', 'ajustes-izquierda');
+    headerActions?.classList.remove('ajustes-derecha', 'ajustes-izquierda');
     notasBtn?.classList.remove('ajustes-derecha', 'ajustes-izquierda');
 
     const isLeft = position === 'izquierda';
@@ -415,7 +416,7 @@ class SettingsManager {
     };
 
     if (classMap[position]) container?.classList.add(classMap[position]);
-    ajustesBtn?.classList.add(btnSide);
+    headerActions?.classList.add(btnSide);
     notasBtn?.classList.add(btnSide);
 
     this._save('posicionFavoritos', position);

@@ -80,7 +80,10 @@ class NotesManager {
     const { el } = this;
 
     // Apertura/Cierre
-    el.verBtn?.addEventListener('click', () => this.show());
+    el.verBtn?.addEventListener('click', () => {
+      if (document.body.classList.contains('edit-mode')) return;
+      this.show();
+    });
     el.cerrarPopupBtn?.addEventListener('click', () => this.hide());
     window.addEventListener('click', e => { if (e.target === el.popup) this.hide(); });
 
@@ -135,17 +138,39 @@ class NotesManager {
     });
   }
 
-  show() {
+  show(tabName = null) {
     if (this.el.popup) {
       this.el.popup.style.display = 'flex';
       this.loadNotes();
-      this._resetCalendarView();
+
+      if (tabName) {
+        this._switchTab(tabName);
+      } else {
+        this._resetCalendarView();
+      }
+
       if (this._currentIndex === null && this._getNotes().length > 0) {
         this._edit(0);
-      } else if (this._getNotes().length === 0) {
+      } else if (this._currentIndex === null && this._getNotes().length === 0) {
         this._prepareNew();
       }
     }
+  }
+
+  openNote(index) {
+    this.show('tab-notas'); // Ensure general tab or notes view is open (by default it opens the first tab which is notes)
+    this._switchTab(this.el.tabs[0].dataset.tab);
+    this._edit(index);
+  }
+
+  openCalendarDay(date) {
+    this.show('tab-calendar');
+    this._currentMonth = new Date(date);
+    this._renderCalendar();
+
+    const dateStr = date.toLocaleDateString();
+    const dayNotes = this._getNotes().filter(n => n.fecha === dateStr);
+    this._showDayNotes(date, dayNotes);
   }
 
   hide() {

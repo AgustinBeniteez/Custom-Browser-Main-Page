@@ -84,7 +84,15 @@
     "reset-icon": "Remove custom icon",
     "tab-notes-list": "All Notes",
     "tab-calendar": "Calendar",
-    "sort-by-date": "Sort by Date"
+    "sort-by-date": "Sort by Date",
+    "widget-reloj": "Clock",
+    "widget-search": "Search",
+    "widget-favoritos": "Favorites",
+    "widget-notes": "Notes",
+    "widget-calendar": "Calendar",
+    "widget-important-notes": "Recent Notes",
+    "nothing-recent": "Nothing recent",
+    "untitled": "Untitled"
   },
   "es": {
     "titulo": "Nueva Pestaña",
@@ -171,7 +179,15 @@
     "reset-icon": "Eliminar icono personalizado",
     "tab-notes-list": "Todas las notas",
     "tab-calendar": "Calendario",
-    "sort-by-date": "Ordenar por fecha"
+    "sort-by-date": "Ordenar por fecha",
+    "widget-reloj": "Reloj",
+    "widget-search": "Buscador",
+    "widget-favoritos": "Favoritos",
+    "widget-notes": "Notas",
+    "widget-calendar": "Calendario",
+    "widget-important-notes": "Notas Recientes",
+    "nothing-recent": "Nada reciente",
+    "untitled": "Sin título"
   },
   "val": {
     "titulo": "Nova Pestanya",
@@ -244,7 +260,15 @@
     "tab-clock": "Rellotge",
     "tab-about": "Sobre",
     "choose-file": "Triar arxiu",
-    "no-file-chosen": "Cap arxiu triat"
+    "no-file-chosen": "Cap arxiu triat",
+    "widget-reloj": "Rellotge",
+    "widget-search": "Cercador",
+    "widget-favoritos": "Favorits",
+    "widget-notes": "Notes",
+    "widget-calendar": "Calendari",
+    "widget-important-notes": "Notes Recents",
+    "nothing-recent": "Res recent",
+    "untitled": "Sense títol"
   },
   "fr": {
     "titulo": "Nouvel Onglet",
@@ -317,7 +341,15 @@
     "tab-clock": "Horloge",
     "tab-about": "À propos",
     "choose-file": "Choisir un fichier",
-    "no-file-chosen": "Aucun fichier choisi"
+    "no-file-chosen": "Aucun fichier choisi",
+    "widget-reloj": "Horloge",
+    "widget-search": "Recherche",
+    "widget-favoritos": "Favoris",
+    "widget-notes": "Notes",
+    "widget-calendar": "Calendrier",
+    "widget-important-notes": "Notes Récentes",
+    "nothing-recent": "Rien de récent",
+    "untitled": "Sans titre"
   },
   "ru": {
     "titulo": "Новая Вкладка",
@@ -390,7 +422,15 @@
     "tab-clock": "Часы",
     "tab-about": "О программе",
     "choose-file": "Выбрать файл",
-    "no-file-chosen": "Файл не выбран"
+    "no-file-chosen": "Файл не выбран",
+    "widget-reloj": "Часы",
+    "widget-search": "Поиск",
+    "widget-favoritos": "Избранное",
+    "widget-notes": "Заметки",
+    "widget-calendar": "Календарь",
+    "widget-important-notes": "Последние заметки",
+    "nothing-recent": "Ничего нового",
+    "untitled": "Без названия"
   },
   "zh": {
     "titulo": "新标签页",
@@ -463,7 +503,15 @@
     "tab-clock": "时钟",
     "tab-about": "关于",
     "choose-file": "选择文件",
-    "no-file-chosen": "未选择文件"
+    "no-file-chosen": "未选择文件",
+    "widget-reloj": "时钟",
+    "widget-search": "搜索",
+    "widget-favoritos": "收藏夹",
+    "widget-notes": "笔记",
+    "widget-calendar": "日历",
+    "widget-important-notes": "最近笔记",
+    "nothing-recent": "没有最近笔记",
+    "untitled": "无标题"
   },
   "ja": {
     "titulo": "新しいタブ",
@@ -536,7 +584,15 @@
     "tab-clock": "時計",
     "tab-about": "情報",
     "choose-file": "ファイルを選択",
-    "no-file-chosen": "ファイル未選択"
+    "no-file-chosen": "ファイル未選択",
+    "widget-reloj": "時計",
+    "widget-search": "検索",
+    "widget-favoritos": "お気に入り",
+    "widget-notes": "ノート",
+    "widget-calendar": "カレンダー",
+    "widget-important-notes": "最近のノート",
+    "nothing-recent": "最近のノートはありません",
+    "untitled": "無題"
   },
   "ko": {
     "titulo": "새 탭",
@@ -609,6 +665,14 @@
     "tab-clock": "시계",
     "tab-about": "정보",
     "choose-file": "파일 선택",
-    "no-file-chosen": "파일이 선택되지 않음"
+    "no-file-chosen": "파일이 선택되지 않음",
+    "widget-reloj": "시계",
+    "widget-search": "검색",
+    "widget-favoritos": "즐겨찾기",
+    "widget-notes": "노트",
+    "widget-calendar": "캘린더",
+    "widget-important-notes": "최근 노트",
+    "nothing-recent": "최근 항목 없음",
+    "untitled": "제목 없음"
   }
 }

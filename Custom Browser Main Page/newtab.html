@@ -14,9 +14,15 @@
   <a href="#search-input" class="skip-to-content">Ir al contenido principal</a>
 
   <!-- ── Botón de ajustes ─────────────────────────────────────────────────── -->
-  <div class="header">
+  <div class="header" id="header-actions">
     <button id="ajustes-btn" class="ajustes-btn" aria-label="Settings">
       <i class="fa-duotone fa-solid fa-gear" style="--fa-primary-color:#b8c5db;--fa-secondary-color:#1f3d6f;"></i>
+    </button>
+    <button id="edit-mode-btn" class="ajustes-btn" aria-label="Edit Mode" title="Edit Layout">
+      <i class="fa-solid fa-pen"></i>
+    </button>
+    <button id="widgets-menu-btn" class="ajustes-btn oculto" aria-label="Add Widgets" title="Add Widgets">
+      <i class="fa-solid fa-puzzle-piece"></i>
     </button>
   </div>
 
@@ -42,21 +48,54 @@
     </form>
   </div>
 
+  <!-- ── Popup menu de Widgets ────────────────────────────────────────────── -->
+  <div id="widgets-menu-popup" class="widgets-menu-popup oculto">
+    <div class="widgets-menu-header">
+      <h3 style="margin: 0;">Widgets</h3>
+      <button id="cerrar-widgets-menu" class="fuente-aplicada"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="widgets-list" class="widgets-list">
+      <!-- Se llena por JS en edit-mode.js -->
+    </div>
+  </div>
+
+  <!-- ── Widget de Calendario ────────────────────────────────────────────── -->
+  <div id="widget-calendar" class="calendar-widget-container widget-hidden-by-user">
+    <div class="calendar-widget-header">
+      <button id="widget-cal-prev"><i class="fa-solid fa-chevron-left"></i></button>
+      <span id="widget-cal-title" class="fuente-aplicada">...</span>
+      <button id="widget-cal-next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+    <div class="calendar-widget-grid fuente-aplicada">
+      <div class="cal-day-name">L</div><div class="cal-day-name">M</div><div class="cal-day-name">X</div><div class="cal-day-name">J</div><div class="cal-day-name">V</div><div class="cal-day-name">S</div><div class="cal-day-name">D</div>
+    </div>
+    <div class="calendar-widget-grid fuente-aplicada" id="widget-cal-days"></div>
+  </div>
+
+  <!-- ── Widget de Notas Importantes ─────────────────────────────────────── -->
+  <div id="widget-important-notes" class="widget-important-notes-container widget-hidden-by-user">
+    <div class="important-notes-header">
+      <i class="fa-solid fa-envelope-open-text"></i> <span class="fuente-aplicada" data-translate="notasRecientesTitle">Notas Recientes</span>
+    </div>
+    <div class="important-notes-grid fuente-aplicada" id="important-notes-grid">
+      <!-- Se llena por JS -->
+    </div>
+  </div>
+
+
   <!-- ── Notas destacadas (se rellena por JS) ───────────────────────────── -->
   <div id="notas-destacadas" class="notas-destacadas"></div>
 
-  <!-- ── Contenedor de la app (botón "Notes" + panel lateral) ─────────────── -->
-  <div class="app-container">
-    <div class="botones-inferiores">
-      <button id="ver-notas-btn" data-translate="verNotas" class="fuente-aplicada">
-        <i class="fa-solid fa-note-sticky"></i> Notes
-      </button>
-    </div>
+  <!-- ── Botón de Notas (Widget Móvil) ──────────────────────────────────── -->
+  <div id="widget-notes">
+    <button id="ver-notas-btn" data-translate="verNotas" class="fuente-aplicada">
+      <i class="fa-solid fa-note-sticky"></i> Notes
+    </button>
+  </div>
 
-    <!-- Panel lateral de notas -->
-    <!-- ── Popup de Notas (IDE Style) ──────────────────────────────────── -->
-    <div class="popup" id="popup-notas" style="display:none;" role="dialog" aria-modal="true" aria-label="Notes">
-      <div class="popup-content ide-settings" id="notas-manager-ui">
+  <!-- ── Popup de Notas (IDE Style) ──────────────────────────────────── -->
+  <div class="popup" id="popup-notas" style="display:none;" role="dialog" aria-modal="true" aria-label="Notes">
+    <div class="popup-content ide-settings" id="notas-manager-ui">
         <!-- IDE Header -->
         <div class="ide-header">
           <h2 class="ide-title"><i class="fa-solid fa-note-sticky"></i> <span data-translate="verNotas">Notes</span></h2>
@@ -158,7 +197,6 @@
                   </div>
                   <div id="day-notes-list" class="day-notes-detailed-list"></div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
@@ -169,6 +207,7 @@
   <!-- ── Contenedor de Favoritos ──────────────────────────────────────────── -->
   <div id="favoritos-container" class="favoritos-container">
     <h3 id="titulo-favoritos" data-translate="favorites-title">Favorites</h3>
+    <div id="favoritos-expandido" class="favoritos-expandido"></div>
     <div id="favoritos-list" class="favoritos-list"></div>
     <button id="agregar-favorito-btn" aria-label="Add favorite">+</button>
   </div>
