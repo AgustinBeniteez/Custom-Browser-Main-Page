@@ -52,54 +52,100 @@
     </div>
 
     <!-- Panel lateral de notas -->
-    <div class="menu-lateral oculto" id="menu-notas">
-      <!-- Lista de notas -->
-      <div class="lista-notas">
-        <h3 class="notatitle" data-translate="notes-title">
-          Notes <i class="fa-regular fa-note-sticky"></i>
-        </h3>
-        <div id="lista-notas" class="scrollable-notes"></div>
-        <button
-          id="crear-nota-btn"
-          class="fixed-button"
-          data-translate="create-note"
-          style="font-family:var(--fuente-pagina);"
-        >Create Note</button>
-      </div>
-
-      <!-- Formulario de nota -->
-      <div class="formulario-nota">
-        <h3 class="note-details" data-translate="note-details">Note Details</h3>
-        <input
-          type="text"
-          id="titulo-nota"
-          data-translate="note-title-placeholder"
-          placeholder="Note Title"
-          title="Title of the note"
-        >
-        <textarea
-          id="contenido-nota"
-          data-translate="note-content-placeholder"
-          placeholder="Note Content"
-        ></textarea>
-
-        <section class="destacar-notachekbox">
-          <label style="display:none;">
-            <input type="checkbox" id="destacar-nota">
-            <i class="fa-solid fa-thumbtack"></i>&nbsp;
-          </label>
-          <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note" class="fuente-aplicada">
-            Delete Note <i class="fa-solid fa-trash"></i>
+    <!-- ── Popup de Notas (IDE Style) ──────────────────────────────────── -->
+    <div class="popup" id="popup-notas" style="display:none;" role="dialog" aria-modal="true" aria-label="Notes">
+      <div class="popup-content ide-settings" id="notas-manager-ui">
+        <!-- IDE Header -->
+        <div class="ide-header">
+          <h2 class="ide-title"><i class="fa-solid fa-note-sticky"></i> <span data-translate="verNotas">Notes</span></h2>
+          <nav class="ide-tabs" id="notes-ide-tabs" role="tablist">
+            <button class="ide-tab active" data-tab="tab-notas-list" role="tab" aria-selected="true">
+              <i class="fa-solid fa-list"></i>
+              <span data-translate="tab-notes-list">All Notes</span>
+            </button>
+            <button class="ide-tab" data-tab="tab-calendar" role="tab" aria-selected="false">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span data-translate="tab-calendar">Calendar</span>
+            </button>
+          </nav>
+          <button id="cerrar-notas-popup" class="ide-close-btn fuente-aplicada">
+            <i class="fa-solid fa-xmark"></i>
           </button>
-          <button id="exportar-nota-btn" data-translate="export-note" class="fuente-aplicada">
-            Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i>
-          </button>
-        </section>
+        </div>
 
-        <button id="guardar-nota-btn" data-translate="save-note" class="fuente-aplicada">
-          Save Note <i class="fa-solid fa-floppy-disk"></i>
-        </button>
-        <button id="cerrar-notas-btn" data-translate="cerrarPopup" class="fuente-aplicada">Close</button>
+        <!-- IDE Body -->
+        <div class="ide-body ide-notes-body-wrap">
+          <!-- Sidebar: Lista de notas -->
+          <div class="ide-sidebar">
+            <div class="ide-sidebar-header">
+              <button id="crear-nota-ide-btn" class="ide-btn-icon-text">
+                <i class="fa-solid fa-plus"></i> <span data-translate="crearNota">New Note</span>
+              </button>
+              <button id="ordenar-notas-btn" class="ide-btn-icon" title="Sort by date">
+                <i class="fa-solid fa-sort"></i>
+              </button>
+            </div>
+            <div id="lista-notas-ide" class="ide-sidebar-list"></div>
+          </div>
+
+          <!-- Main Area -->
+          <div class="ide-main-area">
+            <!-- Panel: Editor de Notas -->
+            <div class="ide-panel active" id="tab-notas-list">
+              <div class="ide-editor-container">
+                <div class="ide-editor-header">
+                  <input type="text" id="titulo-nota-ide" class="ide-note-input-title" placeholder="Title..." data-translate="note-title-placeholder">
+                  <div class="ide-note-meta">
+                    <div class="ide-date-picker-wrap">
+                      <button id="fecha-btn-ide" class="ide-date-btn">
+                        <i class="fa-regular fa-calendar"></i> <span id="fecha-display-ide"></span>
+                      </button>
+                      <input type="datetime-local" id="fecha-input-ide" class="ide-hidden-date-input">
+                    </div>
+                    <label class="ide-pin-label">
+                      <input type="checkbox" id="destacar-nota-ide">
+                      <i class="fa-solid fa-thumbtack"></i>
+                    </label>
+                  </div>
+                </div>
+                <textarea id="contenido-nota-ide" class="ide-note-textarea" placeholder="Start writing..." data-translate="note-content-placeholder"></textarea>
+                <div class="ide-editor-footer">
+                  <button id="eliminar-nota-ide-btn" class="ide-btn ide-btn-danger oculto" data-translate="delete-note">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                  <div class="ide-footer-right">
+                    <button id="exportar-nota-ide-btn" class="ide-btn" data-translate="export-note">
+                      <i class="fa-solid fa-file-export"></i>
+                    </button>
+                    <button id="guardar-nota-ide-btn" class="ide-btn ide-btn-primary" data-translate="guardarNota">
+                      <i class="fa-solid fa-floppy-disk"></i> Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel: Calendario -->
+            <div class="ide-panel" id="tab-calendar">
+              <div class="ide-calendar-view">
+                <div class="calendar-controls" id="calendar-controls-header">
+                  <button id="cal-prev" class="ide-btn-icon"><i class="fa-solid fa-chevron-left"></i></button>
+                  <h3 id="cal-month-year">Month Year</h3>
+                  <button id="cal-next" class="ide-btn-icon"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <!-- Vista de día específico (oculta por defecto) -->
+                <div id="day-notes-view" class="day-notes-detailed-view oculto">
+                  <div class="day-view-header">
+                    <button id="day-view-back" class="ide-btn-icon"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h3 id="day-view-title">Día Seleccionado</h3>
+                  </div>
+                  <div id="day-notes-list" class="day-notes-detailed-list"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

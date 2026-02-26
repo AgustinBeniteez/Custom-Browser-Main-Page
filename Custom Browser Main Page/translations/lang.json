@@ -81,7 +81,10 @@
     "edit-fav": "Edit",
     "favorites-settings-title": "Favorites Settings",
     "favorites-appearance-title": "Appearance",
-    "reset-icon": "Remove custom icon"
+    "reset-icon": "Remove custom icon",
+    "tab-notes-list": "All Notes",
+    "tab-calendar": "Calendar",
+    "sort-by-date": "Sort by Date"
   },
   "es": {
     "titulo": "Nueva Pestaña",
@@ -165,7 +168,10 @@
     "edit-fav": "Editar",
     "favorites-settings-title": "Ajustes de Favoritos",
     "favorites-appearance-title": "Apariencia",
-    "reset-icon": "Quitar icono"
+    "reset-icon": "Eliminar icono personalizado",
+    "tab-notes-list": "Todas las notas",
+    "tab-calendar": "Calendario",
+    "sort-by-date": "Ordenar por fecha"
   },
   "val": {
     "titulo": "Nova Pestanya",
