@@ -27,6 +27,9 @@ const DEFAULTS = {
   posicionFavoritos: 'bottom',
   'fondo-url': 'fondos/background2.png',
   'fuente-pagina': 'Arial, sans-serif',
+  'show-favorites-bg': 'false',
+  'folder-closed-icon': '',
+  'folder-open-icon': '',
 };
 
 class SettingsManager {
@@ -96,6 +99,11 @@ class SettingsManager {
       favoritosContainer: document.getElementById('favoritos-container'),
       searchContainer: document.querySelector('.search-container'),
       fuentePaginaSelect: document.getElementById('fuente-pagina'),
+      showFavBgCheckbox: document.getElementById('show-fav-bg'),
+      folderClosedFileInput: document.getElementById('folder-closed-file'),
+      folderOpenFileInput: document.getElementById('folder-open-file'),
+      resetFolderClosedBtn: document.getElementById('reset-folder-closed'),
+      resetFolderOpenBtn: document.getElementById('reset-folder-open'),
     };
   }
 
@@ -172,6 +180,13 @@ class SettingsManager {
       }
     });
     el.guardarFondoFileBtn?.addEventListener('click', () => this._useUploadedBackground());
+
+    // Favoritos
+    el.showFavBgCheckbox?.addEventListener('change', e => this.updateShowFavBg(e.target.checked));
+    el.folderClosedFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-closed'));
+    el.folderOpenFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-open'));
+    el.resetFolderClosedBtn?.addEventListener('click', () => this._resetFolderIcon('folder-closed'));
+    el.resetFolderOpenBtn?.addEventListener('click', () => this._resetFolderIcon('folder-open'));
   }
 
   /** Carga todos los ajustes el primer render. */
@@ -187,6 +202,7 @@ class SettingsManager {
     this._loadFavoritesPosition();
     this._loadBackground();
     this._loadFont();
+    this._loadFavoritesSettings();
   }
 
   // ─── Popup ─────────────────────────────────────────────────────────────────
@@ -489,6 +505,104 @@ class SettingsManager {
       (Math.round((t - G) * p) + G) * 0x100 +
       (Math.round((t - B) * p) + B)
     ).toString(16).slice(1);
+  }
+
+  // ─── Favoritos ─────────────────────────────────────────────────────────────
+
+  updateShowFavBg(enabled) {
+    this._save('show-favorites-bg', enabled);
+    const container = document.getElementById('favoritos-container');
+    if (container) {
+      container.classList.toggle('no-bg', !enabled);
+    }
+    // Disparar evento para que favorites.js lo sepa (si es necesario rerender)
+    document.dispatchEvent(new CustomEvent('favoritesSettingsChanged'));
+  }
+
+  _loadFavoritesSettings() {
+    const showBg = this._get('show-favorites-bg') === 'true';
+    if (this.el.showFavBgCheckbox) this.el.showFavBgCheckbox.checked = showBg;
+    this.updateShowFavBg(showBg);
+
+    // Cargar previews de iconos si existen
+    const closedIcon = this._get('folder-closed-icon');
+    const openIcon = this._get('folder-open-icon');
+
+    if (closedIcon) {
+      const preview = document.getElementById('preview-folder-closed-image');
+      const container = document.getElementById('preview-folder-closed-container');
+      if (preview && container) {
+        preview.src = closedIcon;
+        container.style.display = 'block';
+      }
+    }
+    if (openIcon) {
+      const preview = document.getElementById('preview-folder-open-image');
+      const container = document.getElementById('preview-folder-open-container');
+      if (preview && container) {
+        preview.src = openIcon;
+        container.style.display = 'block';
+      }
+    }
+  }
+
+  _handleFolderIconUpload(event, type) {
+    const file = event.target.files[0];
+    if (!file?.type.startsWith('image/')) return;
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      const base64 = e.target.result;
+      const key = type === 'folder-closed' ? 'folder-closed-icon' : 'folder-open-icon';
+      this._save(key, base64);
+
+      // Update preview
+      const previewId = type === 'folder-closed' ? 'preview-folder-closed-image' : 'preview-folder-open-image';
+      const containerId = type === 'folder-closed' ? 'preview-folder-closed-container' : 'preview-folder-open-container';
+      const preview = document.getElementById(previewId);
+      const container = document.getElementById(containerId);
+      if (preview && container) {
+        preview.src = base64;
+        container.style.display = 'block';
+      }
+
+      // Update name
+      const nameId = type === 'folder-closed' ? 'folder-closed-file-name' : 'folder-open-file-name';
+      const nameSpan = document.getElementById(nameId);
+      if (nameSpan) {
+        nameSpan.textContent = file.name;
+        nameSpan.classList.add('has-file');
+      }
+
+      // Notify favorites manager to rerender
+      document.dispatchEvent(new CustomEvent('favoritesSettingsChanged'));
+    };
+    reader.readAsDataURL(file);
+  }
+
+  _resetFolderIcon(type) {
+    const key = type === 'folder-closed' ? 'folder-closed-icon' : 'folder-open-icon';
+    this._save(key, '');
+
+    // Hide preview
+    const containerId = type === 'folder-closed' ? 'preview-folder-closed-container' : 'preview-folder-open-container';
+    const container = document.getElementById(containerId);
+    if (container) container.style.display = 'none';
+
+    // Reset name
+    const nameId = type === 'folder-closed' ? 'folder-closed-file-name' : 'folder-open-file-name';
+    const nameSpan = document.getElementById(nameId);
+    if (nameSpan) {
+      nameSpan.textContent = 'No file chosen';
+      nameSpan.classList.remove('has-file');
+      // Re-translate if possible
+      import('../translations/translations.js').then(module => {
+        if (module.default) module.default.updateLanguage(this._get('idioma'));
+      });
+    }
+
+    // Notify favorites manager to rerender
+    document.dispatchEvent(new CustomEvent('favoritesSettingsChanged'));
   }
 }
 

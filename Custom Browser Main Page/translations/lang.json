@@ -71,7 +71,17 @@
     "tab-clock": "Clock",
     "tab-about": "About",
     "choose-file": "Choose file",
-    "no-file-chosen": "No file chosen"
+    "no-file-chosen": "No file chosen",
+    "tab-favorites": "Favorites",
+    "show-fav-bg": "Show background in favorites",
+    "folder-icons": "Folder Icons",
+    "folder-closed-label": "Closed Folder Icon:",
+    "folder-open-label": "Open Folder Icon:",
+    "delete-fav": "Delete",
+    "edit-fav": "Edit",
+    "favorites-settings-title": "Favorites Settings",
+    "favorites-appearance-title": "Appearance",
+    "reset-icon": "Remove custom icon"
   },
   "es": {
     "titulo": "Nueva Pestaña",
@@ -145,7 +155,17 @@
     "tab-clock": "Reloj",
     "tab-about": "Acerca de",
     "choose-file": "Elegir archivo",
-    "no-file-chosen": "Ningún archivo elegido"
+    "no-file-chosen": "Ningún archivo elegido",
+    "tab-favorites": "Favoritos",
+    "show-fav-bg": "Mostrar fondo en favoritos",
+    "folder-icons": "Iconos de carpeta",
+    "folder-closed-label": "Icono carpeta cerrada:",
+    "folder-open-label": "Icono carpeta abierta:",
+    "delete-fav": "Eliminar",
+    "edit-fav": "Editar",
+    "favorites-settings-title": "Ajustes de Favoritos",
+    "favorites-appearance-title": "Apariencia",
+    "reset-icon": "Quitar icono"
   },
   "val": {
     "titulo": "Nova Pestanya",

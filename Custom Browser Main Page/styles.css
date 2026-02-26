@@ -765,301 +765,384 @@ body[data-theme="dark"] #fondo-url {
     transform: scale(1.02);
 }
 
-/* Otros estilos y animaciones */
+/* ── Contenedor de Favoritos ──────────────────────────────────────────── */
 .favoritos-container {
     position: fixed;
-    height: 90%;
-    width: 133px;
-    top: 50px;
+    height: 85%;
+    width: 250px;
+    top: 50%;
+    transform: translateY(-50%);
     background: var(--color-modelight);
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-heavy);
     color: var(--color-letrasdark);
-    z-index: 1;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.favoritos-container.drag-root {
+    box-shadow: 0 0 25px var(--color-botones);
+    border-color: var(--color-botones);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.favoritos-list {
+    flex-grow: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    transition: all 0.3s ease;
+    padding-right: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.favoritos-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.favoritos-list::-webkit-scrollbar-thumb {
+    background: var(--color-botones);
+    border-radius: 10px;
+}
+
+body[data-theme="dark"] .favoritos-container {
+    background: var(--color-modedark);
+    color: var(--color-letraswhite);
+}
+
+.favoritos-derecha {
+    right: 20px;
+}
+
+.favoritos-izquierda {
+    left: 20px;
 }
 
 .favoritos-bottom {
     top: auto;
-    bottom: 20px !important;
-    left: 50% !important;
+    bottom: 20px;
+    left: 50%;
     transform: translateX(-50%);
     width: auto;
-    min-width: 46%;
-    max-width: 95vw;
-    min-height: 125px;
-    max-height: 200px;
+    min-width: 50%;
+    max-width: 90vw;
     height: auto;
-    overflow-x: auto;
-    overflow-y: visible;
-    z-index: 30;
+    max-height: 85vh;
+    /* Allow it to take more space when open */
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: var(--color-modelight);
+    border-radius: 20px;
+    box-shadow: var(--shadow-heavy);
+    z-index: 1000;
+}
+
+.favoritos-bottom .favoritos-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.favoritos-oculto {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(100px);
+}
+
+/* ── Items de favoritos ─────────────────────────────────────────────── */
+.favorito-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+    /* In sidebar */
+}
+
+/* Layout for items in bottom list or inside folders */
+.favoritos-bottom .favoritos-item,
+.favorito-carpeta-contenido .favorito-item {
+    width: 180px;
+    flex-shrink: 0;
+}
+
+.favorito-item.abierta {
+    width: 100% !important;
+    background: var(--color-modedark) !important;
+    /* Más opaco para el scroll */
+    border: 1px solid var(--color-botones);
+    cursor: default;
+    transform: none !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    position: sticky;
+    top: -15px;
+    /* Compensa el padding del contenedor si es necesario */
+    z-index: 110;
+    margin-bottom: 15px;
+}
+
+.favorito-item.folder-source-open {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 2px solid var(--color-botones) !important;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    opacity: 0.9;
+}
+
+.favorito-item.no-bg {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.favorito-item:hover:not(.abierta) {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+    z-index: 5;
+}
+
+.favorito-item.drag-over-left::before,
+.favorito-item.drag-over-right::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--color-botones);
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--color-botones);
+    z-index: 10;
+}
+
+.favorito-item.drag-over-left::before {
+    left: -6px;
+}
+
+.favorito-item.drag-over-right::after {
+    right: -6px;
+}
+
+/* Specifically for sidebar (vertical layout) use horizontal lines if needed, 
+   but user asked for '|', so we'll stick to vertical bars which also work for gaps. */
+.favoritos-derecha .favorito-item.drag-over-left::before,
+.favoritos-izquierda .favorito-item.drag-over-left::before,
+.favoritos-derecha .favorito-item.drag-over-right::after,
+.favoritos-izquierda .favorito-item.drag-over-right::after {
+    width: 100%;
+    height: 4px;
+    left: 0;
+    right: 0;
+}
+
+.favoritos-derecha .favorito-item.drag-over-left::before {
+    top: -6px;
+    height: 4px;
+}
+
+.favoritos-derecha .favorito-item.drag-over-right::after {
+    bottom: -6px;
+    height: 4px;
+    top: auto;
+}
+
+/* Feedback for dropping INTO a folder */
+.favorito-item.drag-over-into {
+    border: 2px solid var(--color-botones) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 0 15px var(--color-botones);
+    transform: scale(1.05);
+}
+
+.fav-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    text-decoration: none !important;
+    color: inherit;
+    gap: 12px;
+}
+
+.abierta>.fav-link {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px 12px 0 0;
+}
+
+.fav-icon,
+.folder-icon-i,
+.folder-icon-img {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    object-fit: contain;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.folder-icon-i {
+    font-size: 24px;
+    color: #ffd700;
+}
+
+.favorito-item:hover .fav-icon:not(.folder-icon-i) {
+    transform: scale(1.15);
+}
+
+.fav-name {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+.no-icon .fav-name {
+    text-align: center;
+}
+
+/* ── Carpetas ───────────────────────────────────────────────────────── */
+.carpeta-fav {
+    padding: 0;
+}
+
+.favorito-carpeta-contenido {
+    display: none;
+    width: 100%;
+    padding: 15px;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 12px 12px;
+}
+
+.abierta .favorito-carpeta-contenido {
+    display: flex;
+}
+
+.favoritos-bottom .favorito-item {
+    width: 180px;
+    margin-bottom: 0;
+}
+
+/* ── Botón Agregar ──────────────────────────────────────────────────── */
+#agregar-favorito-btn {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    /* Subtle background */
+    color: var(--color-letrasdark);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    /* Hidden by default */
+    margin-top: 5px;
+}
+
+body[data-theme="dark"] #agregar-favorito-btn {
+    color: var(--color-letraswhite);
+}
+
+/* Show on container hover */
+.favoritos-container:hover #agregar-favorito-btn {
+    opacity: 1;
+}
+
+/* Always show if empty list */
+.is-empty #agregar-favorito-btn {
+    opacity: 1 !important;
+    background: var(--color-botones);
+    border-style: solid;
+    color: white;
+}
+
+#agregar-favorito-btn:hover {
+    background: var(--color-botones);
+    border-color: var(--color-botones);
+    color: white;
+    transform: scale(1.02);
+}
+
+/* ── Título ─────────────────────────────────────────────────────────── */
+#titulo-favoritos {
+    margin: 0 0 15px 5px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
 }
 
 .favoritos-bottom #titulo-favoritos {
     display: none;
 }
 
-.favoritos-bottom .favoritos-list {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    max-height: none;
-    padding-bottom: 5px;
-    padding-top: 5px;
+.favoritos-bottom #agregar-favorito-btn {
+    width: 180px;
+    /* Same width as favorites in bottom dock */
+    margin: 0;
 }
 
-.favoritos-bottom .favoritos-item {
-    flex: 0 0 60px;
-    width: 60px;
-    min-width: 60px;
-}
-
-.favoritos-bottom .favoritos-item .boton-eliminar {
-    right: -10px;
-}
-
-.favoritos-bottom::-webkit-scrollbar {
-    height: 8px;
-    width: auto;
-}
-
-.favoritos-bottom::-webkit-scrollbar-thumb {
-    background: var(--color-botones);
-    border-radius: 10px;
-}
-
-.favoritos-bottom::-webkit-scrollbar-thumb:hover {
-    background: var(--color-modelight1);
-}
-
-.favoritos-bottom .carpeta-fav {
-    display: flex !important;
-    width: 70px;
-    flex-direction: column !important;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: var(--border-radius-small);
-    padding: 5px;
-}
-
-
-.favoritos-bottom .carpeta-fav.abierta {
-    width: auto !important;
-    min-width: fit-content !important;
-    max-width: 90vw !important;
-    flex-direction: row !important;
-    background: var(--color-modelight);
-    border-radius: var(--border-radius-medium);
-    padding: var(--padding-small);
-    box-shadow: var(--shadow-medium);
-    z-index: 1000;
-    position: relative;
-    white-space: nowrap;
-}
-
-.favoritos-bottom .favorito-carpeta-contenido {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center;
-    gap: 10px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: auto;
-    min-width: fit-content;
-    max-width: calc(90vw - 40px);
-    padding: 5px;
-    flex-wrap: nowrap;
-}
-
-.favoritos-bottom .favorito-carpeta-contenido::-webkit-scrollbar {
-    height: 6px;
-}
-
-.favoritos-bottom .favorito-carpeta-contenido::-webkit-scrollbar-thumb {
-    background: var(--color-botones);
-    border-radius: 10px;
-}
-
-.favoritos-bottom .favorito-carpeta-contenido::-webkit-scrollbar-thumb:hover {
-    background: var(--color-modelight1);
-}
-
-.favoritos-bottom .favorito-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.favoritos-bottom .carpeta-fav.abierta .nameElement-fav {
-    display: none;
-}
-
-.favoritos-bottom .favorito-item {
-    height: 90px !important;
-}
-
-.favoritos-bottom .carpeta-fav.abierta .favorito-item {
-    width: 70px !important;
-    height: 70px !important;
-    flex-shrink: 0;
-    min-width: 70px;
-}
-
-.favoritos-bottom .carpeta-fav.abierta .favorito-item img {
-    width: 60px !important;
-    height: 60px !important;
-
-}
-
-.favoritos-bottom .carpeta-fav.abierta button {
+/* ── Botón Eliminar ─────────────────────────────────────────────────── */
+.boton-eliminar {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    background: var(--color-botones);
-    color: var(--color-letraswhite);
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    background: var(--color-danger);
+    color: white;
     border: none;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    z-index: 1001;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.favoritos-bottom .carpeta-fav.abierta button:hover {
-    background: var(--color-botones-hover);
+.favorito-item:hover .boton-eliminar {
+    opacity: 1;
     transform: scale(1.1);
 }
 
-
-.favoritos-derecha {
-    right: 20px;
-    left: auto;
-}
-
-.favoritos-izquierda {
-    left: 20px;
-    right: auto;
-}
-
-.favoritos-oculto {
-    opacity: 0;
-    pointer-events: none;
-}
-
-@keyframes slideIn {
-    from {
-        right: -150px;
-        opacity: 0;
-    }
-
-    to {
-        right: 20px;
-        opacity: 1;
-    }
-}
-
-.favoritos-list {
-    height: 100%;
-}
-
-/* Estilos para el scroll vertical */
-.favoritos-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.favoritos-container::-webkit-scrollbar-thumb {
-    background: var(--color-botones);
-    border-radius: 10px;
-}
-
-.favoritos-container::-webkit-scrollbar-thumb:hover {
-    background: var(--color-modelight1);
-}
-
-.favoritos-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 5px 0;
-    background: var(--color-modelight);
-    border-radius: 8px;
-    padding: 5px;
-    position: relative;
-}
-
-.favoritos-item:hover .boton-eliminar {
-    opacity: 1;
-}
-
-
-.favoritos-item img {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-}
-
-
-
-.favoritos-item span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 150px;
-}
-
-
-.boton-eliminar {
-    font-weight: bold;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: transparent;
-    border: none;
-    font-size: 16px;
-    color: red;
-    cursor: pointer;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0.2;
-}
-
 .boton-eliminar:hover {
-    transform: scale(1.2);
+    background: var(--color-danger-hover);
+    transform: scale(1.2) !important;
 }
 
-#agregar-favorito-btn {
-    display: block;
-    margin: 10px 0;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    color: var(--color-letrasdark);
-    cursor: pointer;
-    position: absolute;
-    top: 5px;
-    right: 5px;
 
-    &:hover {
-        color: var(--color-botones);
-    }
-}
 
-.favoritos-bottom #agregar-favorito-btn {
-    position: fixed;
-    left: -96%;
-    top: 5px;
-    margin: 0;
-    z-index: 2;
-}
-
+/* ── Popups de Favoritos ────────────────────────────────────────────── */
 #agregar-favorito {
     position: fixed;
     top: 50%;
@@ -2495,6 +2578,18 @@ button:has(.fa-trash):hover {
     outline-offset: var(--focus-outline-offset);
 }
 
+.ide-btn-danger {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+    border-color: rgba(255, 77, 77, 0.3);
+}
+
+.ide-btn-danger:hover {
+    background: rgba(255, 77, 77, 0.2);
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+}
+
 /* ── File name label ── */
 .ide-file-name {
     flex: 1;
@@ -2885,4 +2980,84 @@ button:has(.fa-trash):hover {
         --color-letrasdark: #e8e8e8;
         --color-texto-secundario: #b0b0b0;
     }
+}
+
+/* ── Context Menu ── */
+.context-menu {
+    position: fixed;
+    z-index: 10000;
+    background-color: var(--color-modelight);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    min-width: 160px;
+    padding: 6px;
+    animation: cmFadeIn 0.2s ease-out;
+}
+
+@keyframes cmFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.context-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu li {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: var(--color-letrasdark);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.context-menu li:hover {
+    background-color: var(--color-botones);
+    color: white;
+}
+
+.context-menu li i {
+    width: 16px;
+    text-align: center;
+}
+
+/* ── Transparent Favorites ── */
+.favoritos-container.no-bg {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.favorito-item.no-bg {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: 1px solid transparent;
+}
+
+.favorito-item.no-bg:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.carpeta-fav.no-bg {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.carpeta-fav.no-bg:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
 }

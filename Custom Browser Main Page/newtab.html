@@ -187,6 +187,10 @@
             <i class="fa-solid fa-font"></i>
             <span data-translate="fontpage">Font</span>
           </button>
+          <button class="ide-tab" data-tab="tab-favorites" role="tab" aria-selected="false" aria-controls="tab-favorites">
+            <i class="fa-solid fa-star"></i>
+            <span data-translate="tab-favorites">Favorites</span>
+          </button>
           <button class="ide-tab" data-tab="tab-about" role="tab" aria-selected="false" aria-controls="tab-about">
             <i class="fa-solid fa-circle-info"></i>
             <span data-translate="tab-about">About</span>
@@ -376,6 +380,57 @@
           </div>
         </div>
 
+        <!-- ═══ TAB: Favorites ═══ -->
+        <div class="ide-panel" id="tab-favorites" role="tabpanel" hidden>
+          <div class="ide-panel-scroll">
+            <h3 class="ide-section-title"><i class="fa-solid fa-star"></i> <span data-translate="favorites-settings-title">Favorites Settings</span></h3>
+            
+            <h3 class="ide-section-title"><i class="fa-solid fa-palette"></i> <span data-translate="favorites-appearance-title">Appearance</span></h3>
+            <div class="ide-field ide-field-row">
+              <label for="show-fav-bg" data-translate="show-fav-bg">Show background in favorites</label>
+              <input class="ide-toggle" type="checkbox" id="show-fav-bg" name="show-fav-bg">
+            </div>
+
+            <h3 class="ide-section-title"><i class="fa-solid fa-folder-tree"></i> <span data-translate="folder-icons">Folder Icons</span></h3>
+            
+            <!-- Folder Closed Icon -->
+            <div class="ide-field">
+              <label for="folder-closed-file" data-translate="folder-closed-label">Closed Folder Icon:</label>
+              <div class="ide-input-group">
+                <input type="file" id="folder-closed-file" accept="image/*" class="ide-file-input-hidden" style="display:none;">
+                <button type="button" class="ide-btn fuente-aplicada" onclick="document.getElementById('folder-closed-file').click()">
+                  <i class="fa-solid fa-folder-open"></i> <span data-translate="choose-file">Choose file</span>
+                </button>
+                <button type="button" id="reset-folder-closed" class="ide-btn ide-btn-danger" title="Borrar" data-translate="reset-icon">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                <span id="folder-closed-file-name" class="ide-file-name" data-translate="no-file-chosen">No file chosen</span>
+              </div>
+              <div id="preview-folder-closed-container" style="display:none;margin-top:10px;">
+                <img id="preview-folder-closed-image" class="ide-upload-preview" alt="Preview" style="width:48px;height:48px;">
+              </div>
+            </div>
+
+            <!-- Folder Open Icon -->
+            <div class="ide-field">
+              <label for="folder-open-file" data-translate="folder-open-label">Open Folder Icon:</label>
+              <div class="ide-input-group">
+                <input type="file" id="folder-open-file" accept="image/*" class="ide-file-input-hidden" style="display:none;">
+                <button type="button" class="ide-btn fuente-aplicada" onclick="document.getElementById('folder-open-file').click()">
+                  <i class="fa-solid fa-folder-open"></i> <span data-translate="choose-file">Choose file</span>
+                </button>
+                <button type="button" id="reset-folder-open" class="ide-btn ide-btn-danger" title="Borrar" data-translate="reset-icon">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                <span id="folder-open-file-name" class="ide-file-name" data-translate="no-file-chosen">No file chosen</span>
+              </div>
+              <div id="preview-folder-open-container" style="display:none;margin-top:10px;">
+                <img id="preview-folder-open-image" class="ide-upload-preview" alt="Preview" style="width:48px;height:48px;">
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- ═══ TAB: About ═══ -->
         <div class="ide-panel" id="tab-about" role="tabpanel" hidden>
           <div class="ide-panel-scroll">
@@ -399,6 +454,14 @@
   </div>
 
   <!-- ── Scripts ───────────────────────────────────────────────────────────── -->
+  <!-- ── Context Menu ────────────────────────────────────────────────────── -->
+  <div id="context-menu" class="context-menu oculto">
+    <ul>
+      <li id="cm-edit"><i class="fa-solid fa-pen-to-square"></i> <span data-translate="edit-fav">Edit</span></li>
+      <li id="cm-delete"><i class="fa-solid fa-trash"></i> <span data-translate="delete-fav">Delete</span></li>
+    </ul>
+  </div>
+
   <script src="performance.config.js"></script>
   <script type="module" src="script.js"></script>
   <script type="module" src="modules/ide-tabs.js"></script>
