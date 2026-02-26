@@ -210,6 +210,17 @@ class SettingsManager {
   togglePopup(show) {
     if (this.el.popup) {
       this.el.popup.style.display = show ? 'block' : 'none';
+      if (show) {
+        // Asegurar que haya un tab seleccionado, si no, seleccionar el general
+        const container = document.getElementById('ajustes-menu');
+        if (container) {
+          const activeTab = container.querySelector('.ide-tab.active');
+          if (!activeTab) {
+            const generalTab = container.querySelector('.ide-tab[data-tab="tab-general"]');
+            if (generalTab) generalTab.click();
+          }
+        }
+      }
     }
   }
 

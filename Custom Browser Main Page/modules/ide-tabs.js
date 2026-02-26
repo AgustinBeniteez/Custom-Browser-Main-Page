@@ -4,40 +4,44 @@
  */
 
 function initIdeTabs() {
-    const tabs = document.querySelectorAll('.ide-tab');
-    const panels = document.querySelectorAll('.ide-panel');
+    const tabLists = document.querySelectorAll('.ide-tabs');
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Deactivate all
-            tabs.forEach(t => {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
+    tabLists.forEach(tabList => {
+        const tabs = tabList.querySelectorAll('.ide-tab');
+        const container = tabList.closest('.ide-settings') || document;
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const containerTabs = container.querySelectorAll('.ide-tab');
+                const containerPanels = container.querySelectorAll('.ide-panel');
+
+                // Deactivate all in this container
+                containerTabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                containerPanels.forEach(p => {
+                    p.classList.remove('active');
+                    p.hidden = true;
+                });
+
+                // Activate clicked
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                const targetId = tab.dataset.tab;
+                const targetPanel = document.getElementById(targetId);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                    targetPanel.hidden = false;
+                }
+
+                // Update previews when switching to relevant tabs
+                if (targetId === 'tab-clock') updateClockPreview();
+                if (targetId === 'tab-background') updateBgPreview();
             });
-            panels.forEach(p => {
-                p.classList.remove('active');
-                p.hidden = true;
-            });
-
-            // Activate clicked
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            const targetId = tab.dataset.tab;
-            const targetPanel = document.getElementById(targetId);
-            if (targetPanel) {
-                targetPanel.classList.add('active');
-                targetPanel.hidden = false;
-            }
-
-            // Update previews when switching to relevant tabs
-            if (targetId === 'tab-clock') updateClockPreview();
-            if (targetId === 'tab-background') updateBgPreview();
         });
-    });
 
-    // Keyboard navigation (left/right arrows between tabs)
-    const tabList = document.querySelector('.ide-tabs');
-    if (tabList) {
+        // Keyboard navigation (left/right arrows between tabs)
         tabList.addEventListener('keydown', e => {
             const tabsArr = Array.from(tabs);
             const currentIndex = tabsArr.indexOf(document.activeElement);
@@ -52,7 +56,7 @@ function initIdeTabs() {
             tabsArr[newIndex].focus();
             tabsArr[newIndex].click();
         });
-    }
+    });
 }
 
 /** Update clock preview text and color */
