@@ -1,23 +1,16 @@
-// Importar módulos
+/**
+ * Punto de entrada principal de la extensión.
+ * Importa y arranca cada módulo; el módulo state inicializa
+ * la persistencia antes de que los módulos lean sus ajustes.
+ */
+import State from './modules/state.js';
 import { settingsManager } from './modules/settings.js';
 import { clockSearchManager } from './modules/clock-search.js';
 import { favoritesManager } from './modules/favorites.js';
 import { notesManager } from './modules/notes.js';
-import State from './modules/state.js';
 
-// Clase principal de la aplicación
-class App {
-  constructor() {
-    this.init();
-  }
+State.init();
 
-  init() {
-    // Inicializar el estado desde localStorage
-    State.init();
-    // Los módulos se auto-inicializan al ser importados
-    // No se necesita hacer nada más aquí ya que cada módulo maneja su propia inicialización
-  }
-}
-
-// Iniciar la aplicación
-new App();
+// Los módulos se auto-inicializan al instanciarse.
+// Las referencias se conservan para depuración o acceso global futuro.
+export { settingsManager, clockSearchManager, favoritesManager, notesManager };

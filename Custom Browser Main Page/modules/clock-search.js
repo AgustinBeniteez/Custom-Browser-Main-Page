@@ -1,66 +1,69 @@
-// Módulo para manejar el reloj y la búsqueda
+/**
+ * Clock & Search Manager — maneja el reloj digital y la búsqueda.
+ * La búsqueda usa la API chrome.search si está disponible, con fallback a Google.
+ */
+import Storage from './storage.js';
+
+/** Motores de búsqueda soportados */
+const SEARCH_ENGINES = {
+  google: q => `https://www.google.com/search?q=${q}`,
+  bing: q => `https://www.bing.com/search?q=${q}`,
+  yahoo: q => `https://search.yahoo.com/search?p=${q}`,
+  brave: q => `https://search.brave.com/search?q=${q}`,
+  duckduckgo: q => `https://duckduckgo.com/?q=${q}`,
+};
 
 class ClockSearchManager {
   constructor() {
-    this.initializeElements();
-    this.initializeClock();
-    this.initializeSearch();
+    this._initElements();
+    this._startClock();
+    this._bindSearchEvents();
   }
 
-  initializeElements() {
-    this.elements = {
+  _initElements() {
+    this.el = {
       reloj: document.getElementById('reloj'),
       searchForm: document.getElementById('search-form'),
       searchInput: document.getElementById('search-input'),
-      searchButton: document.getElementById('search-button')
+      searchButton: document.getElementById('search-button'),
     };
   }
 
-  initializeClock() {
-    // Iniciar el reloj y actualizarlo cada segundo
-    this.updateClock();
-    setInterval(() => this.updateClock(), 1000);
+  // ─── Reloj ─────────────────────────────────────────────────────────────────
+
+  _startClock() {
+    this._tick();
+    setInterval(() => this._tick(), 1000);
   }
 
-  initializeSearch() {
-    // Configurar eventos de búsqueda
-    this.elements.searchForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.performSearch();
-    });
-
-    this.elements.searchButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.performSearch();
-    });
+  _tick() {
+    if (this.el.reloj) {
+      this.el.reloj.textContent = new Date().toTimeString().slice(0, 5);
+    }
   }
 
-  updateClock() {
-    const now = new Date();
-    this.elements.reloj.textContent = now.toTimeString().slice(0, 5);
+  // ─── Búsqueda ──────────────────────────────────────────────────────────────
+
+  _bindSearchEvents() {
+    const doSearch = e => { e.preventDefault(); this._search(); };
+    this.el.searchForm?.addEventListener('submit', doSearch);
+    this.el.searchButton?.addEventListener('click', doSearch);
   }
 
-  performSearch() {
-    const searchTerm = this.elements.searchInput.value.trim();
-    if (!searchTerm) return;
+  _search() {
+    const query = this.el.searchInput?.value.trim();
+    if (!query) return;
 
-    const searchEngine = localStorage.getItem('buscadorSeleccionado') || 'google';
-    const searchUrl = this.getSearchUrl(searchEngine, searchTerm);
-    
-    window.location.href = searchUrl;
-  }
+    // Preferir la API nativa de Chrome si está disponible
+    if (typeof chrome !== 'undefined' && chrome.search?.query) {
+      chrome.search.query({ text: query });
+      return;
+    }
 
-  getSearchUrl(engine, query) {
-    const encodedQuery = encodeURIComponent(query);
-    const searchUrls = {
-      google: `https://www.google.com/search?q=${encodedQuery}`,
-      bing: `https://www.bing.com/search?q=${encodedQuery}`,
-      yahoo: `https://search.yahoo.com/search?p=${encodedQuery}`,
-      brave: `https://search.brave.com/search?q=${encodedQuery}`,
-      duckduckgo: `https://duckduckgo.com/?q=${encodedQuery}`
-    };
-
-    return searchUrls[engine] || searchUrls.google;
+    // Fallback: redirección directa según motor seleccionado
+    const engine = Storage.get('buscadorSeleccionado', 'google');
+    const buildUrl = SEARCH_ENGINES[engine] ?? SEARCH_ENGINES.google;
+    window.location.href = buildUrl(encodeURIComponent(query));
   }
 }
 

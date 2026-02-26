@@ -1,206 +1,188 @@
-// Módulo para manejar las notas
+/**
+ * Notes Manager — gestiona notas del usuario.
+ * Persistencia en localStorage (notas no necesitan cookies al no ser compartibles).
+ */
+
+const STORAGE_KEY = 'notas';
 
 class NotesManager {
   constructor() {
-    this.currentEditingNote = null;
-    this.notesCache = null;
-    this.initializeElements();
-    this.bindEvents();
+    /** Índice de la nota que se está editando actualmente, o null si es nueva. */
+    this._currentIndex = null;
+    /** Caché en memoria para evitar parseos repetidos. */
+    this._cache = null;
+    this._initElements();
+    this._bindEvents();
     this.loadNotes();
   }
 
-  // Validar datos de nota
-  validateNote(title, content) {
-    return {
-      isValid: title.trim().length > 0 && content.trim().length > 0,
-      title: title.trim(),
-      content: content.trim()
-    };
-  }
+  // ─── Persistencia ──────────────────────────────────────────────────────────
 
-  // Obtener notas con cache
-  getNotesFromCache() {
-    if (this.notesCache === null) {
-      this.notesCache = this.getNotes();
+  _getNotes() {
+    if (this._cache === null) {
+      this._cache = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     }
-    return this.notesCache;
+    return this._cache;
   }
 
-  // Invalidar cache
-  invalidateCache() {
-    this.notesCache = null;
+  _saveNotes(notes) {
+    this._cache = notes;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
   }
 
-  initializeElements() {
-    this.elements = {
-      notasContainer: document.getElementById('lista-notas'),
-      notasDestacadas: document.getElementById('notas-destacadas'),
-      verNotasBtn: document.getElementById('ver-notas-btn'),
-      menuNotas: document.getElementById('menu-notas'),
-      crearNotaBtn: document.getElementById('crear-nota-btn'),
-      cerrarMenuBtn: document.getElementById('cerrar-notas-btn'),
-      tituloNota: document.getElementById('titulo-nota'),
-      contenidoNota: document.getElementById('contenido-nota'),
-      destacarNotaCheckbox: document.getElementById('destacar-nota'),
-      eliminarNotaBtn: document.getElementById('eliminar-nota-btn'),
-      exportarNotaBtn: document.getElementById('exportar-nota-btn'),
-      guardarNotaBtn: document.getElementById('guardar-nota-btn')
+  _invalidateCache() {
+    this._cache = null;
+  }
+
+  // ─── Inicialización ────────────────────────────────────────────────────────
+
+  _initElements() {
+    this.el = {
+      lista: document.getElementById('lista-notas'),
+      destacadas: document.getElementById('notas-destacadas'),
+      verBtn: document.getElementById('ver-notas-btn'),
+      menu: document.getElementById('menu-notas'),
+      crearBtn: document.getElementById('crear-nota-btn'),
+      cerrarBtn: document.getElementById('cerrar-notas-btn'),
+      titulo: document.getElementById('titulo-nota'),
+      contenido: document.getElementById('contenido-nota'),
+      destacarCheckbox: document.getElementById('destacar-nota'),
+      eliminarBtn: document.getElementById('eliminar-nota-btn'),
+      exportarBtn: document.getElementById('exportar-nota-btn'),
+      guardarBtn: document.getElementById('guardar-nota-btn'),
     };
   }
 
-  bindEvents() {
-    this.elements.verNotasBtn.addEventListener('click', () => this.toggleNotesMenu());
-    this.elements.cerrarMenuBtn.addEventListener('click', () => this.closeNotesMenu());
-    this.elements.crearNotaBtn.addEventListener('click', () => this.prepareNewNote());
-    this.elements.guardarNotaBtn.addEventListener('click', () => this.saveNote());
-    this.elements.eliminarNotaBtn.addEventListener('click', () => this.deleteNote());
-    this.elements.exportarNotaBtn.addEventListener('click', () => this.exportNote());
+  _bindEvents() {
+    const { el } = this;
+    el.verBtn?.addEventListener('click', () => this._toggleMenu());
+    el.cerrarBtn?.addEventListener('click', () => this._closeMenu());
+    el.crearBtn?.addEventListener('click', () => this._prepareNew());
+    el.guardarBtn?.addEventListener('click', () => this._save());
+    el.eliminarBtn?.addEventListener('click', () => this._delete());
+    el.exportarBtn?.addEventListener('click', () => this._export());
 
-    // Actualizar notas cuando cambia el modo oscuro
+    // Re-renderizar si cambia el modo oscuro
     document.addEventListener('darkModeChanged', () => this.loadNotes());
   }
 
-  toggleNotesMenu() {
-    this.elements.menuNotas.classList.toggle('visible');
-  }
-
-  closeNotesMenu() {
-    this.elements.menuNotas.classList.remove('visible');
-  }
-
-  prepareNewNote() {
-    this.currentEditingNote = null;
-    this.elements.tituloNota.value = '';
-    this.elements.contenidoNota.value = '';
-    this.elements.destacarNotaCheckbox.checked = false;
-    this.elements.eliminarNotaBtn.classList.add('oculto');
-    this.elements.menuNotas.classList.add('visible');
-  }
+  // ─── Render ────────────────────────────────────────────────────────────────
 
   loadNotes() {
-    const notes = this.getNotesFromCache();
-    
-    // Usar requestAnimationFrame para mejor rendimiento
+    this._invalidateCache();
+    const notes = this._getNotes();
     requestAnimationFrame(() => {
-      this.renderNotesList(notes);
-      this.renderFeaturedNotes(notes);
+      this._renderList(notes);
+      this._renderFeatured(notes);
     });
   }
 
-  renderNotesList(notes) {
-    this.elements.notasContainer.innerHTML = '';
-    notes.forEach((note, index) => {
-      const noteElement = this.createNoteElement(note, index);
-      this.elements.notasContainer.appendChild(noteElement);
+  _renderList(notes) {
+    if (!this.el.lista) return;
+    this.el.lista.innerHTML = '';
+    notes.forEach((note, idx) => {
+      const el = document.createElement('div');
+      el.classList.add('nota-pestana');
+      if (note.destacada) el.classList.add('destacada');
+      el.textContent = `${note.titulo} (${note.fecha})`;
+      el.addEventListener('click', () => this._edit(idx));
+      this.el.lista.appendChild(el);
     });
   }
 
-  renderFeaturedNotes(notes) {
-    this.elements.notasDestacadas.innerHTML = '';
-    const featuredNotes = notes.filter(note => note.destacada);
-    featuredNotes.forEach(note => {
-      const featuredElement = this.createFeaturedNoteElement(note);
-      this.elements.notasDestacadas.appendChild(featuredElement);
-    });
+  _renderFeatured(notes) {
+    if (!this.el.destacadas) return;
+    this.el.destacadas.innerHTML = '';
+    notes
+      .filter(n => n.destacada)
+      .forEach(note => {
+        const wrap = document.createElement('div');
+        wrap.classList.add('nota-destacada');
+        const title = document.createElement('strong');
+        title.textContent = note.titulo;
+        const content = document.createElement('p');
+        content.textContent = note.contenido;
+        const date = document.createElement('span');
+        date.textContent = note.fecha;
+        wrap.append(title, content, date);
+        this.el.destacadas.appendChild(wrap);
+      });
   }
 
-  createNoteElement(note, index) {
-    const noteElement = document.createElement('div');
-    noteElement.classList.add('nota-pestana');
-    if (note.destacada) {
-      noteElement.classList.add('destacada');
-    }
-    noteElement.textContent = `${note.titulo} (${note.fecha})`;
-    noteElement.addEventListener('click', () => this.editNote(index));
-    return noteElement;
+  // ─── Acciones ──────────────────────────────────────────────────────────────
+
+  _toggleMenu() {
+    this.el.menu?.classList.toggle('visible');
   }
 
-  createFeaturedNoteElement(note) {
-    const featuredElement = document.createElement('div');
-    featuredElement.classList.add('nota-destacada');
-    
-    const titleElement = document.createElement('strong');
-    titleElement.textContent = note.titulo;
-    
-    const contentElement = document.createElement('p');
-    contentElement.textContent = note.contenido;
-    
-    const dateElement = document.createElement('span');
-    dateElement.textContent = note.fecha;
-    
-    featuredElement.appendChild(titleElement);
-    featuredElement.appendChild(contentElement);
-    featuredElement.appendChild(dateElement);
-    
-    return featuredElement;
+  _closeMenu() {
+    this.el.menu?.classList.remove('visible');
   }
 
-  editNote(index) {
-    const note = this.getNotes()[index];
-    this.currentEditingNote = index;
-    this.elements.tituloNota.value = note.titulo;
-    this.elements.contenidoNota.value = note.contenido;
-    this.elements.destacarNotaCheckbox.checked = note.destacada;
-    this.elements.eliminarNotaBtn.classList.remove('oculto');
+  _prepareNew() {
+    this._currentIndex = null;
+    if (this.el.titulo) this.el.titulo.value = '';
+    if (this.el.contenido) this.el.contenido.value = '';
+    if (this.el.destacarCheckbox) this.el.destacarCheckbox.checked = false;
+    this.el.eliminarBtn?.classList.add('oculto');
+    this.el.menu?.classList.add('visible');
   }
 
-  saveNote() {
-    const titulo = this.elements.tituloNota.value.trim();
-    const contenido = this.elements.contenidoNota.value.trim();
-    const destacada = this.elements.destacarNotaCheckbox.checked;
-    const fecha = new Date().toLocaleString();
+  _edit(index) {
+    const note = this._getNotes()[index];
+    if (!note) return;
+    this._currentIndex = index;
+    if (this.el.titulo) this.el.titulo.value = note.titulo;
+    if (this.el.contenido) this.el.contenido.value = note.contenido;
+    if (this.el.destacarCheckbox) this.el.destacarCheckbox.checked = !!note.destacada;
+    this.el.eliminarBtn?.classList.remove('oculto');
+    this.el.menu?.classList.add('visible');
+  }
+
+  _save() {
+    const titulo = this.el.titulo?.value.trim() || '';
+    const contenido = this.el.contenido?.value.trim() || '';
+    const destacada = this.el.destacarCheckbox?.checked ?? false;
 
     if (!titulo) {
       alert('La nota debe tener un título.');
       return;
     }
 
-    const newNote = { titulo, contenido, destacada, fecha };
-    const notes = this.getNotes();
+    const note = { titulo, contenido, destacada, fecha: new Date().toLocaleString() };
+    const notes = this._getNotes();
 
-    if (this.currentEditingNote !== null) {
-      notes[this.currentEditingNote] = newNote;
+    if (this._currentIndex !== null) {
+      notes[this._currentIndex] = note;
     } else {
-      notes.push(newNote);
+      notes.push(note);
     }
 
-    this.saveNotes(notes);
+    this._saveNotes(notes);
     this.loadNotes();
-    this.prepareNewNote();
+    this._prepareNew();
   }
 
-  deleteNote() {
-    if (this.currentEditingNote !== null) {
-      const notes = this.getNotes();
-      notes.splice(this.currentEditingNote, 1);
-      this.saveNotes(notes);
-      this.loadNotes();
-      this.prepareNewNote();
-    }
+  _delete() {
+    if (this._currentIndex === null) return;
+    const notes = this._getNotes();
+    notes.splice(this._currentIndex, 1);
+    this._saveNotes(notes);
+    this.loadNotes();
+    this._prepareNew();
   }
 
-  exportNote() {
-    if (this.currentEditingNote !== null) {
-      const note = this.getNotes()[this.currentEditingNote];
-      const content = `Título: ${note.titulo}\n\nContenido:\n${note.contenido}\n\nFecha: ${note.fecha}`;
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${note.titulo}.txt`;
-      link.click();
-      URL.revokeObjectURL(url);
-    } else {
+  _export() {
+    if (this._currentIndex === null) {
       alert('Selecciona una nota para exportar.');
+      return;
     }
-  }
-
-  getNotes() {
-    return JSON.parse(localStorage.getItem('notas') || '[]');
-  }
-
-  saveNotes(notes) {
-    localStorage.setItem('notas', JSON.stringify(notes));
+    const note = this._getNotes()[this._currentIndex];
+    const text = `Título: ${note.titulo}\n\nContenido:\n${note.contenido}\n\nFecha: ${note.fecha}`;
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: `${note.titulo}.txt` });
+    a.click();
+    URL.revokeObjectURL(url);
   }
 }
 

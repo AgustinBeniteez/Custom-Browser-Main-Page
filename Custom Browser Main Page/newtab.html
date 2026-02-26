@@ -3,128 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New tab</title>
+  <title>New Tab</title>
   <link rel="stylesheet" href="styles.css">
-  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css' rel='stylesheet' />
-  <link rel="icon" href="icons/logoext.webp" type="image/png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="icons/logoext.webp" type="image/webp">
 </head>
 
-<body style="background-image: url('./fondos/background2.png'); background-size: cover;">
+<body>
+  <!-- ── Skip-to-content (accesibilidad teclado / lectores de pantalla) ──── -->
+  <a href="#search-input" class="skip-to-content">Ir al contenido principal</a>
+
+  <!-- ── Botón de ajustes ─────────────────────────────────────────────────── -->
   <div class="header">
-    <button id="ajustes-btn" class="ajustes-btn"><i class="fa-duotone fa-solid fa-gear"style="--fa-primary-color: #b8c5db; --fa-secondary-color: #1f3d6f;"></i></button>
+    <button id="ajustes-btn" class="ajustes-btn" aria-label="Settings">
+      <i class="fa-duotone fa-solid fa-gear" style="--fa-primary-color:#b8c5db;--fa-secondary-color:#1f3d6f;"></i>
+    </button>
   </div>
 
+  <!-- ── Reloj ────────────────────────────────────────────────────────────── -->
   <div class="reloj-container">
     <h1 id="reloj"></h1>
   </div>
 
-  <!-- Barra de búsqueda -->
+  <!-- ── Barra de búsqueda ────────────────────────────────────────────────── -->
   <div class="search-container">
-    <form id="search-form" class="search-form">
-      <input type="text" id="search-input" name="q" placeholder="Search..." class="fuente-aplicada"/>
-      <button type="submit" id="search-button">
+    <form id="search-form" class="search-form" role="search">
+      <input
+        type="search"
+        id="search-input"
+        name="q"
+        placeholder="Search..."
+        class="fuente-aplicada"
+        autocomplete="off"
+      >
+      <button type="submit" id="search-button" aria-label="Search">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </form>
   </div>
-  <div id="notas-destacadas" class="notas-destacadas">
-    <!-- Aquí se mostrarán las notas destacadas -->
-  </div>
+
+  <!-- ── Notas destacadas (se rellena por JS) ───────────────────────────── -->
+  <div id="notas-destacadas" class="notas-destacadas"></div>
+
+  <!-- ── Contenedor de la app (botón "Notes" + panel lateral) ─────────────── -->
   <div class="app-container">
-    <!-- Botones de menú -->
     <div class="botones-inferiores">
       <button id="ver-notas-btn" data-translate="notes-button" class="fuente-aplicada">Notes</button>
     </div>
+
+    <!-- Panel lateral de notas -->
     <div class="menu-lateral oculto" id="menu-notas">
+      <!-- Lista de notas -->
       <div class="lista-notas">
-        <h3 class="notatitle" data-translate="notes-title">Notes <i class="fa-regular fa-note-sticky"></i></h3>
-        <div id="lista-notas" class="scrollable-notes"></div> <!-- Añadido scrollable-notes -->
-        <button id="crear-nota-btn" class="fixed-button" data-translate="create-note" style="font-family: var(--fuente-pagina);">Create Note</button> <!-- Cambiado a fixed-button -->
+        <h3 class="notatitle" data-translate="notes-title">
+          Notes <i class="fa-regular fa-note-sticky"></i>
+        </h3>
+        <div id="lista-notas" class="scrollable-notes"></div>
+        <button
+          id="crear-nota-btn"
+          class="fixed-button"
+          data-translate="create-note"
+          style="font-family:var(--fuente-pagina);"
+        >Create Note</button>
       </div>
 
+      <!-- Formulario de nota -->
       <div class="formulario-nota">
-        <h3 class="note-details" data-translate="note-details">Detalles de la Nota</h3>
-        <input type="text" id="titulo-nota" data-translate="note-title-placeholder" placeholder="Título de la Nota" data-translate-title="note-title-tooltip" title="Title of the note">
-        <textarea id="contenido-nota" data-translate="note-content-placeholder" placeholder="Contenido de la Nota"></textarea>
-    
-        <!-- Checkbox para destacar nota -->
+        <h3 class="note-details" data-translate="note-details">Note Details</h3>
+        <input
+          type="text"
+          id="titulo-nota"
+          data-translate="note-title-placeholder"
+          placeholder="Note Title"
+          title="Title of the note"
+        >
+        <textarea
+          id="contenido-nota"
+          data-translate="note-content-placeholder"
+          placeholder="Note Content"
+        ></textarea>
+
         <section class="destacar-notachekbox">
-            <label class="destacar-notachekbox" style="display: none;">
-                <input type="checkbox" id="destacar-nota"><i class="fa-solid fa-thumbtack"></i> &nbsp;
-            </label>
-            <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note" class="fuente-aplicada">Eliminar Nota <i class="fa-solid fa-trash"></i></button>
-            <button id="exportar-nota-btn" data-translate="export-note" class="fuente-aplicada">Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
+          <label style="display:none;">
+            <input type="checkbox" id="destacar-nota">
+            <i class="fa-solid fa-thumbtack"></i>&nbsp;
+          </label>
+          <button id="eliminar-nota-btn" class="oculto" data-translate="delete-note" class="fuente-aplicada">
+            Delete Note <i class="fa-solid fa-trash"></i>
+          </button>
+          <button id="exportar-nota-btn" data-translate="export-note" class="fuente-aplicada">
+            Export Note &nbsp;<i class="fa-solid fa-file-arrow-down fa-lg"></i>
+          </button>
         </section>
 
-        <button id="guardar-nota-btn" data-translate="save-note" class="fuente-aplicada">Save Note <i class="fa-solid fa-floppy-disk"></i></button>
-        <button id="cerrar-notas-btn" data-translate="cerrarPopup" class="fuente-aplicada">Cerrar</button>
+        <button id="guardar-nota-btn" data-translate="save-note" class="fuente-aplicada">
+          Save Note <i class="fa-solid fa-floppy-disk"></i>
+        </button>
+        <button id="cerrar-notas-btn" data-translate="cerrarPopup" class="fuente-aplicada">Close</button>
       </div>
     </div>
   </div>
-  <!-- Contenedor de Favoritos -->
+
+  <!-- ── Contenedor de Favoritos ──────────────────────────────────────────── -->
   <div id="favoritos-container" class="favoritos-container">
     <h3 id="titulo-favoritos" data-translate="favorites-title">Favorites</h3>
     <div id="favoritos-list" class="favoritos-list"></div>
-    <button id="agregar-favorito-btn">+</button>
-  </div>
-  <!-- Popup de selección de tipo -->
-  <div id="seleccionar-tipo" class="agregar-favorito oculto">
-    <h3 style="font-size: 30px; color: #fff;" data-translate="select-type-title">What do you want to create?</h3>
-    <div class="tipo-botones">
-      <button id="crear-carpeta-btn" class="fuente-aplicada tipo-btn-2">
-        <i class="fa-solid fa-folder-plus" ></i>
-        <span id="createfolder-span">Create Carpeta</span>
-      <button id="crear-favorito-btn" class="tipo-btn fuente-aplicada"><i class="fa-solid fa-bookmark"></i><span id="crear-favorito-btn-span">Favorito</span> </button>
-    </div>
-    <button type="button" id="cerrar-tipo-popup" class="fuente-aplicada">Cerrar</button>
+    <button id="agregar-favorito-btn" aria-label="Add favorite">+</button>
   </div>
 
-  <!-- Popup de agregar favorito -->
+  <!-- ── Popup: seleccionar tipo (carpeta / favorito) ─────────────────────── -->
+  <div id="seleccionar-tipo" class="agregar-favorito oculto">
+    <h3 style="font-size:30px;color:#fff;" data-translate="select-type-title">What do you want to create?</h3>
+    <div class="tipo-botones">
+      <button id="crear-carpeta-btn" class="fuente-aplicada tipo-btn-2">
+        <i class="fa-solid fa-folder-plus"></i>
+        <span id="createfolder-span" data-translate="create-folder">Create Folder</span>
+      </button>
+      <button id="crear-favorito-btn" class="fuente-aplicada tipo-btn">
+        <i class="fa-solid fa-bookmark"></i>
+        <span id="crear-favorito-btn-span" data-translate="create-favorite">Favorite</span>
+      </button>
+    </div>
+    <button type="button" id="cerrar-tipo-popup" class="fuente-aplicada" data-translate="close-button">Close</button>
+  </div>
+
+  <!-- ── Popup: agregar favorito ──────────────────────────────────────────── -->
   <div id="agregar-favorito" class="agregar-favorito oculto">
-    <h3 style="font-size: 30px;" data-translate="add-favorites-title">Add Favorites</h3>
+    <h3 style="font-size:30px;" data-translate="add-favorites-title">Add Favorites</h3>
     <form id="favorito-form">
-      <input class="fuente-aplicada" type="text" id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Nombre del sitio" required>
-      <input class="fuente-aplicada" type="url" id="url-favorito" data-translate="site-url-placeholder" placeholder="URL del sitio" required>
-      <select style="display: none!important;" id="carpeta-favorito" class="fuente-aplicada">
-        <option value="">Sin carpeta</option>
+      <input class="fuente-aplicada" type="text"  id="nombre-favorito" data-translate="site-name-placeholder" placeholder="Site name" required>
+      <input class="fuente-aplicada" type="url"   id="url-favorito"    data-translate="site-url-placeholder"  placeholder="Site URL"  required>
+      <select style="display:none!important;" id="carpeta-favorito" class="fuente-aplicada">
+        <option value="">No folder</option>
       </select>
-      <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button" style="font-family: var(--fuente-pagina)">Add</button>
+      <button id="addbutton" type="submit" class="agregar-favorito-btn1" data-translate="add-button" style="font-family:var(--fuente-pagina);">Add</button>
       <button type="button" id="cerrar-popup-favorito" data-translate="close-button" class="fuente-aplicada">Close</button>
     </form>
   </div>
 
-  <!-- Popup de crear carpeta -->
+  <!-- ── Popup: crear carpeta ─────────────────────────────────────────────── -->
   <div id="crear-carpeta" class="agregar-favorito oculto">
-    <h3 style="font-size: 30px;" data-translate="add-folder-title">Nueva Carpeta</h3>
+    <h3 style="font-size:30px;" data-translate="add-folder-title">New Folder</h3>
     <form id="carpeta-form">
-      <input class="fuente-aplicada" type="text" id="nombre-carpeta" data-translate="folder-name-placeholder" placeholder="Nombre de la carpeta" required>
-      <button id="crear-carpeta-submit" type="submit" class="agregar-favorito-btn1" data-translate="create-button" style="font-family: var(--fuente-pagina)">Crear</button>
-      <button type="button" id="cerrar-carpeta-popup" data-translate="close-button" class="fuente-aplicada">Cerrar</button>
+      <input class="fuente-aplicada" type="text" id="nombre-carpeta" data-translate="folder-name-placeholder" placeholder="Folder name" required>
+      <button id="crear-carpeta-submit" type="submit" class="agregar-favorito-btn1" data-translate="create-button" style="font-family:var(--fuente-pagina);">Create</button>
+      <button type="button" id="cerrar-carpeta-popup" data-translate="close-button" class="fuente-aplicada">Close</button>
     </form>
   </div>
 
-  <!-- Popup de confirmación para eliminar favorito -->
-  <div id="confirmar-eliminar-favorito" class="agregar-favorito oculto" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 9999;">
-    <div style="background-color: var(--color-modelight1); padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 400px; width: 90%; text-align: center; color: var(--color-texto);">
-      <h3 style="font-size: 24px; margin-bottom: 15px;" data-translate="confirm-delete-title">¿Estás seguro?</h3>
-      <p style="margin-bottom: 25px;" data-translate="confirm-delete-message">¿Estás seguro que deseas eliminar este favorito?</p>
-      <div class="confirmation-buttons" style="display: flex; justify-content: center; gap: 15px;">
-        <button id="confirmar-eliminar-btn" class="fuente-aplicada" style="padding: 10px 20px; border-radius: 8px; border: none; background-color: #dc3545; color: white; cursor: pointer; transition: background-color 0.3s;" data-translate="confirm-delete">Confirmar</button>
-        <button id="cancelar-eliminar-btn" class="fuente-aplicada" style="padding: 10px 20px; border-radius: 8px; border: none; background-color: var(--color-botones); color: white; cursor: pointer; transition: background-color 0.3s;" data-translate="cancel-delete">Cancelar</button>
+  <!-- ── Popup: confirmar eliminación de favorito ──────────────────────────── -->
+  <div id="confirmar-eliminar-favorito" class="confirmar-eliminar-overlay" style="display:none;">
+    <div class="confirmar-eliminar-card">
+      <h3 data-translate="confirm-delete-title">Are you sure?</h3>
+      <p data-translate="confirm-delete-message">Do you want to delete this favorite?</p>
+      <div class="confirmation-buttons">
+        <button id="confirmar-eliminar-btn" class="fuente-aplicada btn-danger" data-translate="confirm-delete">Confirm</button>
+        <button id="cancelar-eliminar-btn"  class="fuente-aplicada btn-secondary" data-translate="cancel-delete">Cancel</button>
       </div>
     </div>
   </div>
-  <!-- Popup de ajustes -->
-  <div class="popup" id="popup" style="display: none;">
-    <div class="popup-content" id="ajustes-menu">
-      <button id="cerrar-popup" class="fuente-aplicada"><i class="fa-solid fa-square-xmark"></i> <span id="cerrar-menu-btn" data-translate="cerrarPopup">Close</span> </button>
-      <div class="ajustes-container">
-        <div class="ajustes-section main-settings">
-          <h2 for="ajustes" data-translate="ajustes">Settings</h2>
-          <div class="settings-group">
-            <div class="setting-item">
+
+  <!-- ── Popup de ajustes (IDE Style) ──────────────────────────────────── -->
+  <div class="popup" id="popup" style="display:none;" role="dialog" aria-modal="true" aria-label="Settings">
+    <div class="popup-content ide-settings" id="ajustes-menu">
+
+      <!-- ── IDE Header: título + tabs + cerrar ── -->
+      <div class="ide-header">
+        <h2 class="ide-title"><i class="fa-solid fa-gear"></i> <span data-translate="ajustes">Settings</span></h2>
+        <nav class="ide-tabs" role="tablist" aria-label="Settings sections">
+          <button class="ide-tab active" data-tab="tab-general" role="tab" aria-selected="true" aria-controls="tab-general">
+            <i class="fa-solid fa-sliders"></i>
+            <span data-translate="tab-general">General</span>
+          </button>
+          <button class="ide-tab" data-tab="tab-clock" role="tab" aria-selected="false" aria-controls="tab-clock">
+            <i class="fa-solid fa-clock"></i>
+            <span data-translate="tab-clock">Clock</span>
+          </button>
+          <button class="ide-tab" data-tab="tab-background" role="tab" aria-selected="false" aria-controls="tab-background">
+            <i class="fa-solid fa-image"></i>
+            <span data-translate="fondo">Background</span>
+          </button>
+          <button class="ide-tab" data-tab="tab-font" role="tab" aria-selected="false" aria-controls="tab-font">
+            <i class="fa-solid fa-font"></i>
+            <span data-translate="fontpage">Font</span>
+          </button>
+          <button class="ide-tab" data-tab="tab-about" role="tab" aria-selected="false" aria-controls="tab-about">
+            <i class="fa-solid fa-circle-info"></i>
+            <span data-translate="tab-about">About</span>
+          </button>
+        </nav>
+        <button id="cerrar-popup" class="ide-close-btn fuente-aplicada" aria-label="Close settings">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- ── IDE Body: paneles de contenido ── -->
+      <div class="ide-body">
+
+        <!-- ═══ TAB: General ═══ -->
+        <div class="ide-panel active" id="tab-general" role="tabpanel">
+          <div class="ide-panel-scroll">
+            <h3 class="ide-section-title"><i class="fa-solid fa-language"></i> <span data-translate="select-language">Language</span></h3>
+            <div class="ide-field">
               <label for="idioma" data-translate="select-language">Select Language:</label>
-              <select id="idioma"  class="fuente-aplicada">
+              <select id="idioma" class="ide-select fuente-aplicada">
                 <option value="en">English</option>
                 <option value="es">Español</option>
                 <option value="val">Valencià</option>
@@ -136,131 +218,190 @@
               </select>
             </div>
 
-            <div class="setting-item">
-              <i class="fa-solid fa-palette"></i> &nbsp;
-              <label for="color-tema" data-translate="choose-theme-color">Choose Theme Color:</label>
+            <h3 class="ide-section-title"><i class="fa-solid fa-palette"></i> <span data-translate="choose-theme-color">Theme</span></h3>
+            <div class="ide-field">
+              <label for="color-tema" data-translate="choose-theme-color">Theme Color:</label>
               <input class="selecionable-color" type="color" id="color-tema" name="color-tema" value="#781c52">
             </div>
-            <div class="setting-item">
-              <i class="fa-solid fa-circle-half-stroke"></i> &nbsp;
-              <label for="modo-oscuro" data-translate="dark-mode">Dark Mode:</label>
-              <input class="checkbox-colors" type="checkbox" id="modo-oscuro" name="modo-oscuro">
+            <div class="ide-field ide-field-row">
+              <label for="modo-oscuro" data-translate="dark-mode">Dark Mode</label>
+              <input class="ide-toggle" type="checkbox" id="modo-oscuro" name="modo-oscuro">
             </div>
-            <div class="setting-item">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> <i class="fa-solid fa-clock"></i> &nbsp;
-              <label for="decoracion-reloj" data-translate="enable-clock-decoration">Enable Clock Decoration:</label>
-              <input class="checkbox-colors" type="checkbox" id="decoracion-reloj" name="decoracion-reloj" checked>
+
+            <h3 class="ide-section-title"><i class="fa-solid fa-star"></i> <span data-translate="posicionFavoritos">Favorites</span></h3>
+            <div class="ide-field">
+              <label data-translate="posicionFavoritos">Position:</label>
+              <div class="ide-radio-group">
+                <label class="ide-radio-pill">
+                  <input type="radio" name="posicion-favoritos" value="derecha" checked>
+                  <span><i class="fa-solid fa-arrow-right"></i> <span data-translate="posicionDerecha">Right</span></span>
+                </label>
+                <label class="ide-radio-pill">
+                  <input type="radio" name="posicion-favoritos" value="izquierda">
+                  <span><i class="fa-solid fa-arrow-left"></i> <span data-translate="posicionIzquierda">Left</span></span>
+                </label>
+                <label class="ide-radio-pill">
+                  <input type="radio" name="posicion-favoritos" value="bottom">
+                  <span><i class="fa-solid fa-arrow-down"></i> <span data-translate="posicionBottom">Bottom</span></span>
+                </label>
+                <label class="ide-radio-pill">
+                  <input type="radio" name="posicion-favoritos" value="oculto">
+                  <span><i class="fa-solid fa-eye-slash"></i> <span data-translate="ocultar">Hide</span></span>
+                </label>
+              </div>
             </div>
-            <div class="setting-item">
-              <i class="fa-solid fa-palette"> <i class="fa-solid fa-clock"></i></i> &nbsp;
-              <label for="color-reloj" data-translate="colorReloj">Color del Reloj:</label>
+
+            <div class="ide-field ide-field-row">
+              <label for="mostrar-busqueda" data-translate="mostrarBusqueda">Show Search Bar</label>
+              <input class="ide-toggle" type="checkbox" id="mostrar-busqueda" name="mostrar-busqueda" checked>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ TAB: Clock ═══ -->
+        <div class="ide-panel" id="tab-clock" role="tabpanel" hidden>
+          <div class="ide-panel-scroll">
+            <h3 class="ide-section-title"><i class="fa-solid fa-clock"></i> <span data-translate="tab-clock">Clock Settings</span></h3>
+            <div class="ide-field ide-field-row">
+              <label for="mostrar-reloj" data-translate="mostrarReloj">Show Clock</label>
+              <input class="ide-toggle" type="checkbox" id="mostrar-reloj" name="mostrar-reloj" checked>
+            </div>
+            <div class="ide-field ide-field-row">
+              <label for="decoracion-reloj" data-translate="enable-clock-decoration">Clock Animation</label>
+              <input class="ide-toggle" type="checkbox" id="decoracion-reloj" name="decoracion-reloj" checked>
+            </div>
+            <div class="ide-field">
+              <label for="color-reloj" data-translate="colorReloj">Clock Color:</label>
               <input class="selecionable-color" type="color" id="color-reloj" name="color-reloj" value="#ffffff">
             </div>
-            <div class="setting-item">
-              <i class="fa-solid fa-eye-slash"></i> <i class="fa-solid fa-clock"></i> &nbsp;
-              <label for="mostrar-reloj" data-translate="mostrarReloj">Mostrar Reloj:</label>
-              <input class="checkbox-colors" type="checkbox" id="mostrar-reloj" name="mostrar-reloj" checked>
-            </div>
-            <div class="setting-item">
-              <i class="fa-solid fa-eye-slash"></i> <i class="fa-solid fa-magnifying-glass"></i> &nbsp;
-              <label for="mostrar-busqueda" data-translate="mostrarBusqueda">Mostrar Barra de Búsqueda:</label>
-              <input class="checkbox-colors" type="checkbox" id="mostrar-busqueda" name="mostrar-busqueda" checked>
-            </div>
-            
-            <div class="setting-item">
-              <i class="fa-solid fa-up-down-left-right"></i> &nbsp;
-              <label for="posicion-favoritos" data-translate="posicionFavoritos">Posición de Favoritos:</label>
-              <div class="radio-group">
-                <label class="radio-label">
-                  <input type="radio" name="posicion-favoritos" value="derecha" checked>
-                  <span for="posicionDerecha" data-translate="posicionDerecha">Right</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="posicion-favoritos" value="izquierda">
-                  <span for="posicionIzquierda" data-translate="posicionIzquierda">Left</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="posicion-favoritos" value="bottom">
-                  <span for="posicionBottom" data-translate="posicionBottom">Bottom</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="posicion-favoritos" value="oculto">
-                  <span for="posicionOculta" data-translate="ocultar">Hide</span>
-                </label>
+
+            <!-- Preview en vivo del reloj -->
+            <div class="ide-preview-box">
+              <span class="ide-preview-label"><i class="fa-solid fa-eye"></i> Preview</span>
+              <div class="ide-clock-preview" id="ide-clock-preview">
+                <span id="ide-clock-preview-text">12:00</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="ajustes-section background-settings">
-          <div class="setting-item">
-            <h2 for="font-page" data-translate="fontpage">Font page</h2>
-            <i class="fa-solid fa-font"></i> &nbsp;
-            <label for="selecionarfuentepagina" data-translate="select-font">Seleccionar Fuente:</label>
-            <select id="fuente-pagina"  class="fuente-aplicada">
-              <option value="Arial, sans-serif" style="font-family: Arial">Arial</option>
-              <option value="Archivo, sans-serif" style="font-family: Archivo">Archivo</option>
-              <option value="Bebas Neue, sans-serif" style="font-family: Bebas Neue">Bebas Neue</option>
-              <option value="Cal Sans, sans-serif" style="font-family: Cal Sans">Cal Sans</option>
-              <option value="Comic Relief, sans-serif" style="font-family: Comic Relief">Comic Relief</option>
-              <option value="Dancing Script, cursive" style="font-family: Dancing Script">Dancing Script</option>
-              <option value="Playwrite, sans-serif" style="font-family: Playwrite">Playwrite</option>
-              <option value="Roboto Mono, monospace" style="font-family: Roboto Mono">Roboto Mono</option>
-              <option value="Roboto Condensed, sans-serif"style="font-family: Roboto Condensed">Roboto Condensed</option>
-            </select>
-          </div>
-          <h2 for="fondo" data-translate="fondo">Background</h2>
-          <div class="settings-group">
-            <div class="setting-item">
-              <i class="fa-solid fa-image"></i> &nbsp;
-              <label for="choose-background" data-translate="choose-background">Choose a background:</label>
-              <div class="fondo-predeterminado">
-                <img src="./fondos/background1.png" alt="Background 1" data-image="./fondos/background1.png">
-                <img src="./fondos/background2.png" alt="Background 2" data-image="./fondos/background2.png">
-                <img src="./fondos/background3.gif" alt="Background 3" data-image="./fondos/background3.gif" data-fallback="./fondos/background3.png">
+        <!-- ═══ TAB: Background ═══ -->
+        <div class="ide-panel" id="tab-background" role="tabpanel" hidden>
+          <div class="ide-panel-scroll">
+            <h3 class="ide-section-title"><i class="fa-solid fa-images"></i> <span data-translate="choose-background">Backgrounds</span></h3>
+
+            <!-- Preview actual -->
+            <div class="ide-preview-box ide-bg-preview-box">
+              <span class="ide-preview-label"><i class="fa-solid fa-eye"></i> Current Background</span>
+              <div class="ide-bg-preview" id="ide-bg-preview"></div>
+            </div>
+
+            <!-- Fondos predeterminados -->
+            <label class="ide-field-label" data-translate="choose-background">Choose a preset:</label>
+            <div class="fondo-predeterminado ide-bg-grid">
+              <img src="./fondos/background1.png" alt="Background 1" data-image="./fondos/background1.png">
+              <img src="./fondos/background2.png" alt="Background 2" data-image="./fondos/background2.png">
+              <img src="./fondos/background3.gif" alt="Background 3" data-image="./fondos/background3.gif" data-fallback="./fondos/background3.png">
+            </div>
+
+            <!-- URL -->
+            <h3 class="ide-section-title"><i class="fa-solid fa-link"></i> URL</h3>
+            <div class="ide-field">
+              <label for="fondo-url" data-translate="background-url-label">Background URL (GIF / PNG):</label>
+              <div class="ide-input-group">
+                <input type="url" id="fondo-url" placeholder="https://example.com/bg.png" class="ide-input fuente-aplicada">
+                <button id="guardar-fondo-url" class="ide-btn fuente-aplicada" data-translate="use-background-url">
+                  <i class="fa-solid fa-check"></i> Apply
+                </button>
               </div>
             </div>
-            <div class="setting-item">
-              <i class="fa-solid fa-link"></i> &nbsp;
-              <label for="fondo-url" data-translate="background-url-label">Or introduce a background URL (GIF/PNG):</label>
-              <input type="url" id="fondo-url" placeholder="https://example.com/background.png" class="fuente-aplicada">
-              <button id="guardar-fondo-url" data-translate="use-background-url" class="fuente-aplicada">Use Background URL</button>
-            </div>
-            <div class="setting-item">
-              <i class="fa-solid fa-upload"></i> &nbsp;
-              <label for="fondo-file" data-translate="background-file-label">Or upload your own image:</label>
-              <input type="file" id="fondo-file" accept="image/*" class="fuente-aplicada">
-              <button id="guardar-fondo-file" data-translate="use-background-file" class="fuente-aplicada">Use Uploaded Image</button>
-              <div id="preview-container" style="display: none; margin-top: 10px;">
-                <img id="preview-image" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 1px solid #ccc;" alt="Preview">
+
+            <!-- Upload -->
+            <h3 class="ide-section-title"><i class="fa-solid fa-upload"></i> Upload</h3>
+            <div class="ide-field">
+              <label for="fondo-file" data-translate="background-file-label">Upload your own image:</label>
+              <div class="ide-input-group">
+                <input type="file" id="fondo-file" accept="image/*" class="ide-file-input-hidden fuente-aplicada" style="display:none;">
+                <button type="button" id="fondo-file-trigger" class="ide-btn fuente-aplicada" onclick="document.getElementById('fondo-file').click()">
+                  <i class="fa-solid fa-folder-open"></i> <span data-translate="choose-file">Choose file</span>
+                </button>
+                <span id="fondo-file-name" class="ide-file-name" data-translate="no-file-chosen">No file chosen</span>
+                <button id="guardar-fondo-file" class="ide-btn fuente-aplicada" data-translate="use-background-file">
+                  <i class="fa-solid fa-check"></i> Apply
+                </button>
+              </div>
+              <div id="preview-container" style="display:none;margin-top:10px;">
+                <img id="preview-image" class="ide-upload-preview" alt="Preview">
               </div>
             </div>
-            <div class="setting-item gallery-link">
-              <a href="https://github.com/AgustinBeniteez/themes-nav" target="_blank" class="img-container">
-                <img class="img_fondos" src="./fondos/wallpapergallery.webp" alt="Gallery wallpapers">
-                <a id="descargar-temas-btn" href="https://agustinbeniteez.github.io/themes-nav/themes-nav.html" target="_blank">
-                  <span id="wallpaper-gallery-text" data-translate="wallpaper-gallery">Wallpaper Gallery</span>
-                  <i class="fa-solid fa-images"></i>
-                </a>
+
+            <!-- Wallpaper Gallery -->
+            <div class="ide-gallery-card">
+              <a id="descargar-temas-btn" href="https://agustinbeniteez.github.io/themes-nav/themes-nav.html" target="_blank" class="ide-gallery-link">
+                <i class="fa-solid fa-images"></i>
+                <span id="wallpaper-gallery-text" data-translate="wallpaper-gallery">Wallpaper Gallery</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
               </a>
-        <div id="credits">
-          <p class="credits">By AgustinBeniteez : <a href="https://github.com/AgustinBeniteez">https://github.com/AgustinBeniteez</a></p>
-          <p class="credits"><a href="https://agustinbeniteez.github.io/Custom-Browser-Main-Page/">WebSite Oficial</a></p>
-          <p class="credits"><a href="https://github.com/AgustinBeniteez/Custom-Browser-Main-Page">Open Source</a></p>
+            </div>
+          </div>
         </div>
 
+        <!-- ═══ TAB: Font ═══ -->
+        <div class="ide-panel" id="tab-font" role="tabpanel" hidden>
+          <div class="ide-panel-scroll">
+            <h3 class="ide-section-title"><i class="fa-solid fa-font"></i> <span data-translate="select-font">Typography</span></h3>
+            <div class="ide-field">
+              <label for="fuente-pagina" data-translate="select-font">Select Font:</label>
+              <select id="fuente-pagina" class="ide-select fuente-aplicada">
+                <option value="Arial, sans-serif"               style="font-family:Arial">Arial</option>
+                <option value="Archivo, sans-serif"             style="font-family:Archivo">Archivo</option>
+                <option value="Bebas Neue, sans-serif"          style="font-family:'Bebas Neue'">Bebas Neue</option>
+                <option value="Cal Sans, sans-serif"            style="font-family:'Cal Sans'">Cal Sans</option>
+                <option value="Comic Relief, sans-serif"        style="font-family:'Comic Relief'">Comic Relief</option>
+                <option value="Dancing Script, cursive"         style="font-family:'Dancing Script'">Dancing Script</option>
+                <option value="Playwrite, sans-serif"           style="font-family:Playwrite">Playwrite</option>
+                <option value="Roboto Mono, monospace"          style="font-family:'Roboto Mono'">Roboto Mono</option>
+                <option value="Roboto Condensed, sans-serif"    style="font-family:'Roboto Condensed'">Roboto Condensed</option>
+              </select>
+            </div>
 
+            <!-- Preview de fuente -->
+            <div class="ide-preview-box">
+              <span class="ide-preview-label"><i class="fa-solid fa-eye"></i> Preview</span>
+              <div class="ide-font-preview" id="ide-font-preview">
+                <p class="ide-font-sample fuente-aplicada">The quick brown fox jumps over the lazy dog</p>
+                <p class="ide-font-sample-large fuente-aplicada">Aa Bb Cc 123</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ TAB: About ═══ -->
+        <div class="ide-panel" id="tab-about" role="tabpanel" hidden>
+          <div class="ide-panel-scroll">
+            <h3 class="ide-section-title"><i class="fa-solid fa-circle-info"></i> <span data-translate="tab-about">About</span></h3>
+            <div class="ide-about-card">
+              <div class="ide-about-logo">
+                <img src="icons/logoext.webp" alt="Extension Logo" width="64" height="64">
+              </div>
+              <h4>Custom Browser Main Page</h4>
+              <p class="ide-about-desc">A beautiful, customizable new-tab extension for your browser.</p>
+              <div id="credits" class="ide-credits">
+                <a href="https://github.com/AgustinBeniteez" target="_blank"><i class="fa-brands fa-github"></i> AgustinBeniteez</a>
+                <a href="https://agustinbeniteez.github.io/Custom-Browser-Main-Page/" target="_blank"><i class="fa-solid fa-globe"></i> Official Website</a>
+                <a href="https://github.com/AgustinBeniteez/Custom-Browser-Main-Page" target="_blank"><i class="fa-solid fa-code"></i> Open Source</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- Performance Configuration -->
+
+  <!-- ── Scripts ───────────────────────────────────────────────────────────── -->
   <script src="performance.config.js"></script>
-  
-  <!-- Scripts -->
   <script type="module" src="script.js"></script>
+  <script type="module" src="modules/ide-tabs.js"></script>
   <script type="module" src="translations/translations.js"></script>
 </body>
 </html>

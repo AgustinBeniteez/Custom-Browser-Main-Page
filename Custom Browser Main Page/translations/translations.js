@@ -2,7 +2,15 @@
 class TranslationManager {
   constructor() {
     this.translations = null;
-    this.currentLanguage = localStorage.getItem("idioma") || "en";
+    // Leer idioma guardado; si no existe, detectar del navegador
+    const saved = localStorage.getItem("idioma");
+    if (saved) {
+      this.currentLanguage = saved;
+    } else {
+      const browserLang = (navigator.language || 'en').split('-')[0].toLowerCase();
+      const supported = ['en', 'es', 'val', 'fr', 'ru', 'zh', 'ja', 'ko'];
+      this.currentLanguage = supported.includes(browserLang) ? browserLang : 'en';
+    }
     this.translationCache = new Map();
     this.isLoading = false;
     this.init();
@@ -10,25 +18,24 @@ class TranslationManager {
 
   init() {
     this.loadTranslations();
-    this.setupLanguageSelector();
   }
 
   async loadTranslations() {
     if (this.isLoading) return;
-    
+
     this.isLoading = true;
-    
+
     try {
       const response = await fetch("./translations/lang.json");
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       this.translations = data;
       this.updateLanguage(this.currentLanguage);
-      
+
     } catch (error) {
       console.error("Error al cargar las traducciones:", error);
       // Fallback a inglés si hay error
@@ -65,17 +72,9 @@ class TranslationManager {
 
   updateLanguage(language) {
     if (!this.translations || !this.translations[language]) return;
-    
-    // Evitar actualizaciones innecesarias
-    if (this.currentLanguage === language && this.translationCache.has(language)) {
-      return;
-    }
 
     this.currentLanguage = language;
     localStorage.setItem("idioma", language);
-    
-    // Marcar como cacheado
-    this.translationCache.set(language, true);
 
     // Actualizar título y elementos básicos
     document.title = this.translations[language]?.titulo || "New Tab";
@@ -475,6 +474,28 @@ class TranslationManager {
       crearNote.textContent =
         this.translations[language]?.crearNota || "Create Note";
     }
+    // ── Generic data-translate handler ──
+    // Automatically translate all elements with [data-translate] attribute
+    const lang = this.translations[language];
+    document.querySelectorAll('[data-translate]').forEach(el => {
+      const key = el.getAttribute('data-translate');
+      if (lang[key]) {
+        // Only update text nodes, preserve child elements (icons)
+        const hasChildElements = el.querySelector('i, svg, img');
+        if (hasChildElements) {
+          // Find text nodes and update them
+          for (const node of el.childNodes) {
+            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+              node.textContent = lang[key];
+              break;
+            }
+          }
+        } else {
+          el.textContent = lang[key];
+        }
+      }
+    });
+
     // Disparar evento de cambio de idioma
     document.dispatchEvent(
       new CustomEvent("languageChanged", { detail: language })
