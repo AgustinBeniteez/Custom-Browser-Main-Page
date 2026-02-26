@@ -48,7 +48,9 @@
   <!-- ── Contenedor de la app (botón "Notes" + panel lateral) ─────────────── -->
   <div class="app-container">
     <div class="botones-inferiores">
-      <button id="ver-notas-btn" data-translate="notes-button" class="fuente-aplicada">Notes</button>
+      <button id="ver-notas-btn" data-translate="verNotas" class="fuente-aplicada">
+        <i class="fa-solid fa-note-sticky"></i> Notes
+      </button>
     </div>
 
     <!-- Panel lateral de notas -->
@@ -85,6 +87,10 @@
                 <i class="fa-solid fa-sort"></i>
               </button>
             </div>
+            <div class="ide-sidebar-filter">
+              <i class="fa-solid fa-tags"></i>
+              <input type="text" id="filtro-etiquetas-ide" placeholder="Filter tags..." class="ide-filter-input">
+            </div>
             <div id="lista-notas-ide" class="ide-sidebar-list"></div>
           </div>
 
@@ -94,18 +100,28 @@
             <div class="ide-panel active" id="tab-notas-list">
               <div class="ide-editor-container">
                 <div class="ide-editor-header">
-                  <input type="text" id="titulo-nota-ide" class="ide-note-input-title" placeholder="Title..." data-translate="note-title-placeholder">
-                  <div class="ide-note-meta">
-                    <div class="ide-date-picker-wrap">
-                      <button id="fecha-btn-ide" class="ide-date-btn">
-                        <i class="fa-regular fa-calendar"></i> <span id="fecha-display-ide"></span>
-                      </button>
-                      <input type="datetime-local" id="fecha-input-ide" class="ide-hidden-date-input">
+                  <div class="ide-title-row">
+                    <input type="text" id="titulo-nota-ide" class="ide-note-input-title" placeholder="Title..." data-translate="note-title-placeholder">
+                    <div class="ide-note-meta">
+                      <div class="ide-color-wrap">
+                        <input type="color" id="color-nota-ide" value="#cba6f7" class="ide-note-color-input" title="Note color">
+                      </div>
+                      <div class="ide-date-picker-wrap">
+                        <button id="fecha-btn-ide" class="ide-date-btn">
+                          <i class="fa-regular fa-calendar"></i> <span id="fecha-display-ide"></span>
+                        </button>
+                        <input type="datetime-local" id="fecha-input-ide" class="ide-hidden-date-input">
+                      </div>
+                      <label class="ide-pin-label">
+                        <input type="checkbox" id="destacar-nota-ide">
+                        <i class="fa-solid fa-thumbtack"></i>
+                      </label>
                     </div>
-                    <label class="ide-pin-label">
-                      <input type="checkbox" id="destacar-nota-ide">
-                      <i class="fa-solid fa-thumbtack"></i>
-                    </label>
+                  </div>
+                  <div class="ide-tags-row">
+                    <i class="fa-solid fa-tag"></i>
+                    <div id="etiquetas-lista-ide" class="ide-tags-list"></div>
+                    <input type="text" id="input-etiquetas-ide" placeholder="Add tag..." class="ide-tags-input">
                   </div>
                 </div>
                 <textarea id="contenido-nota-ide" class="ide-note-textarea" placeholder="Start writing..." data-translate="note-content-placeholder"></textarea>

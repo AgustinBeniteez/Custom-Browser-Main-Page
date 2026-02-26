@@ -463,17 +463,6 @@ class TranslationManager {
         this.translations[language]?.addFolderTitle || "Nueva carpeta";
     }
 
-    // Traducir botón ver-notas
-    const verNotasBtn = document.getElementById("ver-notas-btn");
-    if (verNotasBtn) {
-      verNotasBtn.textContent =
-        this.translations[language]?.verNotas || "Notes";
-    }
-    const crearNote = document.getElementById("crear-nota-btn");
-    if (crearNote) {
-      crearNote.textContent =
-        this.translations[language]?.crearNota || "Create Note";
-    }
     // ── Generic data-translate handler ──
     // Automatically translate all elements with [data-translate] attribute
     const lang = this.translations[language];

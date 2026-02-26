@@ -67,6 +67,12 @@ class NotesManager {
       dayNotesList: document.getElementById('day-notes-list'),
       dayViewBack: document.getElementById('day-view-back'),
       dayViewTitle: document.getElementById('day-view-title'),
+
+      // Colores y Etiquetas
+      colorInput: document.getElementById('color-nota-ide'),
+      tagsInput: document.getElementById('input-etiquetas-ide'),
+      tagsList: document.getElementById('etiquetas-lista-ide'),
+      filterInput: document.getElementById('filtro-etiquetas-ide'),
     };
   }
 
@@ -102,6 +108,18 @@ class NotesManager {
     el.calNext?.addEventListener('click', () => this._changeMonth(1));
     el.calMonthYear?.addEventListener('click', () => this._toggleMonthPicker());
     el.dayViewBack?.addEventListener('click', () => this._resetCalendarView());
+
+    // Colores y Etiquetas
+    el.tagsInput?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const tag = el.tagsInput.value.trim();
+        if (tag) this._addTag(tag);
+        el.tagsInput.value = '';
+      }
+    });
+
+    el.filterInput?.addEventListener('input', () => this.loadNotes());
 
     // Scroll para cambiar de mes
     el.calView?.addEventListener('wheel', e => {
@@ -159,6 +177,15 @@ class NotesManager {
   loadNotes() {
     let notes = [...this._getNotes()];
 
+    // Filtrar por etiquetas
+    const filter = this.el.filterInput?.value.trim().toLowerCase();
+    if (filter) {
+      notes = notes.filter(n =>
+        n.titulo.toLowerCase().includes(filter) ||
+        (n.etiquetas && n.etiquetas.some(t => t.toLowerCase().includes(filter)))
+      );
+    }
+
     // Aplicar ordenación
     notes.sort((a, b) => {
       const dateA = new Date(a.fechaFull || a.fecha);
@@ -177,12 +204,11 @@ class NotesManager {
     this.el.listaIde.innerHTML = '';
 
     notes.forEach((note, sortedIdx) => {
-      // Buscar el índice original en el cache para editar correctamente
-      const originalIdx = this._getNotes().findIndex(n => n === note);
-
+      const originalIdx = this._getOriginalIndex(note);
       const item = document.createElement('div');
       item.classList.add('ide-note-item');
       if (this._currentIndex === originalIdx) item.classList.add('active');
+      if (note.color) item.style.borderLeftColor = note.color;
 
       const title = document.createElement('span');
       title.classList.add('ide-note-item-title');
@@ -192,7 +218,24 @@ class NotesManager {
       date.classList.add('ide-note-item-date');
       date.textContent = note.fecha;
 
-      item.append(title, date);
+      const tagsWrap = document.createElement('div');
+      tagsWrap.classList.add('ide-note-tag-list');
+      if (note.etiquetas) {
+        note.etiquetas.forEach(tag => {
+          const t = document.createElement('span');
+          t.classList.add('ide-mini-tag');
+          t.textContent = tag;
+          tagsWrap.appendChild(t);
+        });
+      }
+
+      item.append(title, date, tagsWrap);
+      if (note.destacada) {
+        const pin = document.createElement('i');
+        pin.className = 'fa-solid fa-thumbtack ide-note-item-pin';
+        item.appendChild(pin);
+      }
+
       item.addEventListener('click', () => this._edit(originalIdx));
       this.el.listaIde.appendChild(item);
     });
@@ -206,6 +249,9 @@ class NotesManager {
     this.el.fechaInputIde.value = this._formatToDateTimeLocal(now);
     this.el.fechaDisplayIde.textContent = now.toLocaleString();
     this.el.destacarIde.checked = false;
+    this.el.colorInput.value = '#cba6f7';
+    this._currentTags = [];
+    this._renderTags();
     this.el.eliminarIdeBtn.classList.add('oculto');
     this._renderSidebar(this._getNotes());
     this._switchTab('tab-notas-list');
@@ -222,6 +268,9 @@ class NotesManager {
     this.el.fechaInputIde.value = this._formatToDateTimeLocal(date);
     this.el.fechaDisplayIde.textContent = date.toLocaleString();
     this.el.destacarIde.checked = !!note.destacada;
+    this.el.colorInput.value = note.color || '#cba6f7';
+    this._currentTags = note.etiquetas || [];
+    this._renderTags();
     this.el.eliminarIdeBtn.classList.remove('oculto');
 
     this._renderSidebar(this._getNotes());
@@ -238,6 +287,8 @@ class NotesManager {
       titulo,
       contenido: this.el.contenidoIde.value,
       destacada: this.el.destacarIde.checked,
+      color: this.el.colorInput.value,
+      etiquetas: this._currentTags,
       fecha: selectedDate.toLocaleDateString(),
       fechaFull: selectedDate.toISOString()
     };
@@ -419,6 +470,7 @@ class NotesManager {
       const tag = document.createElement('div');
       tag.classList.add('day-note-dot');
       tag.textContent = note.titulo;
+      if (note.color) tag.style.background = note.color;
       tag.addEventListener('click', (e) => {
         e.stopPropagation();
         const fullIdx = this._getNotes().findIndex(n => n === note);
@@ -441,6 +493,7 @@ class NotesManager {
     dayNotes.forEach(note => {
       const item = document.createElement('div');
       item.classList.add('ide-note-item');
+      if (note.color) item.style.borderLeftColor = note.color;
 
       const title = document.createElement('span');
       title.classList.add('ide-note-item-title');
@@ -453,7 +506,7 @@ class NotesManager {
 
       item.append(title, time);
       item.addEventListener('click', () => {
-        const originalIdx = this._getNotes().findIndex(n => n === note);
+        const originalIdx = this._getOriginalIndex(note);
         this._edit(originalIdx);
       });
       dayNotesList.appendChild(item);
@@ -462,6 +515,38 @@ class NotesManager {
     calGrid.classList.add('oculto');
     if (this.el.calControls) this.el.calControls.classList.add('oculto');
     dayNotesView.classList.remove('oculto');
+  }
+
+  _getOriginalIndex(note) {
+    return this._getNotes().findIndex(n => n === note);
+  }
+
+  _addTag(tag) {
+    if (!this._currentTags.includes(tag)) {
+      this._currentTags.push(tag);
+      this._renderTags();
+    }
+  }
+
+  _removeTag(tag) {
+    this._currentTags = this._currentTags.filter(t => t !== tag);
+    this._renderTags();
+  }
+
+  _renderTags() {
+    this.el.tagsList.innerHTML = '';
+    this._currentTags.forEach(tag => {
+      const badge = document.createElement('span');
+      badge.classList.add('ide-tag-badge');
+      badge.textContent = tag;
+
+      const close = document.createElement('i');
+      close.className = 'fa-solid fa-xmark';
+      close.addEventListener('click', () => this._removeTag(tag));
+
+      badge.appendChild(close);
+      this.el.tagsList.appendChild(badge);
+    });
   }
 
   _formatToDateTimeLocal(date) {
