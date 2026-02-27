@@ -41,7 +41,7 @@ class EditModeManager {
         }
 
         // Snap to grid
-        this.gridSize = 50;
+        this.gridSize = 10;
         this._initElements();
         this._bindEvents();
 
@@ -53,8 +53,12 @@ class EditModeManager {
         });
 
         // Wait for other modules to init
-        setTimeout(() => this._applyLayout(), 200);
-        setTimeout(() => this._applyLayout(), 1000); // Doble chequeo para layouts dinámicos
+        setTimeout(() => {
+            if (!this.isEditMode) this._applyLayout();
+        }, 200);
+        setTimeout(() => {
+            if (!this.isEditMode) this._applyLayout();
+        }, 1000); // Doble chequeo para layouts dinámicos
     }
 
     _initElements() {
@@ -455,50 +459,96 @@ class EditModeManager {
         const startX = e.clientX;
         const startY = e.clientY;
 
-        // Convert to absolute
+        // Ensure it has absolute positioning
         if (getComputedStyle(el).position !== 'absolute') {
             el.style.position = 'absolute';
         }
 
-        const startLeft = parseInt(el.style.left) || el.getBoundingClientRect().left;
-        const startTop = parseInt(el.style.top) || el.getBoundingClientRect().top;
+        document.body.classList.add('dragging-active');
+        el.classList.add('is-dragging');
 
-        // Remove transform just in case
-        el.style.transform = 'none';
+        const rect = el.getBoundingClientRect();
+        // Guardar el offset exacto del mouse dentro del widget para que no de saltos al empezar
+        const offsetX = startX - rect.left;
+        const offsetY = startY - rect.top;
 
-        const onMouseMove = (moveEvent) => {
-            let newLeft = startLeft + (moveEvent.clientX - startX);
-            let newTop = startTop + (moveEvent.clientY - startY);
+        const startLeft = rect.left;
+        const startTop = rect.top;
 
-            // Snap to grid
-            newLeft = Math.round(newLeft / this.gridSize) * this.gridSize;
-            newTop = Math.round(newTop / this.gridSize) * this.gridSize;
+        let lastX = startX;
+        let lastY = startY;
+        let ticking = false;
 
-            el.style.left = newLeft + 'px';
-            el.style.top = newTop + 'px';
+        const updatePosition = (moveEvent) => {
+            const currentX = moveEvent ? moveEvent.clientX : lastX;
+            const currentY = moveEvent ? moveEvent.clientY : lastY;
 
-            // Ensure it doesn't go off-screen during drag
-            const rect = el.getBoundingClientRect();
-            if (newLeft < 0) el.style.left = '0px';
-            if (newTop < 0) el.style.top = '0px';
-            if (newLeft + rect.width > window.innerWidth) el.style.left = (window.innerWidth - rect.width) + 'px';
-            if (newTop + rect.height > window.innerHeight) el.style.top = (window.innerHeight - rect.height) + 'px';
+            // Nueva posición deseada
+            let newLeft = currentX - offsetX;
+            let newTop = currentY - offsetY;
+
+            // Snap to grid (a menos que se pulse Shift para movimiento libre)
+            if (!moveEvent?.shiftKey) {
+                newLeft = Math.round(newLeft / this.gridSize) * this.gridSize;
+                newTop = Math.round(newTop / this.gridSize) * this.gridSize;
+            }
+
+            // Use transform for smooth movement (GPU accelerated)
+            const deltaX = newLeft - startLeft;
+            const deltaY = newTop - startTop;
+            el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+
+            // Guardar para onMouseUp
+            el._currentDragX = deltaX;
+            el._currentDragY = deltaY;
+
+            // Highlight during drag
+            el.style.zIndex = '1000';
+            el.style.boxShadow = '0 0 20px rgba(0,0,0,0.3)';
+
+            ticking = false;
         };
 
-        const onMouseUp = () => {
+        const onMouseMove = (moveEvent) => {
+            lastX = moveEvent.clientX;
+            lastY = moveEvent.clientY;
+
+            if (!ticking) {
+                requestAnimationFrame(() => updatePosition(moveEvent));
+                ticking = true;
+            }
+        };
+
+        const onMouseUp = (upEvent) => {
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
+            document.body.classList.remove('dragging-active');
+            el.classList.remove('is-dragging');
 
-            const rect = el.getBoundingClientRect();
+            // Posición final exacta
+            let finalLeft = lastX - offsetX;
+            let finalTop = lastY - offsetY;
+
+            // Snap final (si no hay Shift)
+            if (!upEvent.shiftKey) {
+                finalLeft = Math.round(finalLeft / this.gridSize) * this.gridSize;
+                finalTop = Math.round(finalTop / this.gridSize) * this.gridSize;
+            }
+
+            el.style.transform = 'none';
+            el.style.left = finalLeft + 'px';
+            el.style.top = finalTop + 'px';
+            el.style.zIndex = '99';
+            el.style.boxShadow = 'none';
+
+            delete el._currentDragX;
+            delete el._currentDragY;
+
             this.layout[id] = this.layout[id] || {};
-
-            // Save as percentages for better responsiveness
-            this.layout[id].leftPct = (parseInt(el.style.left) / window.innerWidth) * 100;
-            this.layout[id].topPct = (parseInt(el.style.top) / window.innerHeight) * 100;
-
-            // Keep pixels for fallback/compatibility
-            this.layout[id].left = parseInt(el.style.left);
-            this.layout[id].top = parseInt(el.style.top);
+            this.layout[id].leftPct = (finalLeft / window.innerWidth) * 100;
+            this.layout[id].topPct = (finalTop / window.innerHeight) * 100;
+            this.layout[id].left = finalLeft;
+            this.layout[id].top = finalTop;
 
             this._saveLayout();
         };
@@ -516,25 +566,48 @@ class EditModeManager {
         const startWidth = el.offsetWidth;
         const startHeight = el.offsetHeight;
 
-        const onMouseMove = (moveEvent) => {
-            let newWidth = startWidth + (moveEvent.clientX - startX);
-            let newHeight = startHeight + (moveEvent.clientY - startY);
+        let lastX = startX;
+        let lastY = startY;
+        let ticking = false;
 
-            // Snap to grid for resize too
+        const updateSize = () => {
+            let newWidth = startWidth + (lastX - startX);
+            let newHeight = startHeight + (lastY - startY);
+
+            // Snap to grid
             newWidth = Math.max(this.gridSize, Math.round(newWidth / this.gridSize) * this.gridSize);
             newHeight = Math.max(this.gridSize, Math.round(newHeight / this.gridSize) * this.gridSize);
 
             el.style.width = newWidth + 'px';
             el.style.height = newHeight + 'px';
+
+            ticking = false;
+        };
+
+        const onMouseMove = (moveEvent) => {
+            lastX = moveEvent.clientX;
+            lastY = moveEvent.clientY;
+
+            if (!ticking) {
+                requestAnimationFrame(updateSize);
+                ticking = true;
+            }
         };
 
         const onMouseUp = () => {
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
 
+            // Calcular tamaño final exacto (por si el rAF no llegó a la última frame)
+            let finalWidth = Math.max(this.gridSize, Math.round((startWidth + (lastX - startX)) / this.gridSize) * this.gridSize);
+            let finalHeight = Math.max(this.gridSize, Math.round((startHeight + (lastY - startY)) / this.gridSize) * this.gridSize);
+
+            el.style.width = finalWidth + 'px';
+            el.style.height = finalHeight + 'px';
+
             this.layout[id] = this.layout[id] || {};
-            this.layout[id].width = parseInt(el.style.width);
-            this.layout[id].height = parseInt(el.style.height);
+            this.layout[id].width = finalWidth;
+            this.layout[id].height = finalHeight;
             this._saveLayout();
         };
 
@@ -567,31 +640,40 @@ class EditModeManager {
             let leftPx = conf.left;
             let topPx = conf.top;
 
-            // Priorizar siempre porcentajes para que sea responsivo desde el primer render
-            if (conf.leftPct !== undefined) {
+            // Priorizar siempre porcentajes para que sea responsivo
+            // Pero si estamos en MODO EDICIÓN, confiamos en los píxeles directos (si los hay) 
+            // para evitar saltos por precisión de float al soltar el mouse
+            if (conf.leftPct !== undefined && !this.isEditMode) {
                 leftPx = (conf.leftPct / 100) * window.innerWidth;
             }
-            if (conf.topPct !== undefined) {
+            if (conf.topPct !== undefined && !this.isEditMode) {
                 topPx = (conf.topPct / 100) * window.innerHeight;
             }
 
             // Clamp to viewport - usamos valores razonables si el elemento no tiene dimensiones aún
-            const widgetWidth = el.offsetWidth || conf.width || 250;
-            const widgetHeight = el.offsetHeight || conf.height || 150;
+            // Pero NO clampeamos agresivamente si estamos en modo edición (para no dar saltos)
+            if (!this.isEditMode) {
+                const widgetWidth = el.offsetWidth || conf.width || 0;
+                const widgetHeight = el.offsetHeight || conf.height || 0;
 
-            if (leftPx !== undefined) {
-                const maxLeft = Math.max(0, window.innerWidth - widgetWidth - 10);
-                el.style.left = Math.min(Math.max(10, leftPx), maxLeft) + 'px';
-            }
-
-            if (topPx !== undefined) {
-                const maxTop = Math.max(0, window.innerHeight - widgetHeight - 10);
-                // Si el widget es más alto que la pantalla, no lo clampeamos al fondo porque se subiría al tope
-                if (widgetHeight > window.innerHeight) {
-                    el.style.top = Math.max(10, topPx) + 'px';
-                } else {
-                    el.style.top = Math.min(Math.max(10, topPx), maxTop) + 'px';
+                if (leftPx !== undefined) {
+                    const maxLeft = Math.max(0, window.innerWidth - widgetWidth);
+                    el.style.left = Math.min(Math.max(0, leftPx), maxLeft) + 'px';
                 }
+
+                if (topPx !== undefined) {
+                    const maxTop = Math.max(0, window.innerHeight - widgetHeight);
+                    // Si el widget es más alto que la pantalla, no lo clampeamos al fondo porque se subiría al tope
+                    if (widgetHeight > window.innerHeight) {
+                        el.style.top = Math.max(0, topPx) + 'px';
+                    } else {
+                        el.style.top = Math.min(Math.max(0, topPx), maxTop) + 'px';
+                    }
+                }
+            } else {
+                // En modo edición simplemente aplicamos lo que hay sin restricciones de borde drásticas
+                if (leftPx !== undefined) el.style.left = leftPx + 'px';
+                if (topPx !== undefined) el.style.top = topPx + 'px';
             }
 
             if (conf.width !== undefined) el.style.width = conf.width + 'px';

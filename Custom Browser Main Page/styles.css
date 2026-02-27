@@ -162,6 +162,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: var(--color-letrasdark);
+    will-change: opacity, background-color;
     transition: background-color var(--transition-slow);
     overflow: hidden;
     height: 100vh;
@@ -169,7 +170,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    animation: fadeIn 1s ease-in-out;
+    animation: fadeIn 0.4s ease-out;
 }
 
 /* Animación para entrada suave del contenido */
@@ -186,21 +187,12 @@ body {
 /* ── Skip-to-content (accesibilidad lectores de pantalla) ─── */
 .skip-to-content {
     position: absolute;
-    top: -100%;
-    left: 8px;
-    z-index: 9999;
-    background: var(--color-botones);
-    color: var(--color-letraswhite);
-    padding: 10px 18px;
-    border-radius: 0 0 8px 8px;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: top 0.2s ease;
+    transform: translateY(-100%);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .skip-to-content:focus {
-    top: 0;
+    transform: translateY(0);
 }
 
 /* ── Focus global WCAG 2.4.7 ─────────────────────────────── */
@@ -237,7 +229,7 @@ a:hover {
     outline: none;
     cursor: pointer;
     position: relative;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
     background-color: transparent;
     vertical-align: middle;
 }
@@ -295,7 +287,7 @@ a:hover {
     outline: none;
     cursor: pointer;
     position: relative;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     margin-top: 10px;
 }
 
@@ -333,12 +325,12 @@ a:hover {
     z-index: 100;
     display: flex;
     gap: 10px;
-    transition: top 0.3s ease;
+    transform: translateY(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body.widgets-menu-open .header {
-    top: 80px;
-    /* Bajar los botones cuando el menú superior de widgets está abierto */
+    transform: translateY(70px);
 }
 
 .reloj-container {
@@ -364,8 +356,9 @@ h1 {
     font-size: min(30cqw, 100cqh);
     /* Responsive to container size */
     color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    animation: textGlow 2s ease-in-out infinite alternate;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: textGlow 3s ease-in-out infinite alternate;
+    will-change: text-shadow;
 }
 
 .reloj-sin-animacion h1 {
@@ -378,11 +371,11 @@ h1 {
 /* Animación de resplandor del reloj */
 @keyframes textGlow {
     0% {
-        text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.7);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     }
 
     100% {
-        text-shadow: 2px 2px 20px rgba(255, 255, 255, 1);
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px var(--color-botones);
     }
 }
 
@@ -480,10 +473,11 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 2000;
+    will-change: opacity;
 }
 
 .popup-content {
@@ -754,6 +748,17 @@ body.edit-mode::before {
     transition: none !important;
 }
 
+.widget-drag-preview {
+    position: absolute;
+    border: 3px dashed var(--color-botones);
+    background-color: rgba(255, 255, 255, 0.1);
+    z-index: 98;
+    pointer-events: none;
+    border-radius: var(--border-radius-small);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    transition: left 0.1s ease, top 0.1s ease, width 0.1s ease, height 0.1s ease;
+}
+
 /* Overlay invisible para bloquear clicks en el input o enlaces mientras se edita */
 .editable-widget::after {
     content: '';
@@ -991,22 +996,25 @@ body.edit-mode .widget-hidden-by-user {
 .calendar-widget-container,
 .widget-important-notes-container,
 .status-widget,
-.weather-widget {
+.weather-widget,
+.pomodoro-widget {
     background: var(--color-modelight);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
-    box-shadow: var(--shadow-heavy);
+    box-shadow: var(--shadow-medium);
     color: var(--color-letrasdark);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, background-color 0.3s ease;
+    will-change: transform, opacity;
 }
 
 body[data-theme="dark"] .favoritos-container,
 body[data-theme="dark"] .calendar-widget-container,
 body[data-theme="dark"] .widget-important-notes-container,
 body[data-theme="dark"] .status-widget,
-body[data-theme="dark"] .weather-widget {
+body[data-theme="dark"] .weather-widget,
+body[data-theme="dark"] .pomodoro-widget {
     background: var(--color-modedark);
     color: var(--color-letraswhite);
 }
@@ -1167,7 +1175,8 @@ body[data-theme="dark"] .favoritos-container {
     flex-direction: column;
     background: transparent;
     border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
     cursor: pointer;
     border: 1px solid transparent;
     width: 100%;
@@ -1373,7 +1382,8 @@ body[data-theme="dark"] .favoritos-container {
     border-radius: 12px;
     font-size: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1450,7 +1460,8 @@ body[data-theme="dark"] #agregar-favorito-btn {
     font-size: 12px;
     cursor: pointer;
     opacity: 0;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+    will-change: transform, opacity;
     z-index: 10;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -1478,7 +1489,8 @@ body[data-theme="dark"] #agregar-favorito-btn {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    transition: transform 0.4s ease-in-out;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    will-change: transform, opacity;
     color: var(--color-letrasdark);
 }
 
@@ -1508,9 +1520,9 @@ body[data-theme="dark"] #agregar-favorito-btn {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1632,7 +1644,8 @@ body[data-theme="dark"] #agregar-favorito-btn {
 #crear-carpeta:not(.oculto) {
     opacity: 1;
     visibility: visible;
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    will-change: transform, opacity;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1780,7 +1793,8 @@ body[data-theme="dark"] #agregar-favorito-btn {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    will-change: transform, opacity;
 }
 
 .agregar-favorito#seleccionar-tipo:not(.oculto) {
@@ -1809,7 +1823,8 @@ body[data-theme="dark"] #agregar-favorito-btn {
     color: white;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -1829,7 +1844,9 @@ body[data-theme="dark"] #agregar-favorito-btn {
     color: white;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -1877,8 +1894,8 @@ body[data-theme="dark"] #agregar-favorito-btn {
     z-index: -1;
     opacity: 0;
     transition: opacity 0.3s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .agregar-favorito#seleccionar-tipo:not(.oculto)::before {
@@ -1901,7 +1918,9 @@ body[data-theme="dark"] #agregar-favorito-btn {
     background-color: var(--color-botones);
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1923,7 +1942,9 @@ body[data-theme="dark"] #agregar-favorito-btn {
     padding: 10px;
     margin: 10px 0;
     cursor: pointer;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    will-change: transform;
 }
 
 .favorito-carpeta:hover {
@@ -2106,7 +2127,8 @@ body[data-theme="dark"] #agregar-favorito-btn {
     font-weight: bold;
     cursor: pointer;
     border: solid 1px #ccc;
-    transition: background-color 0.3s;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    will-change: transform;
     overflow: hidden;
 }
 
@@ -2493,7 +2515,8 @@ button:has(.fa-trash):hover {
     outline: none;
     cursor: pointer;
     position: relative;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    will-change: transform;
     background-color: transparent;
 }
 
@@ -2863,7 +2886,8 @@ button:has(.fa-trash):hover {
     border: 1px solid var(--ide-border);
     background: var(--ide-bg-surface);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    will-change: transform;
     color: var(--ide-text-muted);
     font-size: 13px;
 }
@@ -3350,7 +3374,8 @@ button:has(.fa-trash):hover {
     position: fixed;
     z-index: 10000;
     background-color: var(--color-modelight);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -3386,7 +3411,8 @@ button:has(.fa-trash):hover {
     border-radius: 8px;
     color: var(--color-letrasdark);
     font-size: 14px;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    will-change: transform;
 }
 
 .context-menu li:hover {
@@ -3497,7 +3523,8 @@ button:has(.fa-trash):hover {
     padding: 10px 12px;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    will-change: transform;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -3680,7 +3707,8 @@ button:has(.fa-trash):hover {
 .ide-pin-label {
     cursor: pointer;
     font-size: 18px;
-    transition: all 0.2s;
+    transition: color 0.2s ease, transform 0.2s ease;
+    will-change: transform;
     color: var(--ide-text-dim, #585b70);
 }
 
@@ -3714,7 +3742,8 @@ button:has(.fa-trash):hover {
     cursor: pointer;
     padding: 6px 12px;
     border-radius: 6px;
-    transition: all 0.2s;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    will-change: transform;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -3951,7 +3980,8 @@ button:has(.fa-trash):hover {
     background: transparent;
     color: var(--ide-accent, #cba6f7);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    will-change: transform;
     font-weight: 600;
     font-family: inherit;
 }
@@ -3971,7 +4001,8 @@ button:has(.fa-trash):hover {
     background: var(--ide-bg-header, #252526);
     color: var(--ide-text, #cdd6f4);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    will-change: transform;
 }
 
 .ide-btn-icon:hover {
@@ -3991,7 +4022,8 @@ button:has(.fa-trash):hover {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    will-change: transform;
     font-family: inherit;
 }
 
@@ -4059,7 +4091,8 @@ button:has(.fa-trash):hover {
     color: var(--color-letraswhite, #cdd6f4);
     font-size: 18px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    will-change: transform, opacity;
     opacity: 0.7;
 }
 
@@ -4120,7 +4153,8 @@ button:has(.fa-trash):hover {
     border-radius: 20px;
     cursor: pointer;
     border: 1px solid var(--color-letraswhite);
-    transition: all 0.2s;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    will-change: transform;
     font-weight: normal;
     font-style: normal;
     color: var(--color-letraswhite);
@@ -4321,7 +4355,7 @@ button:has(.fa-trash):hover {
     outline: 2px dashed var(--color-botones);
     outline-offset: 4px;
     cursor: move !important;
-    transition: outline 0.2s ease;
+    transition: none !important;
     z-index: 1000 !important;
 }
 
@@ -4339,6 +4373,21 @@ button:has(.fa-trash):hover {
 .editable-widget:hover {
     outline-color: var(--color-botones-hover);
     background: rgba(255, 255, 255, 0.05);
+}
+
+body.dragging-active {
+    user-select: none !important;
+    cursor: move !important;
+}
+
+body.dragging-active .editable-widget {
+    transition: none !important;
+    pointer-events: none !important;
+}
+
+body.dragging-active .editable-widget.is-dragging {
+    opacity: 0.8;
+    z-index: 9999 !important;
 }
 
 .widget-controls {
@@ -4811,7 +4860,8 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     border-radius: var(--border-radius-medium);
     overflow: hidden;
     cursor: pointer;
-    transition: all var(--transition-medium);
+    transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium);
+    will-change: transform;
     display: flex;
     flex-direction: column;
 }
@@ -4904,15 +4954,13 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
 
 /* ── Pomodoro Widget ── */
 .pomodoro-widget {
-    background: var(--color-modedark);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--border-radius-medium);
     padding: var(--padding-large);
     width: 260px;
     box-shadow: var(--shadow-heavy);
-    color: var(--color-letraswhite);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     z-index: 10;
 }
@@ -4940,7 +4988,7 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
 .pomo-header-btn {
     background: transparent;
     border: none;
-    color: white;
+    color: inherit;
     cursor: pointer;
     opacity: 0.6;
     transition: opacity 0.2s;
@@ -4999,10 +5047,10 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     font-size: 48px;
     font-weight: 800;
     width: 120px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(128, 128, 128, 0.1);
     border: 2px solid var(--color-botones);
     border-radius: 8px;
-    color: white;
+    color: inherit;
     text-align: center;
     margin: 10px 0;
     outline: none;
@@ -5032,7 +5080,8 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: transform;
 }
 
 .pomo-btn:hover {
@@ -5056,18 +5105,19 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     flex: 1;
     background: transparent;
     border: none;
-    color: white;
+    color: inherit;
     padding: 8px;
     font-size: 12px;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
     opacity: 0.6;
 }
 
 .pomo-mode-btn.active {
     background: var(--color-botones);
+    color: white !important;
     opacity: 1;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }

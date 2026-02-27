@@ -77,10 +77,10 @@ const DeviceCapabilities = {
   isSlowConnection() {
     const connection = navigator.connection;
     if (!connection) return false;
-    
-    return connection.effectiveType === 'slow-2g' || 
-           connection.effectiveType === '2g' ||
-           connection.saveData;
+
+    return connection.effectiveType === 'slow-2g' ||
+      connection.effectiveType === '2g' ||
+      connection.saveData;
   },
 
   // Ajustar configuración según capacidades
@@ -110,7 +110,7 @@ const PerformanceUtils = {
     const start = performance.now();
     const result = fn();
     const end = performance.now();
-    
+
     console.log(`⏱️ ${name}: ${(end - start).toFixed(2)}ms`);
     return result;
   },
@@ -118,7 +118,7 @@ const PerformanceUtils = {
   // Throttle para eventos frecuentes
   throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
       const args = arguments;
       const context = this;
       if (!inThrottle) {
@@ -132,10 +132,10 @@ const PerformanceUtils = {
   // Debounce mejorado con cancelación
   debounce(func, wait, immediate = false) {
     let timeout;
-    const debounced = function() {
+    const debounced = function () {
       const context = this;
       const args = arguments;
-      const later = function() {
+      const later = function () {
         timeout = null;
         if (!immediate) func.apply(context, args);
       };
@@ -145,7 +145,7 @@ const PerformanceUtils = {
       if (callNow) func.apply(context, args);
     };
 
-    debounced.cancel = function() {
+    debounced.cancel = function () {
       clearTimeout(timeout);
       timeout = null;
     };
@@ -159,11 +159,11 @@ const PerformanceUtils = {
     const ctx = canvas.getContext('2d');
     const img = new Image();
 
-    img.onload = function() {
+    img.onload = function () {
       const { maxWidth, maxHeight, quality } = PerformanceConfig.images;
-      
+
       let { width, height } = img;
-      
+
       // Redimensionar si es necesario
       if (width > maxWidth || height > maxHeight) {
         const ratio = Math.min(maxWidth / width, maxHeight / height);
@@ -173,9 +173,9 @@ const PerformanceUtils = {
 
       canvas.width = width;
       canvas.height = height;
-      
+
       ctx.drawImage(img, 0, 0, width, height);
-      
+
       canvas.toBlob(callback, 'image/jpeg', quality);
     };
 

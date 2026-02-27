@@ -12,6 +12,7 @@ import { editModeManager } from './modules/edit-mode.js';
 import { systemMonitor } from './modules/system-status.js';
 import { templatesManager } from './modules/templates.js';
 import { pomodoroTimer } from './modules/pomodoro.js';
+import { backgroundManager } from './modules/background-manager.js';
 
 State.init();
 

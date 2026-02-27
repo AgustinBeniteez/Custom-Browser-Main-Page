@@ -408,26 +408,11 @@ class SettingsManager {
 
   updateBackground(url) {
     if (!url) return;
-    let cssUrl;
-    if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('blob:')) {
-      // URL externa o datos en base64/blob: usar tal cual
-      cssUrl = `url(${url})`;
-    } else if (url.startsWith('./') || url.startsWith('../') || url.startsWith('/')) {
-      // Ruta relativa ya prefijada: usar tal cual desde newtab.html
-      cssUrl = `url(${url})`;
-    } else {
-      // Ruta relativa simple como "fondos/background2.png"
-      cssUrl = `url(./${url})`;
-    }
-    document.body.style.backgroundImage = cssUrl;
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundPosition = 'center';
+    // Actualizar via BackgroundManager (emite evento)
+    document.dispatchEvent(new CustomEvent('backgroundChanged', { detail: { url } }));
+
     this._save('fondo-url', url);
     templatesManager.handleModification();
-
-    // Actualizar la preview del fondo en ajustes
-    const bgPreview = document.getElementById('ide-bg-preview');
-    if (bgPreview) bgPreview.style.backgroundImage = cssUrl;
   }
 
   updateBackgroundFromInput() {
@@ -437,7 +422,9 @@ class SettingsManager {
 
   _loadBackground() {
     const url = this._get('fondo-url');
-    if (url) this.updateBackground(url);
+    if (url) {
+      document.dispatchEvent(new CustomEvent('backgroundChanged', { detail: { url } }));
+    }
   }
 
   // ─── Subida de archivo de fondo ────────────────────────────────────────────
@@ -508,6 +495,7 @@ class SettingsManager {
       '#widget-weather',
       '#widget-calendar',
       '#widget-important-notes',
+      '#widget-pomodoro',
       '.search-form input'
     ];
 
