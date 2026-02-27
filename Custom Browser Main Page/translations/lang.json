@@ -134,7 +134,10 @@
     "create-template-label": "Template Name:",
     "create-template-placeholder": "e.g. My Custom Layout",
     "create-template-confirm": "Create",
-    "create-template-cancel": "Cancel"
+    "create-template-cancel": "Cancel",
+    "delete-all-custom-templates": "Delete All Custom",
+    "delete-all-custom-templates-msg": "Are you sure you want to delete ALL custom templates? This cannot be undone.",
+    "delete-all-custom-templates-confirm": "Delete All"
   },
   "es": {
     "titulo": "Nueva Pestaña",
@@ -271,7 +274,10 @@
     "create-template-label": "Nombre de la Plantilla:",
     "create-template-placeholder": "Ej: Mi Diseño Personalizado",
     "create-template-confirm": "Crear",
-    "create-template-cancel": "Cancelar"
+    "create-template-cancel": "Cancelar",
+    "delete-all-custom-templates": "Borrar Personalizadas",
+    "delete-all-custom-templates-msg": "¿Estás seguro de que quieres borrar TODAS las plantillas personalizadas? Esta acción no se puede deshacer.",
+    "delete-all-custom-templates-confirm": "Borrar Todo"
   },
   "val": {
     "titulo": "Nova Pestanya",

@@ -52,13 +52,16 @@ class EditModeManager {
             }
         });
 
-        // Wait for other modules to init
+        // Initial layout application as fast as possible
+        this._applyLayout();
+
+        // Double check after a small delay to ensure all elements are fully rendered
         setTimeout(() => {
             if (!this.isEditMode) this._applyLayout();
-        }, 200);
+        }, 100);
         setTimeout(() => {
             if (!this.isEditMode) this._applyLayout();
-        }, 1000); // Doble chequeo para layouts dinámicos
+        }, 500); // Check again slightly later for dynamic content
     }
 
     _initElements() {
@@ -621,6 +624,10 @@ class EditModeManager {
     }
 
     _applyLayout() {
+        // Remove early styles if present to let JS take control
+        const earlyStyles = document.getElementById('early-layout-styles');
+        if (earlyStyles) earlyStyles.remove();
+
         this.widgets.forEach(w => {
             const conf = this.layout[w.id];
             if (!conf) return;
@@ -707,6 +714,9 @@ class EditModeManager {
             if (w.id === 'widget-search' && conf.shape === 'square') {
                 el.classList.add('widget-square');
             }
+
+            // Once layout is applied, show the widget
+            el.style.opacity = '1';
         });
         this._renderWidgetsMenu();
     }

@@ -997,7 +997,8 @@ body.edit-mode .widget-hidden-by-user {
 .widget-important-notes-container,
 .status-widget,
 .weather-widget,
-.pomodoro-widget {
+.pomodoro-widget,
+#widget-notes {
     background: var(--color-modelight);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -1007,6 +1008,14 @@ body.edit-mode .widget-hidden-by-user {
     color: var(--color-letrasdark);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, background-color 0.3s ease;
     will-change: transform, opacity;
+    opacity: 0; /* Default hidden to avoid jump */
+}
+
+/* También ocultamos reloj y buscador inicialmente */
+.reloj-container,
+.search-container {
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 
 body[data-theme="dark"] .favoritos-container,
@@ -1014,7 +1023,8 @@ body[data-theme="dark"] .calendar-widget-container,
 body[data-theme="dark"] .widget-important-notes-container,
 body[data-theme="dark"] .status-widget,
 body[data-theme="dark"] .weather-widget,
-body[data-theme="dark"] .pomodoro-widget {
+body[data-theme="dark"] .pomodoro-widget,
+body[data-theme="dark"] #widget-notes {
     background: var(--color-modedark);
     color: var(--color-letraswhite);
 }
@@ -4860,7 +4870,9 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     border-radius: var(--border-radius-medium);
     overflow: hidden;
     cursor: pointer;
-    transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
     display: flex;
     flex-direction: column;
@@ -4906,7 +4918,7 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     left: 0;
     z-index: 2;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* On hover: show the animated GIF */
@@ -4929,7 +4941,7 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     align-items: center;
     gap: 4px;
     pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
 }

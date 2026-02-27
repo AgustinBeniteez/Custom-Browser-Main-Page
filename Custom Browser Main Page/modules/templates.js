@@ -284,6 +284,7 @@ class TemplatesManager {
         this.createBtn = document.getElementById('create-template-btn');
         this.exportBtn = document.getElementById('export-templates-btn');
         this.importBtn = document.getElementById('import-templates-btn');
+        this.deleteAllBtn = document.getElementById('delete-all-custom-templates-btn');
         this.importInput = document.getElementById('import-templates-input');
 
         this.customTemplates = Storage.getJSON('custom-templates', []);
@@ -312,7 +313,68 @@ class TemplatesManager {
         this.createBtn?.addEventListener('click', () => this.createTemplate());
         this.exportBtn?.addEventListener('click', () => this.exportTemplates());
         this.importBtn?.addEventListener('click', () => this.importInput?.click());
+        this.deleteAllBtn?.addEventListener('click', () => this.deleteAllCustomTemplates());
         this.importInput?.addEventListener('change', (e) => this.importTemplates(e));
+    }
+
+    async deleteAllCustomTemplates() {
+        if (this.customTemplates.length === 0) return;
+
+        await i18n.loadTranslations();
+        
+        const modal = document.getElementById('confirmar-eliminar-plantilla');
+        const titleEl = document.getElementById('eliminar-plantilla-titulo');
+        const msgEl = document.getElementById('eliminar-plantilla-mensaje');
+        const confirmBtn = document.getElementById('confirmar-eliminar-tpl-btn');
+        const cancelBtn = document.getElementById('cancelar-eliminar-tpl-btn');
+
+        if (!modal || !msgEl || !confirmBtn || !cancelBtn) {
+            if (confirm(i18n.translate('delete-all-custom-templates-msg'))) {
+                this._executeDeleteAll();
+            }
+            return;
+        }
+
+        // Translate and set content
+        if (titleEl) titleEl.textContent = i18n.translate('delete-all-custom-templates');
+        msgEl.textContent = i18n.translate('delete-all-custom-templates-msg');
+        confirmBtn.textContent = i18n.translate('delete-all-custom-templates-confirm');
+        cancelBtn.textContent = i18n.translate('delete-template-cancel');
+
+        modal.style.display = 'flex';
+
+        // Clean previous listeners
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+        const newCancelBtn = cancelBtn.cloneNode(true);
+        cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+        newConfirmBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            this._executeDeleteAll();
+        });
+
+        newCancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    _executeDeleteAll() {
+        this.customTemplates = [];
+        Storage.setJSON('custom-templates', this.customTemplates);
+        
+        // If active template was custom, reset to classic
+        if (this.activeTemplateId && this.activeTemplateId.startsWith('custom_')) {
+            this.activeTemplateId = 'classic';
+            Storage.set('activeTemplateId', 'classic');
+        }
+        
+        this.render();
     }
 
     getAllTemplates() {
@@ -321,6 +383,12 @@ class TemplatesManager {
 
     render() {
         this.grid.innerHTML = '';
+        
+        // Show/hide delete all button
+        if (this.deleteAllBtn) {
+            this.deleteAllBtn.style.display = this.customTemplates.length > 0 ? 'inline-flex' : 'none';
+        }
+
         this.getAllTemplates().forEach(template => {
             const card = document.createElement('div');
             card.className = 'template-card';

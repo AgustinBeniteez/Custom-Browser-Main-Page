@@ -7,11 +7,55 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link rel="icon" href="icons/logoext.webp" type="image/webp">
+  <script>
+    // Pre-aplicar layout para evitar saltos visuales (FOUC)
+    (function() {
+      try {
+        const layout = JSON.parse(localStorage.getItem('widgetLayout') || '{}');
+        const selectors = {
+          'widget-reloj': '.reloj-container',
+          'widget-search': '.search-container',
+          'widget-favoritos': '#favoritos-container',
+          'widget-notes': '#widget-notes',
+          'widget-calendar': '#widget-calendar',
+          'widget-important-notes': '#widget-important-notes',
+          'widget-status': '#widget-status',
+          'widget-weather': '#widget-weather',
+          'widget-pomodoro': '#widget-pomodoro'
+        };
+        let css = '';
+        for (const id in layout) {
+          const conf = layout[id];
+          const sel = selectors[id];
+          if (sel && (conf.leftPct !== undefined || conf.left !== undefined)) {
+            if (conf.hidden) {
+              css += `${sel} { display: none !important; } `;
+              continue;
+            }
+            const left = conf.leftPct !== undefined ? conf.leftPct + '%' : conf.left + 'px';
+            const top = conf.topPct !== undefined ? conf.topPct + '%' : conf.top + 'px';
+            css += `${sel} { 
+              position: absolute !important; 
+              left: ${left} !important; 
+              top: ${top} !important; 
+              transform: none !important; 
+              opacity: 1 !important; 
+              visibility: visible !important;
+            } `;
+          }
+        }
+        if (css) {
+          const style = document.createElement('style');
+          style.id = 'early-layout-styles';
+          style.innerHTML = css;
+          document.head.appendChild(style);
+        }
+      } catch (e) { console.error('Early layout error', e); }
+    })();
+  </script>
 </head>
 
 <body>
-  <!-- ── Skip-to-content (accesibilidad teclado / lectores de pantalla) ──── -->
-  <a href="#search-input" class="skip-to-content">Ir al contenido principal</a>
 
   <!-- ── Botón de ajustes ─────────────────────────────────────────────────── -->
   <div class="header" id="header-actions">
@@ -508,6 +552,7 @@
               <button id="create-template-btn" class="ide-btn ide-btn-primary"><i class="fa-solid fa-plus"></i> <span data-translate="create-template">Create Template</span></button>
               <button id="export-templates-btn" class="ide-btn"><i class="fa-solid fa-file-export"></i> <span data-translate="export-templates">Export</span></button>
               <button id="import-templates-btn" class="ide-btn"><i class="fa-solid fa-file-import"></i> <span data-translate="import-templates">Import</span></button>
+              <button id="delete-all-custom-templates-btn" class="ide-btn ide-btn-danger"><i class="fa-solid fa-trash-can"></i> <span data-translate="delete-all-custom-templates">Delete All Custom</span></button>
               <input type="file" id="import-templates-input" style="display: none;" accept=".json">
             </div>
 
