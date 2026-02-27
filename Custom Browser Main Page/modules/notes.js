@@ -103,7 +103,7 @@ class NotesManager {
     el.fechaBtnIde?.addEventListener('click', () => el.fechaInputIde.showPicker ? el.fechaInputIde.showPicker() : el.fechaInputIde.click());
     el.fechaInputIde?.addEventListener('change', () => {
       const date = new Date(el.fechaInputIde.value);
-      el.fechaDisplayIde.textContent = date.toLocaleString();
+      el.fechaDisplayIde.textContent = date.toLocaleString(i18n.getLocale());
     });
 
     // Acciones Calendario
@@ -314,7 +314,7 @@ class NotesManager {
       destacada: this.el.destacarIde.checked,
       color: this.el.colorInput.value,
       etiquetas: this._currentTags,
-      fecha: selectedDate.toLocaleDateString(),
+      fecha: selectedDate.toLocaleDateString(i18n.getLocale()),
       fechaFull: selectedDate.toISOString()
     };
 
@@ -377,7 +377,7 @@ class NotesManager {
     const monthSelect = document.createElement('select');
     monthSelect.className = 'ide-select ide-cal-select';
     const monthNames = new Array(12).fill(0).map((_, i) =>
-      new Intl.DateTimeFormat(navigator.language, { month: 'long' }).format(new Date(2000, i, 1))
+      new Intl.DateTimeFormat(i18n.getLocale(), { month: 'long' }).format(new Date(2000, i, 1))
     );
 
     monthNames.forEach((name, i) => {
@@ -403,7 +403,7 @@ class NotesManager {
       this._currentMonth.setFullYear(parseInt(yearSelect.value));
 
       // Actualizar el texto del encabezado inmediatamente
-      calMonthYear.textContent = new Intl.DateTimeFormat(navigator.language, { month: 'long', year: 'numeric' }).format(this._currentMonth);
+      calMonthYear.textContent = new Intl.DateTimeFormat(i18n.getLocale(), { month: 'long', year: 'numeric' }).format(this._currentMonth);
 
       this._renderCalendar();
     };
@@ -428,10 +428,12 @@ class NotesManager {
     const year = this._currentMonth.getFullYear();
     const month = this._currentMonth.getMonth();
 
-    calMonthYear.textContent = new Intl.DateTimeFormat(navigator.language, { month: 'long', year: 'numeric' }).format(this._currentMonth);
+    calMonthYear.textContent = new Intl.DateTimeFormat(i18n.getLocale(), { month: 'long', year: 'numeric' }).format(this._currentMonth);
 
     // Cabecera días
-    const daysArr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const daysArr = new Array(7).fill(0).map((_, i) =>
+      new Intl.DateTimeFormat(i18n.getLocale(), { weekday: 'short' }).format(new Date(2021, 0, 3 + i))
+    );
     daysArr.forEach(d => {
       const h = document.createElement('div');
       h.classList.add('calendar-day-header');
@@ -448,7 +450,7 @@ class NotesManager {
     const prevMonthDays = new Date(year, month, 0).getDate();
     for (let i = firstDay; i > 0; i--) {
       const d = prevMonthDays - i + 1;
-      const dateStr = new Date(year, month - 1, d).toLocaleDateString();
+      const dateStr = new Date(year, month - 1, d).toLocaleDateString(i18n.getLocale());
       const dayNotes = notes.filter(n => n.fecha === dateStr);
       this._createDayCell(d, true, false, dayNotes, new Date(year, month - 1, d));
     }
@@ -457,7 +459,7 @@ class NotesManager {
     for (let d = 1; d <= daysInMonth; d++) {
       const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === d;
       const currentDate = new Date(year, month, d);
-      const dateStr = currentDate.toLocaleDateString();
+      const dateStr = currentDate.toLocaleDateString(i18n.getLocale());
       const dayNotes = notes.filter(n => n.fecha === dateStr);
       this._createDayCell(d, false, isToday, dayNotes, currentDate);
     }
@@ -466,7 +468,7 @@ class NotesManager {
     const totalCells = calGrid.children.length - 7;
     const remaining = 42 - totalCells;
     for (let i = 1; i <= remaining; i++) {
-      const dateStr = new Date(year, month + 1, i).toLocaleDateString();
+      const dateStr = new Date(year, month + 1, i).toLocaleDateString(i18n.getLocale());
       const dayNotes = notes.filter(n => n.fecha === dateStr);
       this._createDayCell(i, true, false, dayNotes, new Date(year, month + 1, i));
     }
@@ -512,7 +514,7 @@ class NotesManager {
     const { dayNotesView, calGrid, dayNotesList, dayViewTitle } = this.el;
     if (!dayNotesView || !calGrid || !dayNotesList) return;
 
-    dayViewTitle.textContent = date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    dayViewTitle.textContent = date.toLocaleDateString(i18n.getLocale(), { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     dayNotesList.innerHTML = '';
 
     dayNotes.forEach(note => {
@@ -527,7 +529,7 @@ class NotesManager {
       const time = document.createElement('span');
       time.classList.add('ide-note-item-date');
       const d = new Date(note.fechaFull || note.fecha);
-      time.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      time.textContent = d.toLocaleTimeString(i18n.getLocale(), { hour: '2-digit', minute: '2-digit' });
 
       item.append(title, time);
       item.addEventListener('click', () => {

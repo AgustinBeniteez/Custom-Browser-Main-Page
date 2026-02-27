@@ -5,17 +5,23 @@ class I18nManager {
   constructor() {
     this.translations = null;
     this.currentLanguage = State.getState().idioma || 'en';
+    this.loadTranslations();
   }
 
   async loadTranslations() {
-    try {
-      const response = await fetch('lang.json');
-      this.translations = await response.json();
-      return this.translations;
-    } catch (error) {
-      console.error('Error al cargar las traducciones:', error);
-      return null;
-    }
+    if (this._loadingPromise) return this._loadingPromise;
+    this._loadingPromise = (async () => {
+      try {
+        const response = await fetch('./translations/lang.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        this.translations = await response.json();
+        return this.translations;
+      } catch (error) {
+        console.error('Error al cargar las traducciones:', error);
+        return null;
+      }
+    })();
+    return this._loadingPromise;
   }
 
   setLanguage(language) {
@@ -25,10 +31,19 @@ class I18nManager {
   }
 
   translate(key) {
-    if (!this.translations || !this.translations[this.currentLanguage]) {
+    const lang = State.getState().idioma || this.currentLanguage || 'en';
+    if (!this.translations || !this.translations[lang]) {
+      // Intenta cargar si aún no están
+      this.loadTranslations();
       return key;
     }
-    return this.translations[this.currentLanguage][key] || key;
+    return this.translations[lang][key] || key;
+  }
+
+  getLocale() {
+    const lang = State.getState().idioma || this.currentLanguage || 'en';
+    if (lang === 'val') return 'ca';
+    return lang;
   }
 
   updateAllTranslations() {

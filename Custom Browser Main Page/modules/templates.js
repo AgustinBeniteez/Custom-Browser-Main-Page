@@ -1,4 +1,5 @@
 import Storage from './storage.js';
+import { i18n } from './i18n.js';
 
 const DEFAULT_TEMPLATES = [
     {
@@ -8,47 +9,47 @@ const DEFAULT_TEMPLATES = [
         font: 'Bebas Neue',
         layout: {
             "widget-reloj": {
-                "left": 1300,
-                "top": 100,
                 "width": 850,
-                "height": 300
+                "height": 300,
+                "leftPct": 29.1,
+                "topPct": 8
             },
             "widget-search": {
-                "left": 1200,
-                "top": 350
+                "leftPct": 33,
+                "topPct": 38
             },
             "widget-favoritos": {
-                "left": 1200,
-                "top": 450,
                 "width": 650,
                 "height": 300,
-                "orientation": "horizontal"
+                "orientation": "horizontal",
+                "leftPct": 33,
+                "topPct": 52
             },
             "widget-status": {
-                "left": 250,
-                "top": 150,
-                "hidden": true
+                "hidden": true,
+                "leftPct": 13.0,
+                "topPct": 13.8
             },
             "widget-weather": {
-                "left": 50,
-                "top": 410,
-                "hidden": true
+                "hidden": true,
+                "leftPct": 2.6,
+                "topPct": 37.9
             },
             "widget-calendar": {
-                "left": 50,
-                "top": 150,
-                "hidden": false
+                "hidden": false,
+                "leftPct": 2.6,
+                "topPct": 13.8
             },
             "widget-important-notes": {
-                "left": 1640,
-                "top": 380,
                 "width": 250,
                 "height": 530,
-                "orientation": "vertical"
+                "orientation": "vertical",
+                "leftPct": 85.4,
+                "topPct": 35.1
             },
             "widget-notes": {
-                "left": 1750,
-                "top": 820
+                "leftPct": 91.1,
+                "topPct": 75.9
             }
         }
     },
@@ -432,10 +433,63 @@ class TemplatesManager {
         });
     }
 
-    createTemplate() {
-        const name = prompt("Introduce un nombre para la nueva plantilla:");
-        if (!name) return;
+    async createTemplate() {
+        await i18n.loadTranslations();
+        const modal = document.getElementById('modal-crear-plantilla');
+        const input = document.getElementById('nuevo-template-nombre');
+        const confirmBtn = document.getElementById('confirmar-crear-tpl-btn');
+        const cancelBtn = document.getElementById('cancelar-crear-tpl-btn');
 
+        if (!modal || !input || !confirmBtn || !cancelBtn) {
+            // Fallback
+            const name = prompt(i18n.translate('create-template-title'));
+            if (name) this._saveNewTemplate(name);
+            return;
+        }
+
+        input.value = '';
+
+        // Translate labels manually to ensure they are immediate
+        const titleEl = modal.querySelector('h3');
+        const labelEl = modal.querySelector('label');
+        if (titleEl) titleEl.textContent = i18n.translate('create-template-title');
+        if (labelEl) labelEl.textContent = i18n.translate('create-template-label');
+        input.placeholder = i18n.translate('create-template-placeholder');
+        confirmBtn.textContent = i18n.translate('create-template-confirm');
+        cancelBtn.textContent = i18n.translate('create-template-cancel');
+
+        modal.style.display = 'flex';
+        input.focus();
+
+        // Clean previous listeners
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+        const newCancelBtn = cancelBtn.cloneNode(true);
+        cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+        const doCreate = () => {
+            const name = input.value.trim();
+            if (name) {
+                modal.style.display = 'none';
+                this._saveNewTemplate(name);
+            }
+        };
+
+        newConfirmBtn.addEventListener('click', doCreate);
+        newCancelBtn.addEventListener('click', () => modal.style.display = 'none');
+
+        input.onkeydown = (e) => {
+            if (e.key === 'Enter') doCreate();
+            if (e.key === 'Escape') modal.style.display = 'none';
+        };
+
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    _saveNewTemplate(name) {
         const currentLayout = Storage.getJSON('widgetLayout', {});
         const currentBg = Storage.get('fondo-url') || 'fondos/background1.png';
         const currentColor = Storage.get('colorBotones') || '#b3336b';
@@ -456,12 +510,58 @@ class TemplatesManager {
         this.render();
     }
 
-    deleteTemplate(id) {
-        if (confirm("¿Seguro que quieres eliminar esta plantilla?")) {
-            this.customTemplates = this.customTemplates.filter(t => t.id !== id);
-            Storage.setJSON('custom-templates', this.customTemplates);
-            this.render();
+    async deleteTemplate(id) {
+        await i18n.loadTranslations();
+        const template = this.customTemplates.find(t => t.id === id);
+        if (!template) return;
+
+        const modal = document.getElementById('confirmar-eliminar-plantilla');
+        const titleEl = document.getElementById('eliminar-plantilla-titulo');
+        const msgEl = document.getElementById('eliminar-plantilla-mensaje');
+        const confirmBtn = document.getElementById('confirmar-eliminar-tpl-btn');
+        const cancelBtn = document.getElementById('cancelar-eliminar-tpl-btn');
+
+        if (!modal || !msgEl || !confirmBtn || !cancelBtn) {
+            // Fallback
+            if (confirm(i18n.translate('delete-template-msg').replace('{name}', template.name))) {
+                this._executeDelete(id);
+            }
+            return;
         }
+
+        // Translate and set content
+        if (titleEl) titleEl.textContent = i18n.translate('delete-template-title');
+        msgEl.textContent = i18n.translate('delete-template-msg').replace('{name}', template.name);
+        confirmBtn.textContent = i18n.translate('delete-template-confirm');
+        cancelBtn.textContent = i18n.translate('delete-template-cancel');
+
+        modal.style.display = 'flex';
+
+        // Clean previous listeners
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+        const newCancelBtn = cancelBtn.cloneNode(true);
+        cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+        newConfirmBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            this._executeDelete(id);
+        });
+
+        newCancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    _executeDelete(id) {
+        this.customTemplates = this.customTemplates.filter(t => t.id !== id);
+        Storage.setJSON('custom-templates', this.customTemplates);
+        this.render();
     }
 
     exportTemplates() {
@@ -512,19 +612,63 @@ class TemplatesManager {
         reader.readAsText(file);
     }
 
-    applyTemplate(template) {
-        if (confirm(`¿Estás seguro de que quieres aplicar la plantilla "${template.name}"? Esto sobrescribirá tu distribución de widgets y fondo actuales.`)) {
-            Storage.setJSON('widgetLayout', template.layout);
-            Storage.set('fondo-url', template.bgUrl);
-            if (template.color) {
-                Storage.set('colorBotones', template.color);
+    async applyTemplate(template) {
+        await i18n.loadTranslations();
+        const modal = document.getElementById('confirmar-aplicar-plantilla');
+        const titleEl = document.getElementById('aplicar-plantilla-titulo');
+        const msgEl = document.getElementById('aplicar-plantilla-mensaje');
+        const confirmBtn = document.getElementById('confirmar-aplicar-btn');
+        const cancelBtn = document.getElementById('cancelar-aplicar-btn');
+
+        if (!modal || !msgEl || !confirmBtn || !cancelBtn) {
+            // Fallback if elements not found
+            if (confirm(i18n.translate('apply-template-msg').replace('{name}', template.name))) {
+                this._executeApply(template);
             }
-            if (template.font) {
-                Storage.set('fuente-pagina', template.font);
-            }
-            Storage.set('activeTemplateId', template.id);
-            location.reload();
+            return;
         }
+
+        // Translate and set content
+        if (titleEl) titleEl.textContent = i18n.translate('apply-template-title');
+        msgEl.textContent = i18n.translate('apply-template-msg').replace('{name}', template.name);
+        confirmBtn.textContent = i18n.translate('apply-template-confirm');
+        cancelBtn.textContent = i18n.translate('apply-template-cancel');
+
+        modal.style.display = 'flex';
+
+        // Clean previous listeners
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+        const newCancelBtn = cancelBtn.cloneNode(true);
+        cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+        newConfirmBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            this._executeApply(template);
+        });
+
+        newCancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close on clicking outside the card
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    _executeApply(template) {
+        Storage.setJSON('widgetLayout', template.layout);
+        Storage.set('fondo-url', template.bgUrl);
+        if (template.color) {
+            Storage.set('colorBotones', template.color);
+        }
+        if (template.font) {
+            Storage.set('fuente-pagina', template.font);
+        }
+        Storage.set('activeTemplateId', template.id);
+        location.reload();
     }
 
     // New logic to fork current state into a new template on modification

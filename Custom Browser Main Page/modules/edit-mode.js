@@ -19,27 +19,42 @@ class EditModeManager {
         ];
         this.layout = Storage.getJSON('widgetLayout', {});
 
-        // Si no hay layout guardado, aplicamos la distribución por defecto
-        if (Object.keys(this.layout).length === 0) {
-            this.layout = {
-                'widget-reloj': { left: 660, top: 180 },
-                'widget-search': { left: 635, top: 480 },
-                'widget-favoritos': { left: 610, top: 580, width: 750, height: 320, orientation: 'horizontal' },
-                'widget-status': { left: 50, top: 210 },
-                'widget-weather': { left: 50, top: 410 },
-                'widget-calendar': { left: 1640, top: 100 },
-                'widget-important-notes': { left: 1640, top: 380, width: 250, height: 530, orientation: 'vertical' },
-                'widget-notes': { left: 1750, top: 820 },
-                'widget-pomodoro': { left: 50, top: 610 }
-            };
+        this.DEFAULT_LAYOUT = {
+            'widget-reloj': { leftPct: 29.1, topPct: 10, width: 800, height: 220 },
+            'widget-search': { leftPct: 33, topPct: 38, width: 650, height: 60 },
+            'widget-favoritos': { leftPct: 30, topPct: 52, width: 750, height: 320, orientation: 'horizontal' },
+            'widget-status': { leftPct: 2.6, topPct: 15 },
+            'widget-weather': { leftPct: 2.6, topPct: 35 },
+            'widget-calendar': { leftPct: 83, topPct: 10 },
+            'widget-important-notes': { leftPct: 83, topPct: 40, width: 250, height: 530, orientation: 'vertical' },
+            'widget-notes': { leftPct: 90, topPct: 80 },
+            'widget-pomodoro': { leftPct: 2.6, topPct: 55 }
+        };
+
+        const savedLayout = Storage.getJSON('widgetLayout', {});
+        // Merge con defaults para evitar solapamientos con widgets sin posición guardada
+        this.layout = { ...this.DEFAULT_LAYOUT, ...savedLayout };
+
+        // Si no había nada guardado, persistimos el default mergeado
+        if (Object.keys(savedLayout).length === 0) {
             this._saveLayout();
         }
 
-        this.gridSize = 50; // Snap to 50px grid
+        // Snap to grid
+        this.gridSize = 50;
         this._initElements();
         this._bindEvents();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (!this.isEditMode) {
+                this._applyLayout();
+            }
+        });
+
         // Wait for other modules to init
-        setTimeout(() => this._applyLayout(), 100);
+        setTimeout(() => this._applyLayout(), 200);
+        setTimeout(() => this._applyLayout(), 1000); // Doble chequeo para layouts dinámicos
     }
 
     _initElements() {
@@ -461,15 +476,30 @@ class EditModeManager {
 
             el.style.left = newLeft + 'px';
             el.style.top = newTop + 'px';
+
+            // Ensure it doesn't go off-screen during drag
+            const rect = el.getBoundingClientRect();
+            if (newLeft < 0) el.style.left = '0px';
+            if (newTop < 0) el.style.top = '0px';
+            if (newLeft + rect.width > window.innerWidth) el.style.left = (window.innerWidth - rect.width) + 'px';
+            if (newTop + rect.height > window.innerHeight) el.style.top = (window.innerHeight - rect.height) + 'px';
         };
 
         const onMouseUp = () => {
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
 
+            const rect = el.getBoundingClientRect();
             this.layout[id] = this.layout[id] || {};
+
+            // Save as percentages for better responsiveness
+            this.layout[id].leftPct = (parseInt(el.style.left) / window.innerWidth) * 100;
+            this.layout[id].topPct = (parseInt(el.style.top) / window.innerHeight) * 100;
+
+            // Keep pixels for fallback/compatibility
             this.layout[id].left = parseInt(el.style.left);
             this.layout[id].top = parseInt(el.style.top);
+
             this._saveLayout();
         };
 
@@ -533,8 +563,37 @@ class EditModeManager {
                 el.style.margin = '0'; // Clear margins that interfere
             }
 
-            if (conf.left !== undefined) el.style.left = conf.left + 'px';
-            if (conf.top !== undefined) el.style.top = conf.top + 'px';
+            // Apply positions with fallback (percentage-based if available)
+            let leftPx = conf.left;
+            let topPx = conf.top;
+
+            // Priorizar siempre porcentajes para que sea responsivo desde el primer render
+            if (conf.leftPct !== undefined) {
+                leftPx = (conf.leftPct / 100) * window.innerWidth;
+            }
+            if (conf.topPct !== undefined) {
+                topPx = (conf.topPct / 100) * window.innerHeight;
+            }
+
+            // Clamp to viewport - usamos valores razonables si el elemento no tiene dimensiones aún
+            const widgetWidth = el.offsetWidth || conf.width || 250;
+            const widgetHeight = el.offsetHeight || conf.height || 150;
+
+            if (leftPx !== undefined) {
+                const maxLeft = Math.max(0, window.innerWidth - widgetWidth - 10);
+                el.style.left = Math.min(Math.max(10, leftPx), maxLeft) + 'px';
+            }
+
+            if (topPx !== undefined) {
+                const maxTop = Math.max(0, window.innerHeight - widgetHeight - 10);
+                // Si el widget es más alto que la pantalla, no lo clampeamos al fondo porque se subiría al tope
+                if (widgetHeight > window.innerHeight) {
+                    el.style.top = Math.max(10, topPx) + 'px';
+                } else {
+                    el.style.top = Math.min(Math.max(10, topPx), maxTop) + 'px';
+                }
+            }
+
             if (conf.width !== undefined) el.style.width = conf.width + 'px';
             if (conf.height !== undefined) el.style.height = conf.height + 'px';
 
