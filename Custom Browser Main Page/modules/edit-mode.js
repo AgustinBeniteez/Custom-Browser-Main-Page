@@ -1,6 +1,7 @@
 import Storage from './storage.js';
 import translationManager from '../translations/translations.js';
 import { notesManager } from './notes.js';
+import { templatesManager } from './templates.js';
 
 class EditModeManager {
     constructor() {
@@ -511,6 +512,7 @@ class EditModeManager {
 
     _saveLayout() {
         Storage.setJSON('widgetLayout', this.layout);
+        templatesManager.handleModification();
     }
 
     _applyLayout() {

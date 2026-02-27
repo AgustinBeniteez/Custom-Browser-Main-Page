@@ -4678,6 +4678,12 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     border-color: var(--color-botones);
 }
 
+.template-card-active {
+    border-color: var(--color-botones) !important;
+    background-color: var(--ide-accent-bg) !important;
+    box-shadow: 0 0 10px var(--color-botones);
+}
+
 /* Template image container */
 .template-img-container {
     position: relative;

@@ -3,6 +3,7 @@
  * Depende del módulo centralizado Storage para la persistencia.
  */
 import Storage from './storage.js';
+import { templatesManager } from './templates.js';
 
 // Detectar idioma del navegador (2 primeros caracteres: es, en, fr, etc.)
 const SUPPORTED_LANGS = ['en', 'es', 'val', 'fr', 'ru', 'zh', 'ja', 'ko'];
@@ -234,6 +235,7 @@ class SettingsManager {
   updateFont(font) {
     document.documentElement.style.setProperty('--fuente-pagina', font);
     this._save('fuente-pagina', font);
+    templatesManager.handleModification();
   }
 
   _loadFont() {
@@ -309,6 +311,7 @@ class SettingsManager {
 
     this._save('colorBotones', cleanColor);
     this._save('colorBotonesHover', hover);
+    templatesManager.handleModification();
   }
 
   _loadThemeColor() {
@@ -420,6 +423,7 @@ class SettingsManager {
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundPosition = 'center';
     this._save('fondo-url', url);
+    templatesManager.handleModification();
 
     // Actualizar la preview del fondo en ajustes
     const bgPreview = document.getElementById('ide-bg-preview');

@@ -263,8 +263,23 @@ class TemplatesManager {
         this.importBtn = document.getElementById('import-templates-btn');
         this.importInput = document.getElementById('import-templates-input');
 
+        this.customTemplates = Storage.getJSON('custom-templates', []);
+
+        // Ensure activeTemplateId exists and is valid, defaulting to 'classic'
+        this.activeTemplateId = Storage.get('activeTemplateId');
+        if (!this.activeTemplateId) {
+            this.activeTemplateId = 'classic';
+            Storage.set('activeTemplateId', 'classic');
+        } else {
+            // Check if it still exists
+            const all = this.getAllTemplates();
+            if (!all.find(t => t.id === this.activeTemplateId)) {
+                this.activeTemplateId = 'classic';
+                Storage.set('activeTemplateId', 'classic');
+            }
+        }
+
         if (this.grid) {
-            this.customTemplates = Storage.getJSON('custom-templates', []);
             this.render();
             this.bindEvents();
         }
@@ -383,6 +398,10 @@ class TemplatesManager {
             card.appendChild(imgContainer);
             card.appendChild(name);
 
+            if (template.id === this.activeTemplateId) {
+                card.classList.add('template-card-active');
+            }
+
             card.addEventListener('click', () => {
                 this.applyTemplate(template);
             });
@@ -410,6 +429,8 @@ class TemplatesManager {
 
         this.customTemplates.push(newTemplate);
         Storage.setJSON('custom-templates', this.customTemplates);
+        Storage.set('activeTemplateId', newTemplate.id);
+        this.activeTemplateId = newTemplate.id;
         this.render();
     }
 
@@ -479,7 +500,75 @@ class TemplatesManager {
             if (template.font) {
                 Storage.set('fuente-pagina', template.font);
             }
+            Storage.set('activeTemplateId', template.id);
             location.reload();
+        }
+    }
+
+    // New logic to fork current state into a new template on modification
+    handleModification() {
+        // Prevent forking multiple times rapidly
+        if (this._forkingThrottle) {
+            clearTimeout(this._forkingThrottle);
+        }
+        this._forkingThrottle = setTimeout(() => this._doFork(), 1000);
+    }
+
+    _doFork() {
+        const allTemplates = this.getAllTemplates();
+        const currentActive = allTemplates.find(t => t.id === this.activeTemplateId);
+
+        if (!currentActive) return;
+
+        const currentLayout = Storage.getJSON('widgetLayout', {});
+        const currentBg = Storage.get('fondo-url') || (currentActive.bgUrl || '');
+        const currentColor = Storage.get('colorBotones') || (currentActive.color || '');
+        const currentFont = Storage.get('fuente-pagina') || (currentActive.font || '');
+
+        // Check if anything actually changed compared to the active template
+        const layoutChanged = JSON.stringify(currentLayout) !== JSON.stringify(currentActive.layout);
+        const bgChanged = currentBg !== currentActive.bgUrl;
+        const colorChanged = currentColor !== currentActive.color;
+        const fontChanged = currentFont !== currentActive.font;
+
+        if (!layoutChanged && !bgChanged && !colorChanged && !fontChanged) {
+            return; // No change, no need to fork
+        }
+
+        if (currentActive.isCustom) {
+            // Update the existing custom template instead of creating a new one
+            currentActive.layout = currentLayout;
+            currentActive.bgUrl = currentBg;
+            currentActive.color = currentColor;
+            currentActive.font = currentFont;
+
+            Storage.setJSON('custom-templates', this.customTemplates);
+            console.log(`Updated existing custom template ${currentActive.id}`);
+        } else {
+            // Fork into a new custom template
+            const newId = 'custom_' + Date.now();
+            const newName = `Mi ${currentActive.name}`;
+
+            const newTemplate = {
+                id: newId,
+                name: newName,
+                bgUrl: currentBg,
+                color: currentColor,
+                font: currentFont,
+                layout: currentLayout,
+                isCustom: true
+            };
+
+            this.customTemplates.push(newTemplate);
+            Storage.setJSON('custom-templates', this.customTemplates);
+            Storage.set('activeTemplateId', newId);
+            this.activeTemplateId = newId;
+
+            console.log(`Auto-forked template ${currentActive.id} into ${newId}`);
+        }
+
+        if (this.grid) {
+            this.render();
         }
     }
 }
