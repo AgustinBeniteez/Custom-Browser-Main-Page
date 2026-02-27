@@ -28,6 +28,7 @@ const DEFAULTS = {
   'fondo-url': 'fondos/background2.png',
   'fuente-pagina': 'Arial, sans-serif',
   'show-widgets-bg': 'true',
+  'square-favorites': 'false',
   'folder-closed-icon': '',
   'folder-open-icon': '',
   'merge-widgets': 'false',
@@ -102,6 +103,7 @@ class SettingsManager {
       headerActions: document.getElementById('header-actions'),
       fuentePaginaSelect: document.getElementById('fuente-pagina'),
       showWidgetsBgCheckbox: document.getElementById('show-widgets-bg'),
+      squareFavoritesCheckbox: document.getElementById('square-favorites'),
       folderClosedFileInput: document.getElementById('folder-closed-file'),
       folderOpenFileInput: document.getElementById('folder-open-file'),
       resetFolderClosedBtn: document.getElementById('reset-folder-closed'),
@@ -183,6 +185,7 @@ class SettingsManager {
 
     // Favoritos
     el.showWidgetsBgCheckbox?.addEventListener('change', e => this.updateShowWidgetsBg(e.target.checked));
+    el.squareFavoritesCheckbox?.addEventListener('change', e => this.updateSquareFavorites(e.target.checked));
     el.folderClosedFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-closed'));
     el.folderOpenFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-open'));
     el.resetFolderClosedBtn?.addEventListener('click', () => this._resetFolderIcon('folder-closed'));
@@ -518,10 +521,24 @@ class SettingsManager {
     document.dispatchEvent(new CustomEvent('favoritesSettingsChanged'));
   }
 
+  updateSquareFavorites(enabled) {
+    this._save('square-favorites', enabled);
+    const container = document.getElementById('favoritos-container');
+    if (container) {
+      container.classList.toggle('square-mode', enabled);
+      document.body.classList.toggle('square-favorites-active', enabled);
+    }
+    document.dispatchEvent(new CustomEvent('favoritesSettingsChanged'));
+  }
+
   _loadFavoritesSettings() {
     const showBg = this._get('show-widgets-bg') === 'true';
     if (this.el.showWidgetsBgCheckbox) this.el.showWidgetsBgCheckbox.checked = showBg;
     this.updateShowWidgetsBg(showBg);
+
+    const squareFavs = this._get('square-favorites') === 'true';
+    if (this.el.squareFavoritesCheckbox) this.el.squareFavoritesCheckbox.checked = squareFavs;
+    this.updateSquareFavorites(squareFavs);
 
     // Cargar previews de iconos si existen
     const closedIcon = this._get('folder-closed-icon');

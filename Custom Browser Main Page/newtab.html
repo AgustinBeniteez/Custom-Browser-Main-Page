@@ -357,6 +357,10 @@
             <i class="fa-solid fa-sliders"></i>
             <span data-translate="tab-general">General</span>
           </button>
+          <button class="ide-tab" data-tab="tab-templates" role="tab" aria-selected="false" aria-controls="tab-templates">
+            <i class="fa-solid fa-layer-group"></i>
+            <span data-translate="tab-templates">Templates</span>
+          </button>
           <button class="ide-tab" data-tab="tab-clock" role="tab" aria-selected="false" aria-controls="tab-clock">
             <i class="fa-solid fa-clock"></i>
             <span data-translate="tab-clock">Clock</span>
@@ -426,6 +430,24 @@
             <div class="ide-field ide-field-row">
               <label for="merge-widgets" data-translate="merge-widgets">Merge System & Weather</label>
               <input class="ide-toggle" type="checkbox" id="merge-widgets" name="merge-widgets">
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ TAB: Templates ═══ -->
+        <div class="ide-panel" id="tab-templates" role="tabpanel" hidden>
+          <div class="ide-panel-scroll">
+            <h3 class="ide-section-title"><i class="fa-solid fa-layer-group"></i> <span data-translate="tab-templates">Templates</span></h3>
+            
+            <div class="templates-actions">
+              <button id="create-template-btn" class="ide-btn ide-btn-primary"><i class="fa-solid fa-plus"></i> <span data-translate="create-template">Create Template</span></button>
+              <button id="export-templates-btn" class="ide-btn"><i class="fa-solid fa-file-export"></i> <span data-translate="export-templates">Export</span></button>
+              <button id="import-templates-btn" class="ide-btn"><i class="fa-solid fa-file-import"></i> <span data-translate="import-templates">Import</span></button>
+              <input type="file" id="import-templates-input" style="display: none;" accept=".json">
+            </div>
+
+            <div class="templates-grid" id="templates-grid">
+              <!-- Se llena por JS en templates.js -->
             </div>
           </div>
         </div>
@@ -553,7 +575,10 @@
           <div class="ide-panel-scroll">
             <h3 class="ide-section-title"><i class="fa-solid fa-star"></i> <span data-translate="favorites-settings-title">Favorites Settings</span></h3>
             
-
+            <div class="ide-field ide-field-row">
+              <label for="square-favorites" data-translate="square-favorites">Square Favorites Display</label>
+              <input class="ide-toggle" type="checkbox" id="square-favorites" name="square-favorites">
+            </div>
 
             <h3 class="ide-section-title"><i class="fa-solid fa-folder-tree"></i> <span data-translate="folder-icons">Folder Icons</span></h3>
             

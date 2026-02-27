@@ -3959,7 +3959,6 @@ button:has(.fa-trash):hover {
     display: flex;
     flex-direction: row;
     gap: 15px;
-    overflow-x: auto;
     flex-grow: 1;
     scrollbar-width: none;
     /* Hide scrollbar Firefox */
@@ -4481,4 +4480,274 @@ body.edit-mode .widget-hidden-by-user {
     display: flex !important;
     opacity: 0.25;
     filter: grayscale(1) blur(1px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SQUARE FAVORITES MODE
+   ═══════════════════════════════════════════════════════════════════════ */
+body.square-favorites-active .favoritos-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+body.square-favorites-active .favoritos-container.widget-horizontal .favoritos-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+body.square-favorites-active .favoritos-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+body.square-favorites-active .favoritos-container.widget-horizontal .favoritos-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+body.square-favorites-active .favorito-item {
+    width: 110px !important;
+    height: 110px !important;
+    min-width: 110px !important;
+    min-height: 110px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 !important;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    /* Added explicit background */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle border for tiles */
+}
+
+body.square-favorites-active .favorito-item.no-bg {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.square-favorites-active .favorito-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-botones);
+}
+
+body.square-favorites-active .fav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 8px !important;
+    padding: 8px !important;
+    /* Reduced padding to fit text correctly */
+}
+
+body.square-favorites-active .fav-icon {
+    width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+body.square-favorites-active .fav-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+body.square-favorites-active .fav-name {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    margin: 0;
+    display: block;
+    /* Ensure ellipsis works properly */
+    line-height: 1.2;
+}
+
+/* Opened Folders Style Reset */
+body.square-favorites-active .favorito-item.abierta {
+    width: 100% !important;
+    min-width: 100% !important;
+    height: auto !important;
+    flex-direction: column !important;
+    flex: none !important;
+    padding: 0 !important;
+    background: var(--color-modedark) !important;
+}
+
+body.square-favorites-active .favorito-item.abierta>.fav-link {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 15px !important;
+    justify-content: flex-start;
+}
+
+body.square-favorites-active .favorito-item.abierta>.fav-link .fav-icon {
+    width: 28px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    font-size: 20px;
+}
+
+body.square-favorites-active .favorito-item.abierta>.fav-link .fav-name {
+    width: auto;
+    text-align: left;
+}
+
+body.square-favorites-active .favorito-carpeta-contenido {
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
+    flex-direction: row;
+    width: 100%;
+}
+
+body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
+    margin: 0;
+    flex: none !important;
+}
+
+/* ── Templates ────────────────────────────────────────────────────────── */
+.templates-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.template-delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: var(--color-danger);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color var(--transition-medium);
+    z-index: 10;
+}
+
+.template-delete-btn:hover {
+    background: var(--color-danger-hover);
+}
+
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 10px;
+}
+
+.template-card {
+    background-color: var(--ide-bg-surface);
+    border: 2px solid var(--ide-border);
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: flex;
+    flex-direction: column;
+}
+
+.template-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--color-botones);
+}
+
+/* Template image container */
+.template-img-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.template-preview {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--ide-border);
+    display: block;
+}
+
+/* ── GIF template behavior ── */
+/* Static canvas (first frame) - visible by default */
+.template-preview-static {
+    position: relative;
+    z-index: 1;
+}
+
+/* Animated GIF - hidden by default, shown on hover */
+.template-preview-gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* On hover: show the animated GIF */
+.template-card-gif:hover .template-preview-gif {
+    opacity: 1;
+}
+
+/* GIF play badge icon */
+.template-gif-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.template-gif-badge i {
+    font-size: 10px;
+}
+
+/* Hide badge on hover (GIF is playing) */
+.template-card-gif:hover .template-gif-badge {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.template-name {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--ide-text);
+    background-color: var(--ide-bg-surface);
 }

@@ -74,6 +74,7 @@
     "no-file-chosen": "No file chosen",
     "tab-favorites": "Favorites",
     "show-widgets-bg": "Show background in widgets",
+    "square-favorites": "Square Favorites Display",
     "folder-icons": "Folder Icons",
     "folder-closed-label": "Closed Folder Icon:",
     "folder-open-label": "Open Folder Icon:",
@@ -109,7 +110,11 @@
     "country-mexico": "Mexico",
     "country-argentina": "Argentina",
     "country-others": "Others",
-    "merge-widgets": "Merge System & Weather"
+    "merge-widgets": "Merge System & Weather",
+    "tab-templates": "Templates",
+    "create-template": "Create Template",
+    "export-templates": "Export",
+    "import-templates": "Import"
   },
   "es": {
     "titulo": "Nueva Pestaña",
@@ -186,6 +191,7 @@
     "no-file-chosen": "Ningún archivo elegido",
     "tab-favorites": "Favoritos",
     "show-widgets-bg": "Mostrar fondo en widgets",
+    "square-favorites": "Favoritos Cuadrados",
     "folder-icons": "Iconos de carpeta",
     "folder-closed-label": "Icono carpeta cerrada:",
     "folder-open-label": "Icono carpeta abierta:",
@@ -221,7 +227,11 @@
     "country-mexico": "México",
     "country-argentina": "Argentina",
     "country-others": "Otros",
-    "merge-widgets": "Combinar Sistema y Tiempo"
+    "merge-widgets": "Combinar Sistema y Tiempo",
+    "tab-templates": "Plantillas",
+    "create-template": "Crear Plantilla",
+    "export-templates": "Exportar",
+    "import-templates": "Importar"
   },
   "val": {
     "titulo": "Nova Pestanya",

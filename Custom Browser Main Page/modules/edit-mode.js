@@ -239,6 +239,43 @@ class EditModeManager {
                     this._renderWidgetsMenu();
                 });
 
+                // Shape Toggle for Favorites
+                if (w.id === 'widget-favoritos') {
+                    const squareBtn = document.createElement('button');
+                    squareBtn.className = 'widget-toggle-vis';
+
+                    const isSquare = Storage.get('square-favorites') === 'true';
+                    squareBtn.innerHTML = isSquare ? '<i class="fa-solid fa-rectangle-list"></i>' : '<i class="fa-solid fa-table-cells-large"></i>';
+                    squareBtn.title = isSquare ? "Cambiar a modo rectangular" : "Cambiar a modo cuadrado";
+
+                    squareBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const currentSquare = Storage.get('square-favorites') === 'true';
+                        const newSquare = !currentSquare;
+
+                        // Guardar en Storage
+                        Storage.set('square-favorites', newSquare.toString());
+
+                        // Actualizar UI
+                        document.body.classList.toggle('square-favorites-active', newSquare);
+                        const container = document.getElementById('favoritos-container');
+                        if (container) container.classList.toggle('square-mode', newSquare);
+
+                        // Sincronizar checkbox si existe en Ajustes
+                        const checkbox = document.getElementById('square-favorites');
+                        if (checkbox) checkbox.checked = newSquare;
+
+                        // Disparar evento para que se vuelva a renderizar la cuadrícula
+                        document.dispatchEvent(new Event('favoritesSettingsChanged'));
+
+                        // Re-render controles (para actualizar este mismo botón o redibujar todo)
+                        this._disableEdit();
+                        this._enableEdit();
+                        this._renderWidgetsMenu();
+                    });
+                    controls.appendChild(squareBtn);
+                }
+
                 // Orientation Toggle for Favorites and Important Notes
                 if (w.id === 'widget-favoritos' || w.id === 'widget-important-notes') {
                     const dirBtn = document.createElement('button');
