@@ -51,7 +51,11 @@
   <!-- ── Popup menu de Widgets ────────────────────────────────────────────── -->
   <div id="widgets-menu-popup" class="widgets-menu-popup oculto">
     <div class="widgets-menu-header">
-      <h3 style="margin: 0;">Widgets</h3>
+      <div class="widgets-menu-actions">
+        <button id="export-layout-btn" title="Export Layout"><i class="fa-solid fa-upload"></i></button>
+        <button id="import-layout-btn" title="Import Layout"><i class="fa-solid fa-download"></i></button>
+        <input type="file" id="import-layout-input" style="display: none;" accept=".json">
+      </div>
       <button id="cerrar-widgets-menu" class="fuente-aplicada"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div id="widgets-list" class="widgets-list">
@@ -204,6 +208,83 @@
     </div>
   </div>
 
+  <!-- ── Widget: System Status ────────────────────────────────────────── -->
+  <!-- ── Widget: System Status ────────────────────────────────────────── -->
+  <div id="widget-status" class="status-widget">
+    <div class="status-header">
+      <i class="fa-solid fa-microchip"></i>
+      <span data-translate="system-status">System Status</span>
+    </div>
+    <div class="status-content">
+      <div class="status-hardware">
+        <div class="status-item">
+          <div class="status-label">CPU <span id="status-cpu-text">0%</span></div>
+          <div class="status-bar-bg"><div id="status-cpu-bar" class="status-bar"></div></div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">RAM <span id="status-ram-text">0%</span></div>
+          <div class="status-bar-bg"><div id="status-ram-bar" class="status-bar"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Widget: Weather ────────────────────────────────────────────── -->
+  <div id="widget-weather" class="weather-widget">
+    <div id="status-weather-container" class="status-weather">
+      <div class="weather-info">
+        <i id="status-weather-icon" class="fa-solid fa-cloud-sun"></i>
+        <span id="status-temp">--°C</span>
+      </div>
+      <div id="status-condition" class="weather-desc" data-translate="weather-clear">Clear</div>
+      <div class="weather-city-container">
+        <select id="status-city" class="weather-city-select">
+          <optgroup label="España" data-translate-label="country-spain">
+            <option value="Madrid, ES">Madrid</option>
+            <option value="Barcelona, ES">Barcelona</option>
+            <option value="Valencia, ES">Valencia</option>
+            <option value="Sevilla, ES">Sevilla</option>
+            <option value="Cádiz, ES">Cádiz</option>
+          </optgroup>
+          <optgroup label="Rusia" data-translate-label="country-russia">
+            <option value="Moscow, RU">Moscú</option>
+            <option value="Saint Petersburg, RU">San Petersburgo</option>
+          </optgroup>
+          <optgroup label="Reino Unido" data-translate-label="country-uk">
+            <option value="London, UK">Londres</option>
+            <option value="Manchester, UK">Manchester</option>
+          </optgroup>
+          <optgroup label="Francia" data-translate-label="country-france">
+            <option value="Paris, FR">París</option>
+            <option value="Marseille, FR">Marsella</option>
+          </optgroup>
+          <optgroup label="Estados Unidos" data-translate-label="country-usa">
+            <option value="New York, US">Nueva York</option>
+            <option value="Los Angeles, US">Los Ángeles</option>
+            <option value="Miami, US">Miami</option>
+          </optgroup>
+          <optgroup label="México" data-translate-label="country-mexico">
+            <option value="Mexico City, MX">Ciudad de México</option>
+            <option value="Cancun, MX">Cancún</option>
+          </optgroup>
+          <optgroup label="Argentina" data-translate-label="country-argentina">
+            <option value="Buenos Aires, AR">Buenos Aires</option>
+          </optgroup>
+          <optgroup label="Otros" data-translate-label="country-others">
+            <option value="Tokyo, JP">Tokio</option>
+            <option value="Berlin, DE">Berlín</option>
+            <option value="Rome, IT">Roma</option>
+          </optgroup>
+          <option value="custom" data-translate="city-custom">Custom...</option>
+        </select>
+      </div>
+      <div id="weather-custom-input-container" class="weather-custom-container" style="display:none;">
+        <input type="text" id="weather-custom-search" class="weather-city-input" placeholder="Search city..." data-translate="city-search-placeholder">
+        <button id="weather-custom-close" class="weather-custom-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Contenedor de Favoritos ──────────────────────────────────────────── -->
   <div id="favoritos-container" class="favoritos-container">
     <h3 id="titulo-favoritos" data-translate="favorites-title">Favorites</h3>
@@ -332,33 +413,19 @@
               <label for="modo-oscuro" data-translate="dark-mode">Dark Mode</label>
               <input class="ide-toggle" type="checkbox" id="modo-oscuro" name="modo-oscuro">
             </div>
-
-            <h3 class="ide-section-title"><i class="fa-solid fa-star"></i> <span data-translate="posicionFavoritos">Favorites</span></h3>
-            <div class="ide-field">
-              <label data-translate="posicionFavoritos">Position:</label>
-              <div class="ide-radio-group">
-                <label class="ide-radio-pill">
-                  <input type="radio" name="posicion-favoritos" value="derecha" checked>
-                  <span><i class="fa-solid fa-arrow-right"></i> <span data-translate="posicionDerecha">Right</span></span>
-                </label>
-                <label class="ide-radio-pill">
-                  <input type="radio" name="posicion-favoritos" value="izquierda">
-                  <span><i class="fa-solid fa-arrow-left"></i> <span data-translate="posicionIzquierda">Left</span></span>
-                </label>
-                <label class="ide-radio-pill">
-                  <input type="radio" name="posicion-favoritos" value="bottom">
-                  <span><i class="fa-solid fa-arrow-down"></i> <span data-translate="posicionBottom">Bottom</span></span>
-                </label>
-                <label class="ide-radio-pill">
-                  <input type="radio" name="posicion-favoritos" value="oculto">
-                  <span><i class="fa-solid fa-eye-slash"></i> <span data-translate="ocultar">Hide</span></span>
-                </label>
-              </div>
+            <div class="ide-field ide-field-row">
+              <label for="show-widgets-bg" data-translate="show-widgets-bg">Show background in widgets</label>
+              <input class="ide-toggle" type="checkbox" id="show-widgets-bg" name="show-widgets-bg" checked>
             </div>
+
 
             <div class="ide-field ide-field-row">
               <label for="mostrar-busqueda" data-translate="mostrarBusqueda">Show Search Bar</label>
               <input class="ide-toggle" type="checkbox" id="mostrar-busqueda" name="mostrar-busqueda" checked>
+            </div>
+            <div class="ide-field ide-field-row">
+              <label for="merge-widgets" data-translate="merge-widgets">Merge System & Weather</label>
+              <input class="ide-toggle" type="checkbox" id="merge-widgets" name="merge-widgets">
             </div>
           </div>
         </div>
@@ -486,11 +553,7 @@
           <div class="ide-panel-scroll">
             <h3 class="ide-section-title"><i class="fa-solid fa-star"></i> <span data-translate="favorites-settings-title">Favorites Settings</span></h3>
             
-            <h3 class="ide-section-title"><i class="fa-solid fa-palette"></i> <span data-translate="favorites-appearance-title">Appearance</span></h3>
-            <div class="ide-field ide-field-row">
-              <label for="show-fav-bg" data-translate="show-fav-bg">Show background in favorites</label>
-              <input class="ide-toggle" type="checkbox" id="show-fav-bg" name="show-fav-bg">
-            </div>
+
 
             <h3 class="ide-section-title"><i class="fa-solid fa-folder-tree"></i> <span data-translate="folder-icons">Folder Icons</span></h3>
             

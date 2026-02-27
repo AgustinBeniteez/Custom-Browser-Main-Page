@@ -339,39 +339,6 @@ class TranslationManager {
         this.translations[language]?.mostrarBusqueda || "Show Search Bar:";
     }
 
-    const posicionFavoritosLabel = document.querySelector(
-      'label[for="posicion-favoritos"]'
-    );
-    if (posicionFavoritosLabel) {
-      posicionFavoritosLabel.textContent =
-        this.translations[language]?.posicionFavoritos || "Favorites Position:";
-    }
-
-    // Traducir opciones de posición de favoritos
-    const posicionDerechaRadio = document.querySelector(
-      'span[for="posicionDerecha"]'
-    );
-    if (posicionDerechaRadio) {
-      posicionDerechaRadio.textContent =
-        this.translations[language]?.posicionDerecha || "Right";
-    }
-
-    const posicionIzquierdaRadio = document.querySelector(
-      'span[for="posicionIzquierda"]'
-    );
-    if (posicionIzquierdaRadio) {
-      posicionIzquierdaRadio.textContent =
-        this.translations[language]?.posicionIzquierda || "Left";
-    }
-
-    const posicionOcultaRadio = document.querySelector(
-      'span[for="posicionOculta"]'
-    );
-    if (posicionOcultaRadio) {
-      posicionOcultaRadio.textContent =
-        this.translations[language]?.ocultar || "Hide";
-    }
-
     // Traducir elementos del popup de carpetas
     const crearCarpetaBtn = document.getElementById("createfolder-span");
     if (crearCarpetaBtn) {
@@ -466,9 +433,10 @@ class TranslationManager {
     // ── Generic data-translate handler ──
     // Automatically translate all elements with [data-translate] attribute
     const lang = this.translations[language];
-    document.querySelectorAll('[data-translate]').forEach(el => {
+    document.querySelectorAll('[data-translate], [data-translate-label]').forEach(el => {
+      // Traducir contenido de texto
       const key = el.getAttribute('data-translate');
-      if (lang[key]) {
+      if (key && lang[key]) {
         // Only update text nodes, preserve child elements (icons)
         const hasChildElements = el.querySelector('i, svg, img');
         if (hasChildElements) {
@@ -483,12 +451,23 @@ class TranslationManager {
           el.textContent = lang[key];
         }
       }
+
+      // Traducir atributo label (para optgroups)
+      const labelKey = el.getAttribute('data-translate-label');
+      if (labelKey && lang[labelKey]) {
+        el.setAttribute('label', lang[labelKey]);
+      }
     });
 
     // Disparar evento de cambio de idioma
     document.dispatchEvent(
       new CustomEvent("languageChanged", { detail: language })
     );
+  }
+
+  get(key) {
+    if (!this.translations || !this.translations[this.currentLanguage]) return null;
+    return this.translations[this.currentLanguage][key] || null;
   }
 }
 

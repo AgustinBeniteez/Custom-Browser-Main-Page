@@ -329,7 +329,7 @@ class FavoritesManager {
 
   _adjustPositionForExpansion() {
     const el = this.el.rootContainer;
-    if (!el || el.classList.contains('favoritos-bottom') || this._originalTop) return;
+    if (!el || el.classList.contains('widget-horizontal') || this._originalTop) return;
 
     // Solo si está posicionado con top (edit mode o layouts manuales)
     if (!el.style.top || el.style.top === 'auto') return;
@@ -533,8 +533,7 @@ class FavoritesManager {
     folderDiv.addEventListener('dragover', e => {
       e.preventDefault();
       const rect = folderDiv.getBoundingClientRect();
-      const isVertical = document.getElementById('favoritos-container').classList.contains('favoritos-derecha') ||
-        document.getElementById('favoritos-container').classList.contains('favoritos-izquierda');
+      const isVertical = !document.getElementById('favoritos-container').classList.contains('widget-horizontal');
 
       const mousePos = isVertical ? e.clientY : e.clientX;
       const start = isVertical ? rect.top : rect.left;
@@ -619,8 +618,7 @@ class FavoritesManager {
     item.addEventListener('dragover', e => {
       e.preventDefault();
       const rect = item.getBoundingClientRect();
-      const isVertical = document.getElementById('favoritos-container').classList.contains('favoritos-derecha') ||
-        document.getElementById('favoritos-container').classList.contains('favoritos-izquierda');
+      const isVertical = !document.getElementById('favoritos-container').classList.contains('widget-horizontal');
 
       const mousePos = isVertical ? e.clientY : e.clientX;
       const start = isVertical ? rect.top : rect.left;

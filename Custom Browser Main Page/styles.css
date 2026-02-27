@@ -348,8 +348,8 @@ body.widgets-menu-open .header {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 600px;
-    height: 160px;
+    width: 800px;
+    height: 220px;
     max-width: 100vw;
 }
 
@@ -392,8 +392,8 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 450px;
-    height: 50px;
+    width: 650px;
+    height: 60px;
     max-width: 90vw;
 }
 
@@ -481,7 +481,8 @@ h1 {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     z-index: 2000;
 }
 
@@ -986,25 +987,77 @@ body.edit-mode .widget-hidden-by-user {
 }
 
 /* ── Contenedor de Favoritos ──────────────────────────────────────────── */
+.favoritos-container,
+.calendar-widget-container,
+.widget-important-notes-container,
+.status-widget,
+.weather-widget {
+    background: var(--color-modelight);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: var(--shadow-heavy);
+    color: var(--color-letrasdark);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body[data-theme="dark"] .favoritos-container,
+body[data-theme="dark"] .calendar-widget-container,
+body[data-theme="dark"] .widget-important-notes-container,
+body[data-theme="dark"] .status-widget,
+body[data-theme="dark"] .weather-widget {
+    background: var(--color-modedark);
+    color: var(--color-letraswhite);
+}
+
 .favoritos-container {
     position: fixed;
     height: 85%;
     width: 250px;
     top: 50%;
     transform: translateY(-50%);
-    background: var(--color-modelight);
     padding: 15px;
-    border-radius: 20px;
-    box-shadow: var(--shadow-heavy);
-    color: var(--color-letrasdark);
     z-index: 100;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* Glass effect toggle */
+.no-bg {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: none !important;
+}
+
+/* Manejo especial para el input del buscador */
+.search-form input.no-bg {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.search-form input.no-bg::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-form input.glass-widget {
+    background: var(--color-modelight) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body[data-theme="dark"] .search-form input.glass-widget {
+    background: var(--color-modedark) !important;
+}
+
+
 
 .favoritos-container.drag-root {
     box-shadow: 0 0 25px var(--color-botones);
@@ -2295,99 +2348,7 @@ button:has(.fa-trash):hover {
     border-radius: 6px;
 }
 
-.radio-group {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-}
 
-.radio-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.radio-label input[type="radio"] {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--color-botones);
-    border-radius: 50%;
-    margin-right: 8px;
-    position: relative;
-    cursor: pointer;
-    transition: box-shadow 0.2s ease;
-}
-
-.radio-label input[type="radio"]:focus-visible {
-    outline: var(--focus-outline);
-    outline-offset: var(--focus-outline-offset);
-    box-shadow: 0 0 0 3px hsla(320, 50%, 40%, 0.25);
-}
-
-.radio-label input[type="radio"]:checked {
-    background-color: var(--color-botones);
-    border-color: var(--color-botones-hover);
-}
-
-.radio-label input[type="radio"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 8px;
-    height: 8px;
-    background-color: white;
-    border-radius: 50%;
-}
-
-.radio-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--color-medelight);
-    padding: 10px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: solid 2px var(--color-botones);
-    min-height: var(--min-touch-size);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.radio-label:hover {
-    background-color: hsla(320, 50%, 40%, 0.1);
-}
-
-.radio-label span {
-    color: var(--color-letrasdark);
-    display: flex;
-    align-items: center;
-
-}
-
-.radio-label span::after {
-    content: '⬇️';
-    margin-left: 5px;
-    font-size: 18px;
-}
-
-.radio-label input[value="izquierda"]+span::after {
-    content: '⬅️';
-}
-
-.radio-label input[value="derecha"]+span::after {
-    content: '➡️';
-}
-
-.radio-label input[value="bottom"]+span::after {
-    content: '⬇️';
-}
-
-.radio-label input[value="oculto"]+span::after {
-    content: '❌';
-    font-size: 14px;
-}
 
 .checkbox-colors {
     background-color: var(--color-botones-hover) !important;
@@ -2484,8 +2445,8 @@ button:has(.fa-trash):hover {
     padding: 0;
     border-radius: 14px;
     overflow: hidden;
-    width: 92%;
-    max-width: 1100px;
+    width: 95%;
+    max-width: 1400px;
     height: 92vh;
     max-height: 92vh;
     background: var(--ide-bg);
@@ -3951,16 +3912,34 @@ button:has(.fa-trash):hover {
     display: none !important;
 }
 
+.widgets-menu-actions {
+    display: flex;
+    gap: 15px;
+    margin-right: 20px;
+    padding-right: 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .widgets-menu-header {
     display: flex;
     align-items: center;
-    margin-left: auto;
-    /* Empujar el botón cerrar a la derecha */
+    width: 100%;
 }
 
-.widgets-menu-header h3 {
-    display: none;
-    /* Ocultar el título 'Widgets' */
+.widgets-menu-header .widgets-menu-actions button {
+    background: transparent;
+    border: none;
+    color: var(--color-letraswhite, #cdd6f4);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.7;
+}
+
+.widgets-menu-header .widgets-menu-actions button:hover {
+    transform: scale(1.1);
+    opacity: 1;
+    color: var(--color-botones);
 }
 
 .widgets-menu-header button {
@@ -3982,6 +3961,15 @@ button:has(.fa-trash):hover {
     gap: 15px;
     overflow-x: auto;
     flex-grow: 1;
+    scrollbar-width: none;
+    /* Hide scrollbar Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar IE/Edge */
+}
+
+.widgets-list::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar Chrome/Safari */
 }
 
 .widget-menu-item {
@@ -4011,15 +3999,18 @@ button:has(.fa-trash):hover {
     color: var(--color-botones);
 }
 
+.widget-menu-item:not(.active) {
+    opacity: 0.5;
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+    filter: grayscale(0.8);
+}
+
 /* ── Calendar Widget ── */
 .calendar-widget-container {
-    background: var(--color-modelight);
-    color: var(--color-letrasdark);
     padding: 15px;
-    border-radius: 16px;
     width: 250px;
     height: 250px;
-    box-shadow: var(--shadow-medium);
     container-type: size;
     display: flex;
     flex-direction: column;
@@ -4096,13 +4087,9 @@ button:has(.fa-trash):hover {
 
 /* ── Important Notes Widget ── */
 .widget-important-notes-container {
-    background: var(--color-modelight);
-    color: var(--color-letrasdark);
     padding: 15px;
-    border-radius: 16px;
     width: 250px;
     height: 400px;
-    box-shadow: var(--shadow-medium);
     container-type: size;
     display: flex;
     flex-direction: column;
@@ -4276,10 +4263,191 @@ button:has(.fa-trash):hover {
     display: none !important;
 }
 
-body.edit-mode .widget-hidden-by-user {
-    display: flex !important;
-    opacity: 0.4;
-    filter: grayscale(1);
+
+
+.widget-merged-hidden {
+    display: none !important;
+}
+
+.widget-link-btn i {
+    color: var(--color-botones);
+}
+
+/* ── Separate Status & Weather Widgets ───────────────── */
+.status-widget,
+.weather-widget {
+    position: absolute;
+    width: 220px;
+    z-index: 100;
+    transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.status-widget {
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+}
+
+.weather-widget {
+    top: 180px;
+    right: 20px;
+    padding: 10px;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-botones);
+}
+
+.status-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-divider {
+    height: 1px;
+    background: rgba(128, 128, 128, 0.2);
+    margin: 4px 0;
+}
+
+.status-hardware {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.status-item {
+    margin-bottom: 5px;
+}
+
+.status-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    margin-bottom: 4px;
+    opacity: 0.8;
+}
+
+#status-cpu-text,
+#status-ram-text {
+    font-weight: 700;
+    color: var(--color-botones);
+}
+
+.status-bar-bg {
+    background: rgba(128, 128, 128, 0.1);
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.status-bar {
+    background: var(--color-botones);
+    height: 100%;
+    width: 0;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px var(--color-botones);
+}
+
+.status-weather {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.weather-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.weather-desc {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.weather-city-select {
+    width: 100%;
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    color: var(--color-letrasdark);
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.weather-city-select:hover {
+    border-color: var(--color-botones);
+}
+
+.weather-city-select option,
+.weather-city-select optgroup {
+    background-color: var(--color-modelight);
+    color: var(--color-letrasdark);
+}
+
+/* Merged State Fixes */
+.status-widget.is-merged {
+    border-bottom: 2px solid var(--color-botones);
+}
+
+.weather-custom-container {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+    animation: fadeIn 0.3s ease;
+}
+
+.weather-custom-btn {
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    color: inherit;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.weather-custom-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    color: white;
+}
+
+.weather-custom-container .weather-city-input {
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 6px;
+    color: inherit;
+    font-size: 11px;
+    padding: 6px 10px;
+    flex-grow: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Specific widget fixes */
@@ -4287,6 +4455,30 @@ body.edit-mode .widget-hidden-by-user {
     min-width: 120px;
 }
 
-.reloj-container.editable-widget {
-    margin-bottom: 0;
+#widget-notes {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#ver-notas-btn {
+    border-radius: 8px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
+
+body.edit-mode .widget-hidden-by-user {
+    display: flex !important;
+    opacity: 0.25;
+    filter: grayscale(1) blur(1px);
 }

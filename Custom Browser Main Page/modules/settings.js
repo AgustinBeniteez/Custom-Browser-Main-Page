@@ -24,12 +24,13 @@ const DEFAULTS = {
   colorReloj: '#ffffff',
   mostrarReloj: 'true',
   buscadorVisible: 'true',
-  posicionFavoritos: 'bottom',
+
   'fondo-url': 'fondos/background2.png',
   'fuente-pagina': 'Arial, sans-serif',
-  'show-favorites-bg': 'false',
+  'show-widgets-bg': 'true',
   'folder-closed-icon': '',
   'folder-open-icon': '',
+  'merge-widgets': 'false',
 };
 
 class SettingsManager {
@@ -88,7 +89,7 @@ class SettingsManager {
       colorRelojInput: document.getElementById('color-reloj'),
       mostrarRelojCheckbox: document.getElementById('mostrar-reloj'),
       mostrarBusquedaCheckbox: document.getElementById('mostrar-busqueda'),
-      posicionFavoritosRadios: document.getElementsByName('posicion-favoritos'),
+
       fondoInput: document.getElementById('fondo-url'),
       guardarFondoBtn: document.getElementById('guardar-fondo-url'),
       fondoFileInput: document.getElementById('fondo-file'),
@@ -100,11 +101,12 @@ class SettingsManager {
       searchContainer: document.querySelector('.search-container'),
       headerActions: document.getElementById('header-actions'),
       fuentePaginaSelect: document.getElementById('fuente-pagina'),
-      showFavBgCheckbox: document.getElementById('show-fav-bg'),
+      showWidgetsBgCheckbox: document.getElementById('show-widgets-bg'),
       folderClosedFileInput: document.getElementById('folder-closed-file'),
       folderOpenFileInput: document.getElementById('folder-open-file'),
       resetFolderClosedBtn: document.getElementById('reset-folder-closed'),
       resetFolderOpenBtn: document.getElementById('reset-folder-open'),
+      mergeWidgetsCheckbox: document.getElementById('merge-widgets'),
     };
   }
 
@@ -154,10 +156,7 @@ class SettingsManager {
       this.updateSearchVisibility(e.target.checked)
     );
 
-    // Posición de favoritos
-    Array.from(el.posicionFavoritosRadios).forEach(radio =>
-      radio.addEventListener('change', e => this.updateFavoritesPosition(e.target.value))
-    );
+
 
     // Fondo por URL
     el.guardarFondoBtn?.addEventListener('click', () => this.updateBackgroundFromInput());
@@ -183,11 +182,12 @@ class SettingsManager {
     el.guardarFondoFileBtn?.addEventListener('click', () => this._useUploadedBackground());
 
     // Favoritos
-    el.showFavBgCheckbox?.addEventListener('change', e => this.updateShowFavBg(e.target.checked));
+    el.showWidgetsBgCheckbox?.addEventListener('change', e => this.updateShowWidgetsBg(e.target.checked));
     el.folderClosedFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-closed'));
     el.folderOpenFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-open'));
     el.resetFolderClosedBtn?.addEventListener('click', () => this._resetFolderIcon('folder-closed'));
     el.resetFolderOpenBtn?.addEventListener('click', () => this._resetFolderIcon('folder-open'));
+    el.mergeWidgetsCheckbox?.addEventListener('change', e => this.updateMergeWidgets(e.target.checked));
   }
 
   /** Carga todos los ajustes el primer render. */
@@ -200,10 +200,11 @@ class SettingsManager {
     this._loadClockColor();
     this._loadClockVisibility();
     this._loadSearchVisibility();
-    this._loadFavoritesPosition();
+
     this._loadBackground();
     this._loadFont();
     this._loadFavoritesSettings();
+    this._loadMergeWidgets();
   }
 
   // ─── Popup ─────────────────────────────────────────────────────────────────
@@ -395,38 +396,7 @@ class SettingsManager {
     this.updateSearchVisibility(visible);
   }
 
-  // ─── Posición de favoritos ─────────────────────────────────────────────────
 
-  updateFavoritesPosition(position) {
-    const { favoritosContainer: container, headerActions } = this.el;
-    const notasBtn = document.getElementById('ver-notas-btn');
-
-    container?.classList.remove('favoritos-derecha', 'favoritos-izquierda', 'favoritos-oculto', 'favoritos-bottom');
-    headerActions?.classList.remove('ajustes-derecha', 'ajustes-izquierda');
-    notasBtn?.classList.remove('ajustes-derecha', 'ajustes-izquierda');
-
-    const isLeft = position === 'izquierda';
-    const btnSide = isLeft ? 'ajustes-derecha' : 'ajustes-izquierda';
-
-    const classMap = {
-      derecha: 'favoritos-derecha',
-      izquierda: 'favoritos-izquierda',
-      bottom: 'favoritos-bottom',
-      oculto: 'favoritos-oculto',
-    };
-
-    if (classMap[position]) container?.classList.add(classMap[position]);
-    headerActions?.classList.add(btnSide);
-    notasBtn?.classList.add(btnSide);
-
-    this._save('posicionFavoritos', position);
-  }
-
-  _loadFavoritesPosition() {
-    const position = this._get('posicionFavoritos');
-    Array.from(this.el.posicionFavoritosRadios).forEach(r => (r.checked = r.value === position));
-    this.updateFavoritesPosition(position);
-  }
 
   // ─── Fondo ─────────────────────────────────────────────────────────────────
 
@@ -521,20 +491,37 @@ class SettingsManager {
 
   // ─── Favoritos ─────────────────────────────────────────────────────────────
 
-  updateShowFavBg(enabled) {
-    this._save('show-favorites-bg', enabled);
-    const container = document.getElementById('favoritos-container');
-    if (container) {
-      container.classList.toggle('no-bg', !enabled);
-    }
-    // Disparar evento para que favorites.js lo sepa (si es necesario rerender)
+  updateShowWidgetsBg(enabled) {
+    this._save('show-widgets-bg', enabled);
+
+    // Lista de selectores de todos los widgets que deben reaccionar
+    const widgetSelectors = [
+      '#favoritos-container',
+      '#widget-status',
+      '#widget-weather',
+      '#widget-calendar',
+      '#widget-important-notes',
+      '.search-form input'
+    ];
+
+    widgetSelectors.forEach(selector => {
+      const el = document.querySelector(selector);
+      if (el) {
+        el.classList.toggle('no-bg', !enabled);
+        // También aplicamos una clase positiva por si queremos estilos específicos glassy
+        el.classList.toggle('glass-widget', enabled);
+      }
+    });
+
+    document.dispatchEvent(new CustomEvent('widgetsSettingsChanged', { detail: { showBg: enabled } }));
+    // Mantener compatibilidad con favoritos por si acaso
     document.dispatchEvent(new CustomEvent('favoritesSettingsChanged'));
   }
 
   _loadFavoritesSettings() {
-    const showBg = this._get('show-favorites-bg') === 'true';
-    if (this.el.showFavBgCheckbox) this.el.showFavBgCheckbox.checked = showBg;
-    this.updateShowFavBg(showBg);
+    const showBg = this._get('show-widgets-bg') === 'true';
+    if (this.el.showWidgetsBgCheckbox) this.el.showWidgetsBgCheckbox.checked = showBg;
+    this.updateShowWidgetsBg(showBg);
 
     // Cargar previews de iconos si existen
     const closedIcon = this._get('folder-closed-icon');
@@ -615,6 +602,19 @@ class SettingsManager {
 
     // Notify favorites manager to rerender
     document.dispatchEvent(new CustomEvent('favoritesSettingsChanged'));
+  }
+
+  // ─── Fusionar Widgets ──────────────────────────────────────────────────────
+
+  updateMergeWidgets(enabled) {
+    this._save('merge-widgets', enabled);
+    document.dispatchEvent(new CustomEvent('mergeWidgetsChanged', { detail: enabled }));
+  }
+
+  _loadMergeWidgets() {
+    const enabled = this._get('merge-widgets') === 'true';
+    if (this.el.mergeWidgetsCheckbox) this.el.mergeWidgetsCheckbox.checked = enabled;
+    // El efecto visual lo maneja system-status.js escuchando el evento
   }
 }
 
