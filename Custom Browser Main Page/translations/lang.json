@@ -114,7 +114,14 @@
     "tab-templates": "Templates",
     "create-template": "Create Template",
     "export-templates": "Export",
-    "import-templates": "Import"
+    "import-templates": "Import",
+    "widget-pomodoro": "Pomodoro",
+    "pomo-work": "Work",
+    "pomo-break": "Break",
+    "pomo-click-to-change": "Click to change time",
+    "pomo-prompt": "Enter minutes for this mode:",
+    "pomo-finish-work": "Time to take a break!",
+    "pomo-finish-break": "Back to work!"
   },
   "es": {
     "titulo": "Nueva Pestaña",
@@ -231,7 +238,14 @@
     "tab-templates": "Plantillas",
     "create-template": "Crear Plantilla",
     "export-templates": "Exportar",
-    "import-templates": "Importar"
+    "import-templates": "Importar",
+    "widget-pomodoro": "Pomodoro",
+    "pomo-work": "Trabajo",
+    "pomo-break": "Descanso",
+    "pomo-click-to-change": "Haz clic para cambiar el tiempo",
+    "pomo-prompt": "Introduce los minutos para este modo:",
+    "pomo-finish-work": "¡Tiempo de descansar!",
+    "pomo-finish-break": "¡A trabajar!"
   },
   "val": {
     "titulo": "Nova Pestanya",

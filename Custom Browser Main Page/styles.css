@@ -3923,7 +3923,6 @@ button:has(.fa-trash):hover {
 .widgets-menu-header {
     display: flex;
     align-items: center;
-    width: 100%;
 }
 
 .widgets-menu-header .widgets-menu-actions button {
@@ -3960,16 +3959,29 @@ button:has(.fa-trash):hover {
     flex-direction: row;
     gap: 15px;
     flex-grow: 1;
-    scrollbar-width: none;
-    /* Hide scrollbar Firefox */
-    -ms-overflow-style: none;
-    /* Hide scrollbar IE/Edge */
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+    /* Space for scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-botones) transparent;
 }
 
+/* Custom scrollbar for webkit browsers */
 .widgets-list::-webkit-scrollbar {
-    display: none;
-    /* Hide scrollbar Chrome/Safari */
+    height: 4px;
 }
+
+.widgets-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.widgets-list::-webkit-scrollbar-thumb {
+    background: var(--color-botones);
+    border-radius: 10px;
+}
+
+
 
 .widget-menu-item {
     display: flex;
@@ -4756,4 +4768,189 @@ body.square-favorites-active .favorito-carpeta-contenido .favorito-item {
     font-weight: bold;
     color: var(--ide-text);
     background-color: var(--ide-bg-surface);
+}
+
+/* ── Pomodoro Widget ── */
+.pomodoro-widget {
+    background: var(--color-modedark);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-medium);
+    padding: var(--padding-large);
+    width: 260px;
+    box-shadow: var(--shadow-heavy);
+    color: var(--color-letraswhite);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+}
+
+.pomodoro-widget:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.pomo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.pomo-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+}
+
+.pomo-header-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    font-size: 16px;
+}
+
+.pomo-header-btn:hover {
+    opacity: 1;
+}
+
+.pomo-header i {
+    color: var(--color-botones);
+}
+
+.pomo-notification {
+    background: var(--color-botones);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: -10px;
+    z-index: 5;
+    animation: slideDownFade 0.3s ease-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideDownFade {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.pomo-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.pomo-timer-display {
+    font-size: 48px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    margin: 10px 0;
+    letter-spacing: -2px;
+}
+
+.pomo-timer-input {
+    font-size: 48px;
+    font-weight: 800;
+    width: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--color-botones);
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    margin: 10px 0;
+    outline: none;
+    font-family: inherit;
+}
+
+.pomo-timer-input::-webkit-inner-spin-button,
+.pomo-timer-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.pomo-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.pomo-btn {
+    background: var(--color-botones);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.pomo-btn:hover {
+    background: var(--color-botones-hover);
+    transform: scale(1.1);
+}
+
+.pomo-btn:active {
+    transform: scale(0.95);
+}
+
+.pomo-modes {
+    display: flex;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    border-radius: var(--border-radius-small);
+    width: 100%;
+}
+
+.pomo-mode-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+.pomo-mode-btn.active {
+    background: var(--color-botones);
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pomo-mode-btn:hover:not(.active) {
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Support for hidden state */
+.widget-hidden-by-user {
+    display: none !important;
+}
+
+body.edit-mode .widget-hidden-by-user {
+    display: block !important;
+    opacity: 0.4;
 }

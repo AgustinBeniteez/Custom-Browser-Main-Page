@@ -285,6 +285,32 @@
     </div>
   </div>
 
+  <!-- ── Widget: Pomodoro ────────────────────────────────────────────── -->
+  <div id="widget-pomodoro" class="pomodoro-widget widget-hidden-by-user">
+    <div class="pomo-header">
+      <div class="pomo-title-wrap">
+        <i class="fa-solid fa-hourglass-start"></i>
+        <span data-translate="widget-pomodoro">Pomodoro</span>
+      </div>
+      <button id="pomo-mute" class="pomo-header-btn" title="Mute/Unmute">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+    </div>
+    <div class="pomo-content">
+      <div id="pomo-notification" class="pomo-notification oculto"></div>
+      <div class="pomo-timer-display" id="pomo-display">25:00</div>
+      <input type="number" id="pomo-input" class="pomo-timer-input" min="1" max="999" style="display: none;">
+      <div class="pomo-controls">
+        <button id="pomo-start-stop" class="pomo-btn"><i class="fa-solid fa-play"></i></button>
+        <button id="pomo-reset" class="pomo-btn"><i class="fa-solid fa-rotate-left"></i></button>
+      </div>
+      <div class="pomo-modes">
+        <button class="pomo-mode-btn active" data-mode="work" data-translate="pomo-work">Work</button>
+        <button class="pomo-mode-btn" data-mode="break" data-translate="pomo-break">Break</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Contenedor de Favoritos ──────────────────────────────────────────── -->
   <div id="favoritos-container" class="favoritos-container">
     <h3 id="titulo-favoritos" data-translate="favorites-title">Favorites</h3>

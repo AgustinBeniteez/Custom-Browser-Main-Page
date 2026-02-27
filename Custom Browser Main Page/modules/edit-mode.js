@@ -14,7 +14,8 @@ class EditModeManager {
             { id: 'widget-calendar', selector: '#widget-calendar', name: 'Calendario', icon: '<i class="fa-solid fa-calendar-days"></i>' },
             { id: 'widget-important-notes', selector: '#widget-important-notes', name: 'Notas Recientes', icon: '<i class="fa-solid fa-envelope-open-text"></i>' },
             { id: 'widget-status', selector: '#widget-status', name: 'Status Sistema', icon: '<i class="fa-solid fa-microchip"></i>' },
-            { id: 'widget-weather', selector: '#widget-weather', name: 'Clima', icon: '<i class="fa-solid fa-cloud-sun"></i>' }
+            { id: 'widget-weather', selector: '#widget-weather', name: 'Clima', icon: '<i class="fa-solid fa-cloud-sun"></i>' },
+            { id: 'widget-pomodoro', selector: '#widget-pomodoro', name: 'Pomodoro', icon: '<i class="fa-solid fa-hourglass-start"></i>' }
         ];
         this.layout = Storage.getJSON('widgetLayout', {});
 
@@ -28,7 +29,8 @@ class EditModeManager {
                 'widget-weather': { left: 50, top: 410 },
                 'widget-calendar': { left: 1640, top: 100 },
                 'widget-important-notes': { left: 1640, top: 380, width: 250, height: 530, orientation: 'vertical' },
-                'widget-notes': { left: 1750, top: 820 }
+                'widget-notes': { left: 1750, top: 820 },
+                'widget-pomodoro': { left: 50, top: 610 }
             };
             this._saveLayout();
         }

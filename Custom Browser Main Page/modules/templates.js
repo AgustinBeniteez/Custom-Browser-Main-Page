@@ -60,28 +60,30 @@ const DEFAULT_TEMPLATES = [
         font: 'Playwrite',
         layout: {
             "widget-reloj": {
-                "left": 1400,
+                "left": 1450,
                 "top": 150,
                 "width": 400,
                 "height": 100
             },
             "widget-search": {
-                "left": 400,
-                "top": 800,
+                "left": 350,
+                "top": 350,
                 "shape": "round",
                 "width": 300,
                 "height": 50,
                 "hidden": true
             },
             "widget-favoritos": {
-                "left": 50,
-                "top": 150,
+                "left": 1450,
+                "top": 300,
                 "width": 300,
-                "height": 700,
+                "height": 600,
                 "orientation": "vertical"
             },
             "widget-status": {
-                "hidden": true
+                "hidden": true,
+                "left": 850,
+                "top": 150
             },
             "widget-weather": {
                 "hidden": false,
@@ -91,19 +93,29 @@ const DEFAULT_TEMPLATES = [
                 "height": 100
             },
             "widget-calendar": {
-                "hidden": true,
+                "hidden": false,
                 "left": 50,
-                "top": 150
+                "top": 100,
+                "width": 250,
+                "height": 300
             },
             "widget-important-notes": {
                 "hidden": true,
-                "left": 1600,
-                "top": 350
+                "left": 350,
+                "top": 450,
+                "orientation": "vertical",
+                "width": 250,
+                "height": 400
             },
             "widget-notes": {
-                "hidden": true,
+                "hidden": false,
                 "left": 50,
-                "top": 850
+                "top": 500
+            },
+            "widget-pomodoro": {
+                "left": 50,
+                "top": 550,
+                "hidden": false
             }
         }
     },
@@ -112,6 +124,7 @@ const DEFAULT_TEMPLATES = [
         name: 'Productive Dashboard',
         color: 'rgb(53, 105, 66)',
         bgUrl: 'fondos/background3.gif',
+        font: 'Bebas Neue',
         layout: {
             "widget-reloj": {
                 "left": 100,
@@ -130,7 +143,7 @@ const DEFAULT_TEMPLATES = [
             },
             "widget-status": {
                 "left": 1600,
-                "top": 100
+                "top": 50
             },
             "widget-weather": {
                 "left": 1600,
@@ -138,8 +151,10 @@ const DEFAULT_TEMPLATES = [
             },
             "widget-calendar": {
                 "left": 1600,
-                "top": 400,
-                "hidden": false
+                "top": 350,
+                "hidden": false,
+                "width": 250,
+                "height": 200
             },
             "widget-important-notes": {
                 "left": 800,
@@ -152,6 +167,13 @@ const DEFAULT_TEMPLATES = [
             "widget-notes": {
                 "left": 600,
                 "top": 500
+            },
+            "widget-pomodoro": {
+                "hidden": false,
+                "left": 1600,
+                "top": 600,
+                "width": 250,
+                "height": 300
             }
         }
     },
