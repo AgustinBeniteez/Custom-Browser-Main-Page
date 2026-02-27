@@ -107,6 +107,9 @@ class SettingsManager {
       squareFavoritesCheckbox: document.getElementById('square-favorites'),
       folderClosedFileInput: document.getElementById('folder-closed-file'),
       folderOpenFileInput: document.getElementById('folder-open-file'),
+      fondoFileTrigger: document.getElementById('fondo-file-trigger'),
+      folderClosedFileTrigger: document.getElementById('folder-closed-file-trigger'),
+      folderOpenFileTrigger: document.getElementById('folder-open-file-trigger'),
       resetFolderClosedBtn: document.getElementById('reset-folder-closed'),
       resetFolderOpenBtn: document.getElementById('reset-folder-open'),
       mergeWidgetsCheckbox: document.getElementById('merge-widgets'),
@@ -173,6 +176,7 @@ class SettingsManager {
     });
 
     // Subida de archivo de fondo
+    el.fondoFileTrigger?.addEventListener('click', () => el.fondoFileInput?.click());
     el.fondoFileInput?.addEventListener('change', e => {
       this._handleFileUpload(e);
       // Actualizar nombre del archivo en el botón personalizado
@@ -187,6 +191,8 @@ class SettingsManager {
     // Favoritos
     el.showWidgetsBgCheckbox?.addEventListener('change', e => this.updateShowWidgetsBg(e.target.checked));
     el.squareFavoritesCheckbox?.addEventListener('change', e => this.updateSquareFavorites(e.target.checked));
+    el.folderClosedFileTrigger?.addEventListener('click', () => el.folderClosedFileInput?.click());
+    el.folderOpenFileTrigger?.addEventListener('click', () => el.folderOpenFileInput?.click());
     el.folderClosedFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-closed'));
     el.folderOpenFileInput?.addEventListener('change', e => this._handleFolderIconUpload(e, 'folder-open'));
     el.resetFolderClosedBtn?.addEventListener('click', () => this._resetFolderIcon('folder-closed'));

@@ -7,52 +7,7 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link rel="icon" href="icons/logoext.webp" type="image/webp">
-  <script>
-    // Pre-aplicar layout para evitar saltos visuales (FOUC)
-    (function() {
-      try {
-        const layout = JSON.parse(localStorage.getItem('widgetLayout') || '{}');
-        const selectors = {
-          'widget-reloj': '.reloj-container',
-          'widget-search': '.search-container',
-          'widget-favoritos': '#favoritos-container',
-          'widget-notes': '#widget-notes',
-          'widget-calendar': '#widget-calendar',
-          'widget-important-notes': '#widget-important-notes',
-          'widget-status': '#widget-status',
-          'widget-weather': '#widget-weather',
-          'widget-pomodoro': '#widget-pomodoro'
-        };
-        let css = '';
-        for (const id in layout) {
-          const conf = layout[id];
-          const sel = selectors[id];
-          if (sel && (conf.leftPct !== undefined || conf.left !== undefined)) {
-            if (conf.hidden) {
-              css += `${sel} { display: none !important; } `;
-              continue;
-            }
-            const left = conf.leftPct !== undefined ? conf.leftPct + '%' : conf.left + 'px';
-            const top = conf.topPct !== undefined ? conf.topPct + '%' : conf.top + 'px';
-            css += `${sel} { 
-              position: absolute !important; 
-              left: ${left} !important; 
-              top: ${top} !important; 
-              transform: none !important; 
-              opacity: 1 !important; 
-              visibility: visible !important;
-            } `;
-          }
-        }
-        if (css) {
-          const style = document.createElement('style');
-          style.id = 'early-layout-styles';
-          style.innerHTML = css;
-          document.head.appendChild(style);
-        }
-      } catch (e) { console.error('Early layout error', e); }
-    })();
-  </script>
+  <script src="pre-layout.js"></script>
 </head>
 
 <body>
@@ -626,7 +581,7 @@
               <label for="fondo-file" data-translate="background-file-label">Upload your own image:</label>
               <div class="ide-input-group">
                 <input type="file" id="fondo-file" accept="image/*" class="ide-file-input-hidden fuente-aplicada" style="display:none;">
-                <button type="button" id="fondo-file-trigger" class="ide-btn fuente-aplicada" onclick="document.getElementById('fondo-file').click()">
+                <button type="button" id="fondo-file-trigger" class="ide-btn fuente-aplicada">
                   <i class="fa-solid fa-folder-open"></i> <span data-translate="choose-file">Choose file</span>
                 </button>
                 <span id="fondo-file-name" class="ide-file-name" data-translate="no-file-chosen">No file chosen</span>
@@ -697,7 +652,7 @@
               <label for="folder-closed-file" data-translate="folder-closed-label">Closed Folder Icon:</label>
               <div class="ide-input-group">
                 <input type="file" id="folder-closed-file" accept="image/*" class="ide-file-input-hidden" style="display:none;">
-                <button type="button" class="ide-btn fuente-aplicada" onclick="document.getElementById('folder-closed-file').click()">
+                <button type="button" id="folder-closed-file-trigger" class="ide-btn fuente-aplicada">
                   <i class="fa-solid fa-folder-open"></i> <span data-translate="choose-file">Choose file</span>
                 </button>
                 <button type="button" id="reset-folder-closed" class="ide-btn ide-btn-danger" title="Borrar" data-translate="reset-icon">
@@ -715,7 +670,7 @@
               <label for="folder-open-file" data-translate="folder-open-label">Open Folder Icon:</label>
               <div class="ide-input-group">
                 <input type="file" id="folder-open-file" accept="image/*" class="ide-file-input-hidden" style="display:none;">
-                <button type="button" class="ide-btn fuente-aplicada" onclick="document.getElementById('folder-open-file').click()">
+                <button type="button" id="folder-open-file-trigger" class="ide-btn fuente-aplicada">
                   <i class="fa-solid fa-folder-open"></i> <span data-translate="choose-file">Choose file</span>
                 </button>
                 <button type="button" id="reset-folder-open" class="ide-btn ide-btn-danger" title="Borrar" data-translate="reset-icon">
