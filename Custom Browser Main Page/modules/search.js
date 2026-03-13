@@ -23,13 +23,8 @@ class SearchManager {
     const query = searchInput?.value.trim();
     if (!query) return;
 
-    // USO chrome.search.query que GOOGLE si le gusta porque no hago dos funciones en una misma extensión
-    if (chrome.search && chrome.search.query) {
-      chrome.search.query({ text: query });
-    } else {
-      // Fallback a Google si no estamos en una extensión
-      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-    }
+    // Redirección directa a Google (se eliminó chrome.search para cumplir políticas de permisos)
+    window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
   }
 
   initThemeHandlers() {

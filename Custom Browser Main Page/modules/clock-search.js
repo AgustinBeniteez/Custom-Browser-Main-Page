@@ -54,12 +54,6 @@ class ClockSearchManager {
     const query = this.el.searchInput?.value.trim();
     if (!query) return;
 
-    // Preferir la API nativa de Chrome si está disponible
-    if (typeof chrome !== 'undefined' && chrome.search?.query) {
-      chrome.search.query({ text: query });
-      return;
-    }
-
     // Fallback: redirección directa según motor seleccionado
     const engine = Storage.get('buscadorSeleccionado', 'google');
     const buildUrl = SEARCH_ENGINES[engine] ?? SEARCH_ENGINES.google;

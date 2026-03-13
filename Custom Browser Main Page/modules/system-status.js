@@ -201,34 +201,43 @@ class SystemMonitor {
     }
 
     async _updateStats() {
+        if (!window.chrome || !chrome.system) {
+            // No estamos en entorno de extensión de Chrome
+            return;
+        }
+
         try {
             // RAM Real (Chrome Extension API)
-            if (window.chrome && chrome.system && chrome.system.memory) {
+            if (chrome.system.memory) {
                 const info = await new Promise(resolve => chrome.system.memory.getInfo(resolve));
                 const total = info.capacity;
                 const available = info.availableCapacity;
                 const usedPercent = Math.round(((total - available) / total) * 100);
                 this._applyBar('ram', usedPercent);
-            } else {
-                // Fallback mock
-                this._applyBar('ram', Math.floor(Math.random() * 20) + 40);
             }
 
             // CPU Real (Chrome Extension API)
-            if (window.chrome && chrome.system && chrome.system.cpu) {
+            if (chrome.system.cpu) {
                 const info = await new Promise(resolve => chrome.system.cpu.getInfo(resolve));
-                // Promedio de uso de todos los núcleos (simplificado)
-                let totalUsage = 0;
-                info.processors.forEach(p => {
-                    const total = p.usage.user + p.usage.kernel + p.usage.idle;
-                    const used = p.usage.user + p.usage.kernel;
-                    totalUsage += (used / total) * 100;
-                });
-                const cpuPercent = Math.round(totalUsage / info.processors.length);
-                this._applyBar('cpu', cpuPercent);
-            } else {
-                // Fallback mock
-                this._applyBar('cpu', Math.floor(Math.random() * 15) + 10);
+                
+                // Cálculo de uso de CPU comparando con el estado anterior para tiempo real
+                if (this.prevCpuInfo) {
+                    let totalDiff = 0;
+                    let idleDiff = 0;
+
+                    info.processors.forEach((p, i) => {
+                        const prevP = this.prevCpuInfo.processors[i];
+                        const total = p.usage.user + p.usage.kernel + p.usage.idle;
+                        const prevTotal = prevP.usage.user + prevP.usage.kernel + prevP.usage.idle;
+                        
+                        totalDiff += (total - prevTotal);
+                        idleDiff += (p.usage.idle - prevP.usage.idle);
+                    });
+
+                    const cpuPercent = totalDiff > 0 ? Math.round(((totalDiff - idleDiff) / totalDiff) * 100) : 0;
+                    this._applyBar('cpu', cpuPercent);
+                }
+                this.prevCpuInfo = info;
             }
         } catch (e) {
             console.error("Hardware API Error:", e);

@@ -4,7 +4,7 @@
   "description": "Custom Browser Main Page you can add image for your wallpaper by AgustinBenitez",
   "author": "Agustin Benitez",
   "homepage_url": "https://agustinbeniteez.github.io/Custom-Browser-Main-Page/",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "icons": {
     "16": "icons/logo.png",
     "48": "icons/logo.png",
@@ -19,5 +19,5 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; connect-src 'self' https://api.open-meteo.com"
   },
-  "permissions": ["search", "system.cpu", "system.memory", "storage"]
+  "permissions": ["system.cpu", "system.memory"]
 }
