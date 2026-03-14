@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://agustinbeniteez.github.io/Custom-Browser-Main-Page/">🌐 Official Website</a> •
+  <a href="https://custom-browser-main-page.vercel.app">🌐 Official Website</a> •
   <a href="#-installation">📦 Installation</a> •
   <a href="#-features">✨ Features</a> •
   <a href="#-contributing">🤝 Contributing</a>
