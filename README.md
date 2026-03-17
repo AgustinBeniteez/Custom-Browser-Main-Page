@@ -269,7 +269,7 @@ Have an idea? [Open a feature request issue](https://github.com/AgustinBeniteez/
 
 - 🌐 [Website](https://agustinbeniteez.github.io/)
 - 🐙 [GitHub](https://github.com/AgustinBeniteez)
-- 📦 [Project Page](https://agustinbeniteez.github.io/Custom-Browser-Main-Page/)
+- 📦 [Project Page](https://custom-browser-main-page.vercel.app)
 
 ---
 
